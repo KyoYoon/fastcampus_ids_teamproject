@@ -158,7 +158,7 @@ class LoginViewController: UIViewController {
                     //Goes to the Setup page which lets the user take a photo for their profile picture and also chose a username
                     
                     
-                    
+                    // 페이스북 로그온의 경우 패스워드 정보는 저장할 필요가 없음 - 2017.08.07
                     let email = user?.email
                     let password = ""
                     let nickName = user?.displayName ?? "없음"
