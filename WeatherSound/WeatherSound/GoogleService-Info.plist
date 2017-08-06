@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>898567482565-0cerk1qfl7si2930d1ei5pbbmr5jrc06.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.898567482565-0cerk1qfl7si2930d1ei5pbbmr5jrc06</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBejaVzuhLkMo5wnt51FB7wadXIluERo8E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>898567482565</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fastcampus.iosdevschool.team5.WeatherSound</string>
+	<key>PROJECT_ID</key>
+	<string>weathersound-85bd4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>weathersound-85bd4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:898567482565:ios:eab133b8348390da</string>
+	<key>DATABASE_URL</key>
+	<string>https://weathersound-85bd4.firebaseio.com</string>
+</dict>
+</plist>
