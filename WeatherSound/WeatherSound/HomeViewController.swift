@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
         // logout
         do {
             try Auth.auth().signOut()
-            FBSDKLoginManager().logOut()
+            //FBSDKLoginManager().logOut()
             
             // 데이터 초기화
             

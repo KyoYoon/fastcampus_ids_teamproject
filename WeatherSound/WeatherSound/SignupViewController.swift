@@ -176,7 +176,8 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                                     print("error://",error)
                                     return
                             }
-                                
+                            
+                            // 수정 
                             print("metaData://",metaData ?? "no metaData")
                                 
                             guard let urlStr = metaData?.downloadURL()?.absoluteString else { return } // 업로드한 이미지의 다운로드 주소 추출
