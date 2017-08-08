@@ -10,8 +10,10 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FBSDKLoginKit
+import Alamofire
+import SwiftyJSON
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     var dbRef : DatabaseReference! // 파이어베이스 데이터베이스 인스턴스 변수
     var storageRef : StorageReference! // 파이어베이스 스토리지 인스턴스 변수
@@ -22,6 +24,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var facebookLoginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +43,15 @@ class LoginViewController: UIViewController {
         
         self.loginButton.layer.cornerRadius = 5
         self.loginButton.isEnabled = false
+        
+        self.facebookLoginButton.layer.cornerRadius = 5
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        loginButtonActivated()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,6 +65,28 @@ class LoginViewController: UIViewController {
         
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        //self.scrollView.setContentOffset(CGPoint(x: 0.0, y: 200.0), animated: true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //self.scrollView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField.tag {
+        case 1...100:
+            print(textField.tag)
+            self.view.viewWithTag(textField.tag + 100)?.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+            self.loginRequestFirebase()
+        }
+        
+        return true
+    }
+
+    
     @IBAction func emailTextFieldEditingChanged(_ sender: UITextField) {
         
         loginButtonActivated()
@@ -65,19 +99,30 @@ class LoginViewController: UIViewController {
         
     }
     
-    // 이메일/비밀번호로 로그인
-    @IBAction func touchUpInsideLoginButton(_ sender: UIButton) {
+    // 파이어베이스로 로그인  (이메일/패스워드)
+    func loginRequestFirebase() {
+        
+        self.view.endEditing(true)
         
         let providedEmailAddress = self.emailTextField.text
         
         let isEmailAddressValid = CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: providedEmailAddress!)
         
-        if isEmailAddressValid == false {
+        
+        if self.emailTextField.text == "" {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Oops!", messageToDisplay: "이메일 주소를 입력하여 주세요!")
+            
+            
+            
+        }
+        else if isEmailAddressValid == false {
             
             CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소가 유효하지 않습니다. 다시 입력하여 주세요.")
             
             
-        } else {
+        }
+        else {
             
             Auth.auth().signIn(withEmail: self.emailTextField.text!, password: self.passwordTextField.text!) { (user, error) in
                 
@@ -93,7 +138,7 @@ class LoginViewController: UIViewController {
                     let uid = user?.uid
                     
                     // 이메일, 패스워드 항상 업데이트
-                
+                    
                     self.dbRef.child("MyUser").child(uid!).child("UserInfo").updateChildValues(["email":email!,"password":password!], withCompletionBlock: { (error, ref) in
                         
                         if let error = error {
@@ -108,7 +153,7 @@ class LoginViewController: UIViewController {
                         }
                         
                     })
-
+                    
                     
                     // 로그온 처리 후 Home View Controller로 이동
                     //let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
@@ -121,16 +166,23 @@ class LoginViewController: UIViewController {
                 }
                 
             }
-
+            
             
         }
         
         
+    }
+    
+    // 이메일/비밀번호로 로그인
+    @IBAction func touchUpInsideLoginButton(_ sender: UIButton) {
+        
+        loginRequestFirebase()
+        
         
     }
     
-    // 페이스북 로그인 - 가입과 동시에 로그온 처리 => 그 뒤부터는 계속 로그온 상태임..
-    @IBAction func touchUpInsideFacebookLoginButton(_ sender: UIButton) {
+    // 페이스북 로그인 파이어베이스 
+    func loginWithFacebookRequestFirebase() {
         
         let fbLoginManager = FBSDKLoginManager()
         
@@ -172,7 +224,7 @@ class LoginViewController: UIViewController {
                     let uploadData = UIImageJPEGRepresentation(image, 0.3) // 30% 수준으로 이미지 압축을 한다.
                     
                     let uuid = UUID().uuidString // random string
- 
+                    
                     // 파이어베이스 스토리지에 먼저 그림을 저장을 한 후 저장 과정이 끝나면 파이어베이스 데이터베이스에 관련 정보와 nickname을 업데이트한다.
                     self.storageRef.child("ProfileImage").child(uuid).putData(uploadData!, metadata: nil, completion: { (metaData, error) in
                         
@@ -205,7 +257,7 @@ class LoginViewController: UIViewController {
                         
                         
                     })
-
+                    
                     
                     
                 } else {
@@ -218,6 +270,14 @@ class LoginViewController: UIViewController {
                 
             })
         }
+
+        
+    }
+    
+    // 페이스북 로그인 - 가입과 동시에 로그온 처리 => 그 뒤부터는 계속 로그온 상태임..
+    @IBAction func touchUpInsideFacebookLoginButton(_ sender: UIButton) {
+        
+        loginWithFacebookRequestFirebase()
         
     }
     
@@ -231,7 +291,12 @@ class LoginViewController: UIViewController {
             
             
             
-        } else {
+        } else if CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: self.emailTextField.text!) == false {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소가 유효하지 않습니다. 다시 입력하여 주세요.")
+            
+        }
+        else {
             
             Auth.auth().sendPasswordReset(withEmail: self.emailTextField.text!, completion: { (error) in
                 
