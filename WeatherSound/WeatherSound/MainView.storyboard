@@ -53,6 +53,9 @@
                                     <state key="normal" title="MY">
                                         <color key="titleColor" red="0.28820249438285828" green="0.25932019948959351" blue="0.27818804979324341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
+                                    <connections>
+                                        <segue destination="WRg-H2-3Pn" kind="show" id="7dI-gc-SKW"/>
+                                    </connections>
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="M0l-u6-9Ki">
@@ -70,7 +73,6 @@
                         <outlet property="MainTableView" destination="I4h-1w-MaP" id="Ivf-bY-EGV"/>
                         <outlet property="mainTableView" destination="I4h-1w-MaP" id="HIj-Pm-sI5"/>
                         <outlet property="weatherImageView" destination="3N0-df-Gei" id="Ko1-wQ-eNk"/>
-                        <segue destination="WRg-H2-3Pn" kind="show" id="ioe-8g-Eng"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -93,17 +95,28 @@
                                 <rect key="frame" x="40" y="113" width="295" height="440"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="xdj-wc-8MZ">
-                                    <rect key="frame" x="0.0" y="0.0" width="295" height="167"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="xdj-wc-8MZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="295" height="300"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCell" id="Chr-zo-ugq">
+                                        <rect key="frame" x="0.0" y="328" width="295" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Chr-zo-ugq" id="2cA-eV-B9e">
+                                            <rect key="frame" x="0.0" y="0.0" width="295" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="myPageTableView" destination="CXy-Ck-0hg" id="j9X-Hx-uaS"/>
+                        <outlet property="userInfoView" destination="xdj-wc-8MZ" id="jTQ-V2-M9k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ye-eQ-s3G" userLabel="First Responder" sceneMemberID="firstResponder"/>

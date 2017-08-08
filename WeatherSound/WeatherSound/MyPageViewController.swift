@@ -11,12 +11,17 @@ import UIKit
 class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var myPageTableView: UITableView!
+    @IBOutlet weak var userInfoView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.myPageTableView.delegate = self
         self.myPageTableView.dataSource = self
+        
+        //main의 locationManager호출해서 delegate 끊기
+//        let main: MainViewController = (self.navigationController as? MainViewController)!
+//        main.locationManager.stopMonitoringSignificantLocationChanges()
         
         self.prepareView()
 

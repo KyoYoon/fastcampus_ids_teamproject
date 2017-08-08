@@ -89,6 +89,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - SDWebImage
   - SDWebImage (~> 4.0)
   - SwiftyJSON
 
@@ -114,6 +115,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 2ec067c042036d429a8eebe6980017ce42dfc5f9
+PODFILE CHECKSUM: cc397e1cee55804f434a40f1e6e9f660b7ecf5a2
 
 COCOAPODS: 1.2.1
