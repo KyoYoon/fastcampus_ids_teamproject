@@ -27,7 +27,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     print("weather request complete")
 
                     self.weatherInfo = weatherInfo
-                    self.setWeatherLable()
+                    self.setWeatherInfo()
                     
                     self.reguestCount += 1
                 })
@@ -38,8 +38,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //날씨정보 저장되는 시점에 추천 노래 리스트 가져옴
     var weatherInfo: Weather?{
         didSet{
-            DataCenter.shared.getRecommendListByfireBase(completion: { (musicArry) in
-                print("music list request complete")
+//            DataCenter.shared.getRecommendListByfireBase(completion: { (musicArry) in
+//                print("music list request complete")
+//                
+//                self.recommendMusicList = musicArry
+//            })
+            
+            DataCenter.shared.getRecommendList(completion: { (musicArry) in
+                print("music api complete")
                 
                 self.recommendMusicList = musicArry
             })
@@ -71,21 +77,28 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.locationManager.delegate = self
         self.mainTableView.delegate = self
         self.mainTableView.dataSource = self
+        
+        //tableView Nib
+        self.mainTableView.register(UINib.init(nibName: "MainTableViewCell", bundle: nil), forCellReuseIdentifier: MainTableViewCell.reuseId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //tableView Nib
-        self.mainTableView.register(UINib.init(nibName: "MainTableViewCell", bundle: nil), forCellReuseIdentifier: MainTableViewCell.reuseId)
-        
+
         //location
         self.loadLocation()
 
         //prepare view
         self.prepareView()
+        self.setWeatherInfo()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        self.mainTableView.reloadData()
+        print("stop monitoring")
+        
+        self.locationManager.stopMonitoringSignificantLocationChanges()
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,7 +141,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK:- view
     //날씨 정보 있는 label 업데이트
-    func setWeatherLable(){
+    func setWeatherInfo(){
 
         self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
         
@@ -148,6 +161,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let rect = self.view.bounds
         
+        self.mainTableView.separatorStyle = .none
         self.mainTableView.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
         
         //weather image

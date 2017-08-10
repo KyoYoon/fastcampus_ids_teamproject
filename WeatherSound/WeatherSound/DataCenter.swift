@@ -46,7 +46,6 @@ class DataCenter {
     }
     
    
-    
     //weather - firebase
     func getCurrentWeatherFromFireBase(lon: Double, lat: Double, completion: @escaping(_ weatherInfo:Weather)->Void){
         
@@ -69,34 +68,50 @@ class DataCenter {
             }
         })
     }
+
     
-    //get recommend list - firebase
-    func getRecommendListByfireBase(completion: @escaping (_ arry: [Music]) -> Void){
+    //get recommend list
+    func getRecommendList(completion: @escaping (_ arry: [Music]) -> Void){
         
         self.recommendList = []
         
-        let curWeather = self.weatherInfo?.curWeather ?? "cloudy"
+        let url = "https://weather-sound.com/api/music/"
         
-        Database.database().reference().child("music").child("\(curWeather)").observeSingleEvent(of: .value, with: { (snapShot) in
-            
-            let musicArray = snapShot.value as! [[String:String]]
-            
-            for music in musicArray {
+        //url += "/page=\(next)"
+        Alamofire.request(url).responseJSON { response in
                 
-                if let title = music["title"],
-                    let artist = music["artist"],
-                    let albumImg = music["imgUrl"],
-                    let musicUrl = music["src"]{
+                switch response.result{
+                case .success(let value):
+                    print("music api success")
+                    //print("success respose: ", value)
                     
-                    let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                    let json = JSON(value)
                     
-                    let newMusicItem = Music(dic: dic)
-                    self.recommendList.append(newMusicItem)
+                    guard let musicList =  json["results"].array else {
+                        return
+                    }
+                    
+                    for item in musicList {
+                        if let title = item["name_music"].string,
+                            let artist = item["name_artist"].string,
+                            let albumImg = item["img_music"].string,
+                            let musicUrl = item["source_music"].string{
+                            
+                            let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                            
+                            let newMusicItem = Music(dic: dic)
+                            self.recommendList.append(newMusicItem)
+                        }
+                    }
+                    completion(self.recommendList)
+                    break
+                case .failure(let error):
+                    print("failure response: ", error)
+                    break
                 }
-            }
-            completion(self.recommendList)
-        })
+        }
     }
+    
     
     //거리 계산
     func distance(lat1: Double, lng1: Double, lat2: Double, lng2: Double) -> Double {
@@ -124,68 +139,7 @@ class DataCenter {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //MARK:- dummy data test
     
-    //sk api test
-    func requestWeather(){
-        
-        let url = "http://apis.skplanetx.com/weather/current/hourly"
-        let param = [
-            "version" : "1",
-            "lat" : "37.76191539",
-            "lon" : "-122.40588589"
-        ]
-        
-        
-        Alamofire.request(url,
-                          parameters: param,
-                          headers: ["appKey":"e863fb9a-2fa2-3f02-863b-884b60865987"])
-            .responseJSON { response in
-                
-                switch response.result{
-                case .success(let value):
-                    print("success respose: ", value)
-                    break
-                case .failure(let error):
-                    print("failure response: ", error)
-                    break
-                }
-        }
-    }
-    
-    //get recommend music list - dummy
-    func getRecommendList(){
-        
-        self.recommendList = []
-        
-        let text = "{\"cloudy\":[{\"title\":\"나의 옛날이야기\",\"artist\":\"IU\",\"img\":\"imgadress\",\"src\":\"musicSrc\"},{\"title\":\"우울시계\",\"artist\":\"IU\",\"img\":\"imgadress\",\"src\":\"musicSrc\"}]}"
-        
-        if let data = text.data(using: String.Encoding.utf8){
-            
-            let json = JSON(data:data)
-            
-            let curWeather = self.weatherInfo?.curWeather ?? "clear"
-            
-            
-            guard let musicList =  json["\(curWeather)"].array else {
-                return
-            }
-            
-            for item in musicList {
-                
-                if let title = item["title"].string,
-                    let artist = item["artist"].string,
-                    let albumImg = item["img"].string,
-                    let musicUrl = item["src"].string{
-                    
-                    
-                    let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
-                    
-                    let newMusicItem = Music(dic: dic)
-                    self.recommendList.append(newMusicItem)
-                }
-            }
-        }
-    }
-    
+
     //getWeather - dummy
     func getCurrentWeather(lon: Double, lan: Double)->Weather{
         
