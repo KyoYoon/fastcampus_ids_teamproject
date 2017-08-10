@@ -25,7 +25,7 @@ class MiniPlayerView: UIView {
     
     let miniPlayerImageView:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = SongDataSource.shared.songDatas[1].albumImg
+        imageView.image = #imageLiteral(resourceName: "hotdog")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
 //        imageView.backgroundColor = .yellow
@@ -88,7 +88,7 @@ class MiniPlayerView: UIView {
         super.init(frame: frame)
 
         self.setUpSubviews()
-        self.songTitleLabel.text = SongDataSource.shared.songDatas[1].songTitle
+        self.songTitleLabel.text = "핫도그 마시써"
         
         print("****************************init() in MiniPlayerView****************************")
     }

@@ -66,9 +66,9 @@ class MusicPlayerViewController: UIViewController {
         self.closeButton.tintColor = .lightGray
         
         
-        self.albumImageView.image = SongDataSource.shared.songDatas[1].albumImg
-        self.songTitleLB.text = SongDataSource.shared.songDatas[1].songTitle
-        self.artistLB.text = SongDataSource.shared.songDatas[1].artistName
+        self.albumImageView.image = #imageLiteral(resourceName: "hotdog")
+        self.songTitleLB.text = "hotdog 먹고파"
+        self.artistLB.text = "그럼 먹어"
         
         self.albumImageView.layer.cornerRadius = self.albumImageView.frame.width / 30
         self.albumImageView.clipsToBounds = true
