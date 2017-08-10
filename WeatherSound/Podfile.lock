@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.5.0)
+  - ARNTransitionAnimator (2.1.1)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -79,6 +80,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
+  - ARNTransitionAnimator (~> 2.1)
   - FacebookCore (~> 0.2)
   - FacebookLogin (~> 0.2)
   - FacebookShare (~> 0.2)
@@ -95,6 +97,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  ARNTransitionAnimator: 7fa294717718122b725a5b1270d513e5056626a5
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
   FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
@@ -115,6 +118,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0e435c14e402a6730315a0fb79f95e68654d55a4
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: cc397e1cee55804f434a40f1e6e9f660b7ecf5a2
+PODFILE CHECKSUM: ecae6eaab160f2d9f65cb746ea47e57a908add45
 
 COCOAPODS: 1.2.1
