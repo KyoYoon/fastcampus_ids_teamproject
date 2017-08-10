@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MainTableViewCell: UITableViewCell {
     
@@ -36,16 +37,13 @@ class MainTableViewCell: UITableViewCell {
         
         self.backgroundView = blurEffectView
 
-        
-        
-       
         self.titleLabel.textAlignment = .left
         self.titleLabel.frame = CGRect(x: self.albumImageView.frame.maxX+10, y: self.frame.minY+5, width: self.frame.width-80, height: 50)
         
         self.albumImageView.backgroundColor = .gray
         self.albumImageView.frame = CGRect(x: 20, y: self.frame.minY+5, width: 50, height: 50)
         
-        
+
     }
     
     func set(title: String, artist: String){
@@ -54,6 +52,14 @@ class MainTableViewCell: UITableViewCell {
         attributedString.append(NSAttributedString(string: "\n\(artist)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 13, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
         
         self.titleLabel.attributedText = attributedString
+    }
+    
+    func setAlbum(urlStr: String){
+        
+        if let url = URL(string: urlStr){
+  
+            self.albumImageView.sd_setImage(with: url)
+        }
     }
     
 }
