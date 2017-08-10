@@ -215,11 +215,11 @@
 			children = (
 				83951A971F38680900EEB5BC /* Song */,
 				83951A741F3867E800EEB5BC /* SongData */,
-				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
 				83951A701F3867D600EEB5BC /* FirstViewController.swift */,
-				83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */,
 				83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */,
 				83951A6B1F38679900EEB5BC /* ContainerViewController.swift */,
+				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
+				83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */,
 				83951AB61F3868C200EEB5BC /* DY.storyboard */,
 			);
 			name = MusicPlayer;

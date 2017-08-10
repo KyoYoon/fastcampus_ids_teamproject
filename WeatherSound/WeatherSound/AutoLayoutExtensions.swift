@@ -19,6 +19,33 @@ import UIKit
 //    
 //}
 
+extension UIStackView
+{
+    func addArrangedSubViews(_ views:[UIView])
+    {
+        views.forEach { (view) in
+            self.addArrangedSubview(view)
+        }
+        
+        //위 코드랑 똑같음
+        //        for v in views
+        //        {
+        //            self.addArrangedSubview(v)
+        //        }
+    }
+}
+
+extension UIView
+{
+    func addSubviews(_ views:[UIView])
+    {
+        views.forEach { (view) in
+            self.addSubview(view)
+        }
+    }
+}
+
+
 extension UIView
 {
     func anchor(top:NSLayoutYAxisAnchor?,
