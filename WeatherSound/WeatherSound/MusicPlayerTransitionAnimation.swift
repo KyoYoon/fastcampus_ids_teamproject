@@ -38,11 +38,12 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
     func prepareContainer(_ transitionType: TransitionType, containerView: UIView, from fromVC: UIViewController, to toVC: UIViewController) {
         self.containerView = containerView
         if transitionType.isPresenting {
-            //            self.modalVC.view.removeFromSuperview()
+//                        self.modalVC.view.removeFromSuperview()
 //            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.tabBar)
+            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.miniPlayerView)
         } else {
-            //            self.modalVC.view.removeFromSuperview()
-//            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.tabBar)
+//                        self.modalVC.view.removeFromSuperview()
+            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.miniPlayerView)
         }
         self.rootVC.view.setNeedsLayout()
         self.rootVC.view.layoutIfNeeded()

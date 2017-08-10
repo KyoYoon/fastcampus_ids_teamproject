@@ -11,10 +11,9 @@ import ARNTransitionAnimator
 
 class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {

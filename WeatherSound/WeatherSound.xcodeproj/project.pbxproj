@@ -154,11 +154,11 @@
 			isa = PBXGroup;
 			children = (
 				83951A741F3867E800EEB5BC /* SongData */,
-				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
 				83951A701F3867D600EEB5BC /* FirstViewController.swift */,
-				83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */,
 				83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */,
 				83951A6B1F38679900EEB5BC /* ContainerViewController.swift */,
+				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
+				83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */,
 				83951AB61F3868C200EEB5BC /* DY.storyboard */,
 			);
 			name = MusicPlayer;
@@ -327,7 +327,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B24F65BF22A4903EA49145C8 /* [CP] Embed Pods Frameworks */ = {
