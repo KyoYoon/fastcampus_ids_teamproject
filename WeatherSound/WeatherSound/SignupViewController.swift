@@ -15,7 +15,7 @@ import SwiftyJSON
 class SignupViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // swifty json 사용 후 데이터 선언
-    var data : JSON = JSON.init(rawValue: [])!
+    //var data : JSON = JSON.init(rawValue: [])!
     
     var dbRef : DatabaseReference! // 파이어베이스 데이터베이스 인스턴스 변수
     var storageRef : StorageReference! // 파이어베이스 스토리지 인스턴스 변수
@@ -117,7 +117,8 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
             self.view.viewWithTag(textField.tag + 100)?.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
-            self.signupRequestFirebase()
+            //self.signupRequestFirebase()
+            self.signupRequestAlamoFire(with: self.emailTextField.text!, nickname: self.nicknameTextField.text!, password: self.passwordTextField.text!, passwordConfirm: self.passwordConfirmTextField.text!)
         }
         
         return true
@@ -168,7 +169,9 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func touchUpInsideJoinAsMemberButton(_ sender: UIButton) {
         
-        signupRequestFirebase()
+        //signupRequestFirebase()
+        
+        signupRequestAlamoFire(with: self.emailTextField.text!, nickname: self.nicknameTextField.text!, password: self.passwordTextField.text!, passwordConfirm: self.passwordConfirmTextField.text!)
     }
     
     func signupRequestFirebase() {
@@ -178,6 +181,13 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         let providedEmailAddress = self.emailTextField.text
         
+        if providedEmailAddress == "" {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소를 입력하지 않았습니다. 이메일 주소를 입력하여 주세요.")
+            
+            return
+            
+        }
         
         
         let isEmailAddressValid = CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: providedEmailAddress!)
@@ -190,8 +200,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         } else {
             
             
-            // 비밀번호 유효성 검사
-            if CommonLibraries.sharedFunc.isPasswordValid(password: self.passwordTextField.text!) == false { // 패스워드가 유효하지 않을 때
+            if CommonLibraries.sharedFunc.isPasswordValid(password: self.passwordTextField.text!) == false { // 비밀번호가 유효하지 않을 때
                 
                 CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "패스워드는 최소 8자리이상 입력하셔야 하며 대문자 소문자 숫자 및 특수문자가 반드시 포함되어야 합니다.")
                 
@@ -275,12 +284,18 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
     // 직접 서버에 요청해서 회원가입과 동시에 처리한다.
     func signupRequestAlamoFire(with email:String, nickname:String, password:String, passwordConfirm:String) {
         
+        self.view.endEditing(true)
+        
+        var isSignupSucceed:Bool = false
+        var isLoginSucceed:Bool = false
+        var token:String? 
+        
         // 1. 회원가입 처리
         
         // https://weather-sound.com/api/member/signup/
         //보낼 때 데이터 구조 - POST
 //        {
-//            "email_account": "kyoyoon@bbbb.com",
+//            "email": "kyoyoon@bbbb.com",
 //            "nickname": "정교윤",
 //            "password1": "123456",
 //            "password2": "123456"
@@ -288,7 +303,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         // 결과값 response
 //        {
-//            "email_account": "kyoyoon@bbbb.com",
+//            "email": "kyoyoon@bbbb.com",
 //            "nickname": "정교윤"
 //        }
         
@@ -310,6 +325,143 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         // 3. 로그온 처리와 동시에 UserDefaults에 email을 저장해놓고 로그온 되어있는지 처리용으로 확인함
         // 위의 정보를 DataCenter에 저장하고 email은 UserDefaults에 저장한다. 
+        
+        let isEmailAddressValid = CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: email)
+        let isPasswordValid = CommonLibraries.sharedFunc.isPasswordValid(password: password)
+        
+        if isEmailAddressValid == false {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소가 유효하지 않습니다. 다시 입력하여 주세요.")
+            
+            return
+        }
+        if isPasswordValid == false { // 비밀번호가 유효하지 않을 때
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "패스워드는 최소 8자리이상 입력하셔야 하며 대문자 소문자 숫자 및 특수문자가 반드시 포함되어야 합니다.")
+            
+            return
+        }
+        if password != passwordConfirm {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "입력하신 패스워드와 확인을 위해 입력한 패스워드가 서로 일치하지 않습니다.")
+            
+            return
+            
+        }
+        
+        ///////////////////////////// sign up & log in 시작  ///////////////////////////////
+        
+        
+        
+        let signupParameters: Parameters = [
+            "email": email,
+            "nickname": nickname,
+            "password1": password,
+            "password2": passwordConfirm
+        ]
+        
+        let singupUrl:String = Authentication.signupURL
+        let loginUrl:String = Authentication.loginURL
+        
+//        Alamofire.request(url, method: .get).validate().responseJSON { response in
+//            switch response.result {
+//            case .success(let value):
+//                let json = JSON(value)
+//                print("JSON: \(json)")
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+        
+        
+        
+        // Sign Up 처리
+        Alamofire.request(singupUrl, method: .post, parameters: signupParameters, encoding: JSONEncoding.prettyPrinted).responseJSON { (response) in
+            
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+                print("JSON: \(json)")
+                
+                isSignupSucceed = true
+                
+                break
+            case .failure(let error):
+                isSignupSucceed = false
+                print(error)
+                CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                
+                break
+            }
+            
+            
+        }
+        
+        // 로그온 처리 후 main page 이동
+        let loginParameters: Parameters = [
+            "email": email,
+            "password": password
+        ]
+
+        
+        //let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+        
+        //self.present(vc!, animated: true, completion: nil)
+        
+        // sign up에 실패했다면 그대로 함수를 종료하고 성공하였다면 log in 시도하고 성공하였다면 Home View로 이동시킨다.
+        if isSignupSucceed == false {
+            
+            UserDefaults.standard.set(false, forKey: Authentication.isLoginSucceed)
+            
+            return
+            
+        } else {
+            
+            // 로그인 처리
+            Alamofire.request(loginUrl, method: .post, parameters: loginParameters, encoding: JSONEncoding.prettyPrinted).responseJSON { (response) in
+                
+                switch response.result {
+                case .success(let value):
+                    
+                    let json = JSON(value)
+                    print("JSON: \(json)")
+                    
+                    isLoginSucceed = true
+                    
+                    // 데이터 센터에 값 삽입 
+                    LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                    
+                    token = json["token"].stringValue
+                    
+                    UserDefaults.standard.setValue(isLoginSucceed, forKey: Authentication.isLoginSucceed)
+                    
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                    
+                    break
+                }
+                
+                
+            }
+            
+        }
+        
+        if isLoginSucceed == true {
+            
+            // Home View Controller 로 이동
+            let nextVC = HomeViewController()
+            
+            nextVC.userName = email
+            nextVC.token = token
+            self.present(nextVC, animated: true, completion: nil)
+            
+        }
+        
+        
+        
         
     }
     
@@ -357,7 +509,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func signupButtonActivated() {
         
-        let isFormVaild = self.emailTextField.text?.characters.count ?? 0 > 0 && self.passwordTextField.text?.characters.count ?? 0 > 0 && self.passwordConfirmTextField.text?.characters.count ?? 0 > 0
+        let isFormVaild = self.emailTextField.text?.characters.count ?? 0 > 0 && self.nicknameTextField.text?.characters.count ?? 0 > 0 && self.passwordTextField.text?.characters.count ?? 0 > 0 && self.passwordConfirmTextField.text?.characters.count ?? 0 > 0
         
         
         

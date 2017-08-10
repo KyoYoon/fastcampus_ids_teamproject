@@ -54,6 +54,8 @@
 		48178D311F399C4E00559932 /* 27.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D131F399C4E00559932 /* 27.mp3 */; };
 		48178D321F399C4E00559932 /* 28.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D141F399C4E00559932 /* 28.mp3 */; };
 		48178D331F399C4E00559932 /* 29.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D151F399C4E00559932 /* 29.mp3 */; };
+		48178D351F3ACE9E00559932 /* LoginDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178D341F3ACE9E00559932 /* LoginDataCenter.swift */; };
+		48178D381F3B076700559932 /* LoginConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178D371F3B076700559932 /* LoginConstants.swift */; };
 		83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */; };
 		83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */; };
 		83951A6E1F38679900EEB5BC /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */; };
@@ -117,6 +119,8 @@
 		48178D131F399C4E00559932 /* 27.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 27.mp3; path = "../../../../Downloads/Song 2/27.mp3"; sourceTree = "<group>"; };
 		48178D141F399C4E00559932 /* 28.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 28.mp3; path = "../../../../Downloads/Song 2/28.mp3"; sourceTree = "<group>"; };
 		48178D151F399C4E00559932 /* 29.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 29.mp3; path = "../../../../Downloads/Song 2/29.mp3"; sourceTree = "<group>"; };
+		48178D341F3ACE9E00559932 /* LoginDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDataCenter.swift; sourceTree = "<group>"; };
+		48178D371F3B076700559932 /* LoginConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConstants.swift; sourceTree = "<group>"; };
 		83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerTransitionAnimation.swift; sourceTree = "<group>"; };
 		83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerViewController.swift; sourceTree = "<group>"; };
 		83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
@@ -171,6 +175,7 @@
 		48178CBF1F2B127A00559932 /* WeatherSound */ = {
 			isa = PBXGroup;
 			children = (
+				48178D361F3B074B00559932 /* Constants */,
 				48178CF51F36EA1B00559932 /* CommonLibraries */,
 				48178CF41F36E57500559932 /* Extension */,
 				48178CF31F36E47D00559932 /* DataCenter */,
@@ -229,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				48178CEF1F35774C00559932 /* DataCenter.swift */,
+				48178D341F3ACE9E00559932 /* LoginDataCenter.swift */,
 			);
 			name = DataCenter;
 			sourceTree = "<group>";
@@ -248,6 +254,14 @@
 				48178CF61F36EA5C00559932 /* CommonLibraries.swift */,
 			);
 			name = CommonLibraries;
+			sourceTree = "<group>";
+		};
+		48178D361F3B074B00559932 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				48178D371F3B076700559932 /* LoginConstants.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		49466D1CDCABE0AD788E9AE4 /* Frameworks */ = {
@@ -515,6 +529,7 @@
 				48178CF21F35CD8300559932 /* Extension.swift in Sources */,
 				83951A771F3867F900EEB5BC /* SongDataSource.swift in Sources */,
 				83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */,
+				48178D351F3ACE9E00559932 /* LoginDataCenter.swift in Sources */,
 				48178CC31F2B127A00559932 /* LoginViewController.swift in Sources */,
 				48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */,
 				83951A781F3867F900EEB5BC /* SongMetaData.swift in Sources */,
@@ -524,6 +539,7 @@
 				48178CF01F35774D00559932 /* DataCenter.swift in Sources */,
 				83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */,
 				48178CEE1F345E9C00559932 /* HomeViewController.swift in Sources */,
+				48178D381F3B076700559932 /* LoginConstants.swift in Sources */,
 				83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */,
 				48178CC11F2B127A00559932 /* AppDelegate.swift in Sources */,
 				83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */,
