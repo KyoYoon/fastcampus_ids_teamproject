@@ -17,7 +17,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //
     var locationManager = CLLocationManager()
-    var reguestCount = 0
+    var requestCount = 0
     //location에 따라 날씨 정보 가져옴
     var grid: (lon: Double,lat: Double)?{
         didSet{
@@ -28,8 +28,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                     self.weatherInfo = weatherInfo
                     self.setWeatherInfo()
-                    
-                    self.reguestCount += 1
+                    self.requestCount += 1
+                    print("//weather comlpete//request count : ", self.requestCount)
                 })
             }
         }
@@ -38,16 +38,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //날씨정보 저장되는 시점에 추천 노래 리스트 가져옴
     var weatherInfo: Weather?{
         didSet{
-//            DataCenter.shared.getRecommendListByfireBase(completion: { (musicArry) in
-//                print("music list request complete")
-//                
-//                self.recommendMusicList = musicArry
-//            })
-            
             DataCenter.shared.getRecommendList(completion: { (musicArry) in
-                print("music api complete")
+                print("music request complete")
                 
                 self.recommendMusicList = musicArry
+                
+                print("//music comlpete//request count : ", self.requestCount)
             })
         }
     }
@@ -56,6 +52,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var recommendMusicList: [Music]?{
         didSet{
             self.mainTableView.reloadData()
+            
         }
     }
     
@@ -78,27 +75,33 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mainTableView.delegate = self
         self.mainTableView.dataSource = self
         
+        //scroll refresh
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSMutableAttributedString(string: "pull to refresh", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
+        refreshControl.addTarget(self, action: #selector(refreshHandler(sender: )), for: .valueChanged)
+        self.mainTableView.refreshControl = refreshControl
+        
         //tableView Nib
         self.mainTableView.register(UINib.init(nibName: "MainTableViewCell", bundle: nil), forCellReuseIdentifier: MainTableViewCell.reuseId)
+        
+         self.loadLocation()
+    }
+    
+    func refreshHandler(sender: UIRefreshControl){
+        
+        print("refresh")
+        
+        self.locationManager.requestLocation()
+        
+        sender.endRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        //location
-        self.loadLocation()
-
         //prepare view
         self.prepareView()
         self.setWeatherInfo()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        print("stop monitoring")
-        
-        self.locationManager.stopMonitoringSignificantLocationChanges()
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,6 +111,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK:- location
     func loadLocation(){
+        print("request location")
         
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -117,26 +121,34 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK:- location delegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("location manager delegate - did upadate location")
         
         if let coor = manager.location?.coordinate{
             
             //기존 값이 있으면 거리 계산, 최초에는 바로 셋팅
             //두 위치의 차이가 5km이상일 경우에만 네트워크 리퀘
-            if self.reguestCount == 0{
+            if self.requestCount == 0{
                 //최초
                 self.grid = (coor.longitude, coor.latitude)
+                self.locationManager.stopMonitoringSignificantLocationChanges()
+                print("stop monitoring")
             }
             else{
+                //refresh
+                print("refresh- didUpdate")
                 if let lon = self.grid?.lon, let lat = self.grid?.lat{
-                    let diff = DataCenter.shared.distance(lat1: lat, lng1: lon, lat2: coor.latitude, lng2: coor.longitude)
-
+                    let diff = CommonLibraries.sharedFunc.distance(lat1: lat, lng1: lon, lat2: coor.latitude, lng2: coor.longitude)
                     if diff > 5 {
+                        print("self.gird update")
                         self.grid = (coor.longitude, coor.latitude)
                     }
                 }
             }
-            print("request count",self.reguestCount)
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
     
     //MARK:- view
@@ -162,14 +174,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let rect = self.view.bounds
         
         self.mainTableView.separatorStyle = .none
-        self.mainTableView.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        self.mainTableView.frame = CGRect(x: 0, y: 65, width: rect.width, height: rect.height-55-65)
         
         //weather image
         self.weatherImageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: 300)
         self.weatherImageView.image = #imageLiteral(resourceName: "default")
         
         let header = self.weatherImageView.frame
-        self.weatherInfoLabel.frame = CGRect(x: 0, y: header.midX-80, width: header.width, height: 160)
+        self.weatherInfoLabel.frame = CGRect(x: 0, y: header.midY-80, width: header.width, height: 160)
         self.weatherImageView.addSubview(self.weatherInfoLabel)
     }
     

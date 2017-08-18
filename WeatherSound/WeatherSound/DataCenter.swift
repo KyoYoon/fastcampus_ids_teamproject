@@ -20,6 +20,7 @@ class DataCenter {
     
     var weatherInfo: Weather?
     var recommendList: [Music] = []
+    var myPlayLists: [UserPlayList] = []
     
     func requestIsLogin() -> Bool {
         
@@ -51,7 +52,8 @@ class DataCenter {
         
         Database.database().reference().child("weather").observeSingleEvent(of: .value, with: { (snapShot) in
             
-            let info = snapShot.value as! [String:String]
+            
+            guard let info = snapShot.value as? [String:String] else {return}
             
             if let location = info["location"],
                 let name = info["name"],
@@ -61,11 +63,10 @@ class DataCenter {
                 let dic = ["location":location, "name":name, "temperate":temperate, "savedTime":savedTime]
                 
                 self.weatherInfo = Weather(dic: dic)
+                completion(self.weatherInfo!)
+                
             }
-            
-            if let info = self.weatherInfo{
-                completion(info)
-            }
+
         })
     }
 
@@ -78,12 +79,11 @@ class DataCenter {
         let url = "https://weather-sound.com/api/music/"
         
         //url += "/page=\(next)"
+        
         Alamofire.request(url).responseJSON { response in
                 
                 switch response.result{
                 case .success(let value):
-                    print("music api success")
-                    //print("success respose: ", value)
                     
                     let json = JSON(value)
                     
@@ -107,64 +107,58 @@ class DataCenter {
                     break
                 case .failure(let error):
                     print("failure response: ", error)
+                    
                     break
                 }
         }
     }
     
+    //(성공여부, 반환데이터, 에러)
+    //(true, response, nil)
+    //(false, nil, errorCode)
     
-    //거리 계산
-    func distance(lat1: Double, lng1: Double, lat2: Double, lng2: Double) -> Double {
+    func getMyList(){
+        //param: user pk
+        //tmp user pk = 14
         
-        // 위도,경도를 라디안으로 변환
-        let rlat1 = lat1 * .pi / 180
-        let rlng1 = lng1 * .pi / 180
-        let rlat2 = lat2 * .pi / 180
-        let rlng2 = lng2 * .pi / 180
+        let url = "https://weather-sound.com/api/member/14/playlists/"
+        let header = ["Authorization":"Token 58bdbaff29687bac131f187898962f6d9bc95b72"]
         
-        // 2점의 중심각(라디안) 요청
-        let a = sin(rlat1) * sin(rlat2) + cos(rlat1) * cos(rlat2) * cos(rlng1 - rlng2)
-        let rr = acos(a)
-        
-        // 지구 적도 반경(m단위)
-        let earth_radius = 6378140.0
-        
-        // 두 점 사이의 거리 (km단위)
-        let distance = earth_radius * rr / 1000
-        
-        return distance
-    }
-    
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //MARK:- dummy data test
-    
-
-    //getWeather - dummy
-    func getCurrentWeather(lon: Double, lan: Double)->Weather{
-        
-        //네트워크통해 받은 json값으로 가정
-        let text = "{\"grid\":{\"latitude\":\"\(lan)\",\"longitude\":\"\(lon)\",\"location\":\"dogok\"},\"info\":{\"temperate\":\"30\",\"name\":\"cloudy\"},\"timeRelease\":\"2017-08-05 12:00:00\"}"
-        
-        
-        if let data = text.data(using: String.Encoding.utf8){
-            
-            let json = JSON(data:data)
-            
-            
-            if let location = json["grid"]["location"].string,
-                let name = json["info"]["name"].string,
-                let temperate = json["info"]["temperate"].string,
-                let savedTime = json["timeRelease"].string{
+        Alamofire.request(url, method: HTTPMethod.get, headers: header).responseJSON { (response) in
+            switch response.result{
+            case .success(let value):
+                let json = JSON(value)
+                print("get userList success",json)
                 
-                let dic = ["location":location, "name":name, "temperate":temperate, "savedTime":savedTime]
+                guard let myPlayLists = json["playlists"].array else {
+                    return
+                }
                 
-                self.weatherInfo = Weather(dic: dic)
+                for playList in myPlayLists {
+                    if let pk = playList["pk"].int,
+                        let namePlaylist = playList["name_playlist"].string,
+                        let weather = playList["weather"].string,
+                        let playlistId = playList["playlist_id"].int,
+                        let playlistMusics = playList["playlist_musics"].array{
+                        
+                        let dic = ["pk":pk, "namePlaylist":namePlaylist, "weather":weather, "playlistId":playlistId, "playlistMusics":playlistMusics] as [String : Any]
+                        
+                        let newListItem = UserPlayList(dic: dic)
+                        self.myPlayLists.append(newListItem)
+                    }
+                }
+                
+                print("myList",self.myPlayLists)
+                
+                
+                break
+            case .failure(let error):
+                print("success",error)
+                break
             }
         }
-        return self.weatherInfo!
     }
-    
+
 }
 
 struct MyUser {
@@ -227,3 +221,22 @@ struct Music {
         self.musicUrl = dic["musicUrl"] as! String
     }
 }
+//플레이리스트 하나의 struct : my page에서는 [UserPlayList]가 생김
+struct UserPlayList {
+    var pk: Int
+    var name: String
+    var weather: String
+    var playListId: String
+    var musicList: [Music]
+    
+    init(dic: [String:Any]){
+        
+        self.pk = dic["pk"] as! Int
+        self.name = dic["namePlaylist"] as! String
+        self.weather = dic["weather"] as! String
+        self.playListId = dic["playlistId"] as! String
+        self.musicList = dic["playlistMusics"] as! [Music]
+    }
+}
+
+

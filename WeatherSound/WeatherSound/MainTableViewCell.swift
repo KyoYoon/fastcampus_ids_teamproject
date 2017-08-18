@@ -56,10 +56,16 @@ class MainTableViewCell: UITableViewCell {
     
     func setAlbum(urlStr: String){
         
+//        self.albumImageView.loadImagWithURL(urlStr: urlStr)
+        
         if let url = URL(string: urlStr){
-  
             self.albumImageView.sd_setImage(with: url)
         }
+        
+    }
+    
+    func tmp(){
+        print("touched")
     }
     
 }

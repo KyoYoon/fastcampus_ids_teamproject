@@ -17,3 +17,35 @@ extension UIColor
     }
 
 }
+
+
+var cache:[String:Data] = [:]
+
+extension UIImageView
+{
+    func loadImagWithURL(urlStr:String)
+    {
+     
+        if let imageData  = cache[urlStr]
+        {
+            self.image = UIImage(data: imageData)
+        }else
+        {
+            if let url = URL(string: urlStr){
+                self.sd_setImage(with: url)
+                
+                
+                cache.updateValue(UIImageJPEGRepresentation(self.image!, 1)! , forKey: urlStr)
+                
+            }
+        }
+    }
+    
+    func refreshCache()
+    {
+        if cache.count > 20
+        {
+           //remove
+        }
+    }
+}
