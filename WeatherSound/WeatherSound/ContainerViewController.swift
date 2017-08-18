@@ -16,15 +16,60 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
     let miniPlayerView:MiniPlayerView = MiniPlayerView()
     
     
-    fileprivate var musicPlayerVC:MusicPlayerViewController!// = MusicPlayerViewController()
-//    fileprivate var musicPlayerVC:MusicPlayerViewController = MusicPlayerViewController()
-//    fileprivate var musicPlayerVC:MusicPlayerViewController?
+    fileprivate var musicPlayerVC:MusicPlayerViewController!
     private var animator : ARNTransitionAnimator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setUpUI()
+        self.setupAnimator()
+        configureObservers()
+    }
+    
+    func configureObservers()
+    {
+        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.loadWSPlayerItems), name: Notification.Name("PlayItemsLoaded"), object: nil)
+        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.playSongSelectedFromMain), name: Notification.Name("SongSelectedFromMain"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setUpMiniPlayerMetaData), name: Notification.Name("PlayerStateChanged"), object: nil)
+    }
+    
+    func setUpMiniPlayerMetaData(_ notification: Notification)
+    {
+        guard let userInfo = notification.userInfo as? [String : Any] else { return }
+        guard let playerStateChanged = userInfo["PlayerState"] as? State else { return }
+        guard let currentAlbumImageView = userInfo["currentAlbumImageView"] as? UIImageView else { return }
+        guard let currentSongTitle = userInfo["currentSongTitle"] as? UILabel else { return }
         
+        if playerStateChanged == .ready
+        {
+            self.miniPlayerView.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: UIControlState())
+        } else if playerStateChanged == .loading
+        {
+            self.miniPlayerView.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"), for: UIControlState())
+        } else //.playing, .paused, .failed
+        {
+            let image: UIImage
+            switch playerStateChanged
+            {
+            case .playing, .loading:
+                image = #imageLiteral(resourceName: "MusicPlayer_pause")
+                self.miniPlayerView.miniPlayerImageView = currentAlbumImageView
+                self.miniPlayerView.songTitleLabel = currentSongTitle
+            case .paused, .failed, .ready:
+                image = #imageLiteral(resourceName: "MusicPlayer_play")
+            }
+            self.miniPlayerView.playOrstopButton.setImage(image, for: UIControlState())
+            print("else !!!!!meaning not ready, loading!!!!!!!!!!!!")
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func setUpUI()
+    {
         let storyboard = UIStoryboard(name: "DY", bundle: nil)
         self.musicPlayerVC = storyboard.instantiateViewController(withIdentifier: "MusicPlayerViewController") as? MusicPlayerViewController
         self.musicPlayerVC?.modalPresentationStyle = .overFullScreen
@@ -36,20 +81,15 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
         
         let color = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
         self.miniPlayerView.miniPlayerButton.setBackgroundImage(self.generateImageWithColor(color), for: .highlighted)
-        
-        self.setupAnimator()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func setupAnimator() {
         guard let musicPlayerVC = self.musicPlayerVC else { return }
-        let animation = MusicPlayerTransitionAnimation(rootVC: self, modalVC: musicPlayerVC)
+        let animation = MusicPlayerTransitionAnimation(rootVC: self, modalVC: self.musicPlayerVC)
         animation.completion = { [weak self] isPresenting in
             if isPresenting {
                 guard let _self = self else { return }
+                
                 let modalGestureHandler = TransitionGestureHandler(targetVC: _self, direction: .bottom)
                 modalGestureHandler.registerGesture((self?.musicPlayerVC?.view)!)
                 modalGestureHandler.panCompletionThreshold = 15.0

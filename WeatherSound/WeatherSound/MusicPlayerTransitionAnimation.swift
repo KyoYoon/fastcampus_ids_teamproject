@@ -41,9 +41,15 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
 //                        self.modalVC.view.removeFromSuperview()
 //            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.tabBar)
             self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.miniPlayerView)
+//            self.rootVC.view.insertSubview(self.modalVC.view, aboveSubview: self.rootVC.miniPlayerView)
+//            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.view)
+
         } else {
 //                        self.modalVC.view.removeFromSuperview()
             self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.miniPlayerView)
+//            self.rootVC.view.insertSubview(self.modalVC.view, aboveSubview: self.rootVC.miniPlayerView)
+//            self.rootVC.view.insertSubview(self.modalVC.view, belowSubview: self.rootVC.view)
+
         }
         self.rootVC.view.setNeedsLayout()
         self.rootVC.view.layoutIfNeeded()
@@ -66,6 +72,8 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
             self.rootVC.miniPlayerView.frame.origin.y = -self.rootVC.miniPlayerView.bounds.size.height
 //            self.rootVC.tabBar.frame.origin.y = containerView.bounds.size.height
         }
+//        self.rootVC.miniPlayerView.isHidden = true
+
     }
     
     func updateAnimation(_ transitionType: TransitionType, percentComplete: CGFloat) {
@@ -140,6 +148,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
                 self.rootVC.endAppearanceTransition()
             }
         }
+        //self.rootVC.miniPlayerView.isHidden = true
     }
 }
 

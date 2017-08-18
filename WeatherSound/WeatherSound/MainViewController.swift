@@ -50,7 +50,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //날씨정보 가져오는 시점에 tableview reload
     var recommendMusicList: [Music]?{
-        didSet{
+        didSet {
             self.mainTableView.reloadData()
             
         }
@@ -206,6 +206,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return 60
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        NotificationCenter.default.post(name: Notification.Name("SongSelectedFromMain"), object: nil, userInfo: ["SongSelectedRowAt": indexPath.row])
+        print("indexPath.row touched : ", indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 }

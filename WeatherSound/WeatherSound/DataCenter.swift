@@ -17,10 +17,35 @@ class DataCenter {
     static let shared = DataCenter()
     
     var isLogin:Bool = false
-    
+    var numberOfList:Int = 0
     var weatherInfo: Weather?
-    var recommendList: [Music] = []
+
     var myPlayLists: [UserPlayList] = []
+
+    var playItems:[WSPlayItem] = [] {
+        didSet {
+            if playItems.count == self.numberOfList
+            {
+                NotificationCenter.default.post(name: Notification.Name("PlayItemsLoaded"), object: nil, userInfo: nil)
+                print("Noti PlayItemsLoaded!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            }
+            
+        }
+    }
+
+    var recommendList: [Music] = [] {
+        didSet {
+
+                if recommendList.count > 0
+                {
+                    let musicItem = recommendList[recommendList.count - 1]
+                    let songUrl = musicItem.musicUrl
+                    print("songUrl: \(songUrl)")
+                    let playItem = WSPlayItem(URL: URL(string: songUrl)!, musicItem: musicItem)
+                    self.playItems.append(playItem)
+                }
+        }
+    }
     
     func requestIsLogin() -> Bool {
         
@@ -90,6 +115,8 @@ class DataCenter {
                     guard let musicList =  json["results"].array else {
                         return
                     }
+                    
+                    self.numberOfList = musicList.count
                     
                     for item in musicList {
                         if let title = item["name_music"].string,
@@ -212,13 +239,16 @@ struct Music {
     var artist: String
     var albumImg: String
     var musicUrl: String
-    
+    var albumTitle: String?
+    var duration: Double?    
     init(dic: [String:Any]){
         
         self.title = dic["title"] as! String
         self.artist = dic["artist"] as! String
         self.albumImg = dic["albumImg"] as! String
         self.musicUrl = dic["musicUrl"] as! String
+//        let data = try? Data(contentsOf: albumImg)
+//        let albumpic = UIImage(data: data)
     }
 }
 //플레이리스트 하나의 struct : my page에서는 [UserPlayList]가 생김
