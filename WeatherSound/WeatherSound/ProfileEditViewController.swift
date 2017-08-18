@@ -35,6 +35,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
     var pk:Int?         // primary key
     var token:String?   // token
     
+    var loadedNum:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,6 +102,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             
         }
         
+        setInitialDataAndImage()
+        
         
     }
     
@@ -108,11 +112,21 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         print("------ ViewDidAppear ProfileEditViewController -----")
         
+        loadedNum = loadedNum + 1
+        
+        print("loadedNum: ",loadedNum)
+        
+        
+        
+        
+            
         showLoginStatusAlamofire() // 로그아웃된 상태라면 로그인 페이지를 보여주고 아니면 현재 페이지를 보여준다.
-        
+            
         saveProfileButtonActivated() // 아무것도 입력이 안 되었기 때문에 저장 버튼을 비활성화한다.
-        
+            
         deleteProfileButtonActivated() // 비밀번호란이 비어있으면 계정 삭제 버튼을 비활성화한다.
+            
+        
         
     }
     
@@ -152,26 +166,60 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+//        print("info://",info)
+//        
+//        guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
+//            return
+//        }
+//        
+//        // UIImagePickerControllerCropRect -> crop된 이미지 사이즈 가져올 때
+//        // UIImagePickerControllerEditedImage -> edit딘 이미지 가져올 때
+//        
+//        image.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
+//        
+//        
+//        
+//        self.profilePhotoButton.setImage(image, for: .normal)
+//        self.profilePhotoButton.clipsToBounds = true
+//        
+//        // 사진이 로딩되었으므로 플래그를 바꾼다.
+//        //self.isProfileImageInsideButton = true
+//        
+//        print("image upload is done")
+//        
+//        self.dismiss(animated: true, completion: nil)
+        
         print("info://",info)
         
-        guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
-            return
+        /// chcek if you can return edited image that user choose it if user already edit it(crop it), return it as image
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            
+            editedImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
+
+            /// if user update it and already got it , just return it to 'self.imgView.image'
+            
+            self.profilePhotoButton.setImage(editedImage, for: .normal)
+            self.profilePhotoButton.clipsToBounds = true
+            
+            
+            
+            /// else if you could't find the edited image that means user select original image same is it without editing .
+        } else if let orginalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            orginalImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
+            
+            /// if user update it and already got it , just return it to 'self.imgView.image'.
+            self.profilePhotoButton.setImage(orginalImage, for: .normal)
+            self.profilePhotoButton.clipsToBounds = true
+            
+            
         }
+        else { print ("error") }
         
-        // UIImagePickerControllerCropRect -> crop된 이미지 사이즈 가져올 때
-        // UIImagePickerControllerEditedImage -> edit딘 이미지 가져올 때
-        
-        image.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
-        
-        
-        
-        self.profilePhotoButton.setImage(image, for: .normal)
-        self.profilePhotoButton.clipsToBounds = true
-        
-        // 사진이 로딩되었으므로 플래그를 바꾼다.
-        //self.isProfileImageInsideButton = true
-        
+        /// if the request successfully done just dismiss
         self.dismiss(animated: true, completion: nil)
+
+        
     }
 
     
@@ -185,50 +233,61 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             showLoginVC()
             
         } else { // 로그인 상태면 프로필 이미지 보여주기
-            // http://s3.ap-northeast-2.amazonaws.com/weather-sound-test-s3-bucket/media/member/basic_profile.png
             
-            // 앱을 사용자가 강제로 재시작하거나 백그라운드로 보낸 거 없이 정상적으로 앱이 실행중일 때
-            if LoginDataCenter.shared.myLoginInfo != nil {
-                
-                self.titleLabel.text = LoginDataCenter.shared.myLoginInfo?.email
-                
-                if let urlStr = LoginDataCenter.shared.myLoginInfo?.img_profile, let url = URL(string: urlStr) {
-                    
-                    print("img_profile: ",LoginDataCenter.shared.myLoginInfo?.img_profile! ?? "no img_profile")
-                    self.profilePhotoButton.sd_setImage(with: url, for: .normal, completed: nil)
-                    
-                }
-
-                
-            } else { // 로그인 상태인데 앱을 다시 시작했을 때
-                
-                // UserDefaults로부터 MyLoginInfo 불러와서 이미지 URL 가져와서 보여주기
-                
-                var dic:[String:Any]?
-                
-                dic = UserDefaults.standard.dictionary(forKey: Authentication.userInfo)
-                
-                if dic != nil {
-                    
-                    self.titleLabel.text = dic?["username"] as? String
-                    
-                    if let urlStr = dic?["img_profile"] as? String, let url = URL(string: urlStr) {
-                        
-                        print("img_profile: ",dic?["img_profile"]! ?? "no img_profile")
-                        self.profilePhotoButton.sd_setImage(with: url, for: .normal, completed: nil)
-                        
-                    }
-                    
-                }
-                
-                
-            }
+            print("------- after login -----")
             
         }
         
         
         
     }
+    
+    // 초기 로딩시 사용자 데이터와 이미지 보여주기
+    func setInitialDataAndImage() {
+        
+        // http://s3.ap-northeast-2.amazonaws.com/weather-sound-test-s3-bucket/media/member/basic_profile.png
+        
+        // 앱을 사용자가 강제로 재시작하거나 백그라운드로 보낸 거 없이 정상적으로 앱이 실행중일 때
+        if LoginDataCenter.shared.myLoginInfo != nil {
+            
+            self.titleLabel.text = LoginDataCenter.shared.myLoginInfo?.email
+            
+            if let urlStr = LoginDataCenter.shared.myLoginInfo?.img_profile, let url = URL(string: urlStr) {
+                
+                print("img_profile: ",LoginDataCenter.shared.myLoginInfo?.img_profile! ?? "no img_profile")
+                self.profilePhotoButton.sd_setImage(with: url, for: .normal, completed: nil)
+                
+            }
+            
+            
+        } else { // 로그인 상태인데 앱을 다시 시작했을 때
+            
+            // UserDefaults로부터 MyLoginInfo 불러와서 이미지 URL 가져와서 보여주기
+            
+            var dic:[String:Any]?
+            
+            dic = UserDefaults.standard.dictionary(forKey: Authentication.userInfo)
+            
+            if dic != nil {
+                
+                self.titleLabel.text = dic?["username"] as? String
+                
+                if let urlStr = dic?["img_profile"] as? String, let url = URL(string: urlStr) {
+                    
+                    print("img_profile: ",dic?["img_profile"]! ?? "no img_profile")
+                    self.profilePhotoButton.sd_setImage(with: url, for: .normal, completed: nil)
+                    
+                }
+                
+            }
+            
+            
+        }
+
+        
+    }
+    
+    
     
     func showLoginVC() {
         
@@ -347,6 +406,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                                 
                                 let json = JSON(response.result.value!)
                                 
+                                print("Profile UpdateJSON: ",json)
+                                
                                 if json.dictionaryObject != nil {
                                     
                                     if LoginDataCenter.shared.myLoginInfo != nil {
@@ -364,7 +425,7 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                                 
                                     // 프로필 정보 변경 성공
                                     // OK 를 눌렀을 때 전체 뷰가 리프레쉬된다.
-                                    self.displayProfileUpdateConfirmMessageAndRefreshThisView(vc: self, title: "Profile Update Success", messageToDisplay: json["detail"].stringValue)
+                                    self.displayProfileUpdateConfirmMessageAndRefreshThisView(vc: self, title: "Profile Update Success", messageToDisplay: json["detail"].stringValue) // detail 오타
                                     
                                     
                                 } else {

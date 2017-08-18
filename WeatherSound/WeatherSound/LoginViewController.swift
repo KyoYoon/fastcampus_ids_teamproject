@@ -242,7 +242,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
                     
-                    CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: json["detail"].stringValue)
+                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
                     
                 }
                 

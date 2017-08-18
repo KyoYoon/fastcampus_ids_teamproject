@@ -147,26 +147,35 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         print("info://",info)
         
-        guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
-            return
+        /// chcek if you can return edited image that user choose it if user already edit it(crop it), return it as image
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            
+            
+            /// if user update it and already got it , just return it to 'self.imgView.image'
+            
+            self.profileImageButton.setImage(editedImage, for: .normal)
+            self.profileImageButton.clipsToBounds = true
+            
+            
+            
+            /// else if you could't find the edited image that means user select original image same is it without editing .
+        } else if let orginalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            
+            /// if user update it and already got it , just return it to 'self.imgView.image'.
+            self.profileImageButton.setImage(orginalImage, for: .normal)
+            self.profileImageButton.clipsToBounds = true
+            
+            
         }
+        else { print ("error") }
         
-        // UIImagePickerControllerCropRect -> crop된 이미지 사이즈 가져올 때
-        // UIImagePickerControllerEditedImage -> edit딘 이미지 가져올 때
-        
-        image.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
-        
-        
-        
-        self.profileImageButton.setImage(image, for: .normal)
-        self.profileImageButton.clipsToBounds = true
-        
-        // 사진이 로딩되었으므로 플래그를 바꾼다.
-        //self.isProfileImageInsideButton = true
-        
-        
-        
+        /// if the request successfully done just dismiss
         self.dismiss(animated: true, completion: nil)
+        
+        
+        
+        
     }
 
     
@@ -456,7 +465,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                     
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
                     
-                    CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: json["detail"].stringValue)
+                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
                     
                 }
                 

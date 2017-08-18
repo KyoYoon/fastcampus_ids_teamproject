@@ -9,44 +9,110 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import SDWebImage
 
-class MusicPlayerViewController: UIViewController {
+class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
 
-    let commandCenter = MPRemoteCommandCenter.shared()
-    
-//    commandCenter.previousTrackCommand.enabled = true;
-//    commandCenter.previousTrackCommand.addTarget(self, action: "previousTrack")
-//    
-//    commandCenter.nextTrackCommand.enabled = true
-//    commandCenter.nextTrackCommand.addTarget(self, action: "nextTrack")
-//    
-//    commandCenter.playCommand.enabled = true
-//    commandCenter.playCommand.addTarget(self, action: "playAudio")
-//    
-//    commandCenter.pauseCommand.enabled = true
-//    commandCenter.pauseCommand.addTarget(self, action: "pauseAudio")
-    
-    
-    var musicPlayer:AVPlayer?
-    var isPlayingMusic:Bool = false
+    var musicPlayer : WSPlayer?
     
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var albumImageView: UIImageView!
     
-    @IBOutlet weak var songTitleLB: UILabel!
-    @IBOutlet weak var artistLB: UILabel!
-    
-    @IBOutlet weak var playOrStopButton: UIButton!
-    @IBOutlet weak var playerProgressSlider: UISlider!
-    @IBOutlet weak var playingProgressLB: UILabel!
-
-    @IBOutlet weak var totalLengthOfSongLB: UILabel!
-    
-    let blurEffectView:UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: effect)
-        return blurView
+    let albumCoverView:UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "hotdog") // default image
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        return imageView
     }()
+    
+    
+    let songTitleLabel:UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "song title label"
+        titleLabel.textAlignment = .center
+        return titleLabel
+    }()
+    
+    let artistLabel:UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "artist label"
+        titleLabel.textAlignment = .center
+        return titleLabel
+    }()
+    
+    let musicProgressSlider:UISlider = {
+        
+        let progressSlider = UISlider()
+        progressSlider.value = 0.0
+        progressSlider.minimumTrackTintColor = .red
+        progressSlider.maximumTrackTintColor = .lightGray
+        progressSlider.setThumbImage(#imageLiteral(resourceName: "thumb_normal"), for: UIControlState())
+        progressSlider.setThumbImage(#imageLiteral(resourceName: "thumb_highlight"), for: .highlighted)
+        progressSlider.addTarget(self, action: #selector(playerProgressSliderValueChanged), for: .valueChanged)
+        return progressSlider
+    }()
+    
+    let currentProgressLB:UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "0:00"
+        titleLabel.font = UIFont.systemFont(ofSize: 11)
+        titleLabel.textColor = .lightGray
+        titleLabel.textAlignment = .left
+        return titleLabel
+    }()
+    
+    let musicDurationLB:UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "11:11"
+        titleLabel.font = UIFont.systemFont(ofSize: 11)
+        titleLabel.textColor = .lightGray
+        titleLabel.textAlignment = .right
+        return titleLabel
+    }()
+    
+    let addToMyListButton:UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "MusicPlayer_add"), for: .normal)
+        button.tintColor = .black
+//        button.addTarget(self, action: #selector(addToMyListButtonHandler), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    let previousSongButton:UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "MusicPlayer_previous"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(previousSongButtonHandler), for: .touchUpInside)
+        return button
+    }()
+    
+    let playOrStopButton:UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(playOrStopButtonHandler), for: .touchUpInside)
+        return button
+    }()
+    
+    let nextSongButton:UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "MusicPlayer_next"), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(nextSongButtonHandler), for: .touchUpInside)
+        return button
+    }()
+    
+
+//    let blurEffectView:UIVisualEffectView = {
+//        let effect = UIBlurEffect(style: .light)
+//        let blurView = UIVisualEffectView(effect: effect)
+//        return blurView
+//    }()
+    
+    @IBAction func closeButtonTouched(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -58,183 +124,170 @@ class MusicPlayerViewController: UIViewController {
         print("MusicPlayerViewController viewWillDisappear")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(MusicPlayerViewController.playOrStopButtonHandler), name: Notification.Name("playOrStopButtonTouched"), object: nil)
-        
-        self.closeButton.tintColor = .lightGray
-        
-        
-        self.albumImageView.image = #imageLiteral(resourceName: "hotdog")
-        self.songTitleLB.text = "hotdog 먹고파"
-        self.artistLB.text = "그럼 먹어"
-        
-        self.albumImageView.layer.cornerRadius = self.albumImageView.frame.width / 30
-        self.albumImageView.clipsToBounds = true
-
-        blurEffectView.frame = self.view.bounds
-        self.view.addSubview(blurEffectView)
-        self.view.sendSubview(toBack: blurEffectView)
-        
-        playerProgressSlider.value = 0.0
-        playerProgressSlider.minimumTrackTintColor = .red
-        playerProgressSlider.maximumTrackTintColor = .lightGray
-        playerProgressSlider.setThumbImage(#imageLiteral(resourceName: "thumb_normal"), for: UIControlState())
-        playerProgressSlider.setThumbImage(#imageLiteral(resourceName: "thumb_highlight"), for: .highlighted)
-        
-//        commandCenter.previousTrackCommand.isEnabled = true;
-//        commandCenter.playCommand.addTarget(self, action: #selector(MusicPlayerViewController.playOrStopButtonHandler))
-//        
-//        commandCenter.nextTrackCommand.isEnabled = true
-//        commandCenter.playCommand.addTarget(self, action: #selector(MusicPlayerViewController.playOrStopButtonHandler))
-//        
-            commandCenter.playCommand.isEnabled = true
-        commandCenter.playCommand.addTarget(self, action: #selector(MusicPlayerViewController.playOrStopButtonHandler))
-        
-            commandCenter.pauseCommand.isEnabled = true
-            commandCenter.pauseCommand.addTarget(self, action: #selector(MusicPlayerViewController.playOrStopButtonHandler))
-        
-//        loadAssetFromFile(stringURL: "1.mp3")
-        let url:String = "https://s3.ap-northeast-2.amazonaws.com/weather-sound-test-s3-bucket/static/musics/189d09e4dda60e2fdb355a2b661a7c4e2ac5a8b959de878ff16a2188b5618255.mp3"
-        loadAssetFromFile(stringURL: url)
-
-        print("MusicPlayerViewController viewDidLoad")
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    
-    
-    @IBAction func closeButtonTouched(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func previousButtonTouched(_ sender: UIButton) {
-        print("previousButtonTouched touched")
-    }
-    
-    @IBAction func playOrStopButtonTouched(_ sender: UIButton) {
-        
-//        if self.isPlayingMusic //노래가 나오고 있을때 --> pause로------> play 이미지로
-//        {
-//            musicPlayer?.pause()
-//            sender.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: .normal)
-//        }else // pause 이미지로 바꾸기
-//        {
-//            musicPlayer?.play()
-//            sender.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"),for: .normal)
-//        }
-//        self.isPlayingMusic = !self.isPlayingMusic
-        playOrStopButtonHandler()
-        print("playOrStopButtonHandler touched in MusicPlayerViewController")
-    }
-    
-    func playOrStopButtonHandler()
+    func loadWSPlayerItems()
     {
-        if self.isPlayingMusic //노래가 나오고 있을때 --> pause로------> play 이미지로
-        {
-            musicPlayer?.pause()
-            playOrStopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: .normal)
-        }else // pause 이미지로 바꾸기
-        {
-            
-            
-            musicPlayer?.play()
-            playOrStopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"),for: .normal)
-        }
-        self.isPlayingMusic = !self.isPlayingMusic
-        print("helloooooooooooooooooooo")
+        self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems)
+        print("self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems) ")
     }
 
     
-
-    @IBAction func nextButtonTouched(_ sender: UIButton) {
-        print("nextButtonTouched touched")
-
-    }
-    
-    @IBAction func playerProgressSliderValueChanged(_ sender: UISlider) {
-        guard let item = musicPlayer?.currentItem else { return }
-        let newPosition = Double(sender.value) * item.duration.seconds
-        
-        //        musicPlayer?.seek(to: CMTime(value: Int64(newPosition), timescale: 1))
-        musicPlayer?.seek(to: CMTime(seconds: newPosition, preferredTimescale: 1000))
-                musicPlayer?.playImmediately(atRate: 1.0)
-    }
-    
-    @IBAction func playerProgressSliderTapGesture(_ sender: UITapGestureRecognizer) {
-        
-        let pointTapped: CGPoint = sender.location(in: self.view)
-        
-        let positionOfSlider: CGPoint = playerProgressSlider.frame.origin
-        let widthOfSlider: CGFloat = playerProgressSlider.frame.size.width
-        let newValue = ((pointTapped.x - positionOfSlider.x) * CGFloat(playerProgressSlider.maximumValue) / widthOfSlider)
-        
-        playerProgressSlider.setValue(Float(newValue), animated: true)
-        
-        guard let item = musicPlayer?.currentItem else { return }
-        let newPosition = Double(playerProgressSlider.value) * item.duration.seconds
-        
-        //        player.seek(to: CMTime(value: Int64(newPosition), timescale: 1))
-        musicPlayer?.seek(to: CMTime(seconds: newPosition, preferredTimescale: 1000))
-    }
-    
-    func loadAssetFromFile(stringURL: String)
+    override func viewDidLoad()
     {
-//        guard let dot = stringURL.range(of: ".") else { return }
-//        let fileParts = (resource: stringURL.substring(to: dot.lowerBound), extension: stringURL.substring(from: dot.upperBound))
-//        if let fileURL = Bundle.main.url(forResource: fileParts.resource, withExtension: fileParts.extension)
-//        {
-//            let asset = AVURLAsset(url: fileURL)
-            let url = URL(string: stringURL)
-            let asset = AVURLAsset(url: url!)
-            let playerItem = AVPlayerItem(asset: asset)
-            self.musicPlayer = AVPlayer(playerItem: playerItem)
-//            self.musicPlayer?.rate = 1.0
-//
-//                        playerItem.addObserver(self, forKeyPath: "status", options: .new, context: &kvoContext)
-            musicPlayer?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
-            
-            let interval = CMTime(value: 1, timescale: 2)
-            
-            musicPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (progressTime) in
-                
-                let seconds = CMTimeGetSeconds(progressTime)
-                let secondsString = String(format: "%02d", Int(seconds.truncatingRemainder(dividingBy: 60)))
-                let minutesString = String(format: "%01d", Int(seconds / 60))
-                
-                self.playingProgressLB.text = "\(minutesString):\(secondsString)"
-                
-                //lets move the slider thumb
-                if let duration = self.musicPlayer?.currentItem?.duration {
-                    let durationSeconds = CMTimeGetSeconds(duration)
-                    
-                    self.playerProgressSlider.value = Float(seconds / durationSeconds)
-                }
-            })
-//            NotificationCenter.default.addObserver(self, selector: #selector(self.playFinished), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: self.musicPlayer?.currentItem!)
-//        }
+        super.viewDidLoad()
+        // begin receiving remote events
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        print("MusicPlayerViewController!!!******************************************************")
+        
+        setupUI()
+        
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
-        //this is when the player is ready and rendering frames
-        if let key = keyPath
+    func playSongSelectedFromMain(_ notification:Notification)
+    {
+        print("playSongSelectedFromMain hahahahahah")
+        if let userInfo = notification.userInfo
         {
-            switch key
+            if let selectedIndex = userInfo["SongSelectedRowAt"] as? Int
             {
-            case "currentItem.loadedTimeRanges":
-                isPlayingMusic = true
-                if let duration = musicPlayer?.currentItem?.duration
+                print("SongSelectedRowAtSongSelectedRowAtSongSelectedRowAt")
+                self.musicPlayer?.play(atIndex: selectedIndex)
+            }
+        }
+    }
+    
+    func setupUI()
+    {
+        self.closeButton.tintColor = .lightGray
+
+//        blurEffectView.frame = self.view.bounds
+//        self.view.addSubview(blurEffectView)
+//        self.view.sendSubview(toBack: blurEffectView)
+        
+        let defaultWidth = self.view.frame.width - 40
+        let defaultMargin: CGFloat = 20
+        
+        self.view.addSubviews([albumCoverView, songTitleLabel, artistLabel, musicProgressSlider, currentProgressLB, musicDurationLB, previousSongButton, playOrStopButton, nextSongButton])
+        
+        self.albumCoverView.anchor(top: self.closeButton.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth, height: defaultWidth, centerX: self.view.centerXAnchor, centerY: nil)
+        self.albumCoverView.layer.cornerRadius = defaultWidth / 20
+        
+        self.songTitleLabel.anchor(top: self.albumCoverView.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 50, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        
+        self.artistLabel.anchor(top: self.songTitleLabel.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 50, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        
+        self.musicProgressSlider.anchor(top: self.artistLabel.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: 20, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        
+        self.currentProgressLB.anchor(top: self.musicProgressSlider.bottomAnchor, left: self.musicProgressSlider.leftAnchor, right: nil, bottom: nil, topConstant: -5, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 8, height: 20, centerX: nil, centerY: nil)
+        
+        self.musicDurationLB.anchor(top: self.musicProgressSlider.bottomAnchor, left: nil, right: self.musicProgressSlider.rightAnchor, bottom: nil, topConstant: -5, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 8, height: 20, centerX: nil, centerY: nil)
+        
+        self.playOrStopButton.anchor(top: self.musicProgressSlider.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin , leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 3, height: 50, centerX: self.view.centerXAnchor, centerY: nil)
+        
+        self.previousSongButton.anchor(top: self.musicProgressSlider.bottomAnchor, left: nil, right: self.playOrStopButton.leftAnchor, bottom: nil, topConstant: defaultMargin , leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 3, height: 50, centerX: nil, centerY: nil)
+        
+        self.nextSongButton.anchor(top: self.musicProgressSlider.bottomAnchor, left: self.playOrStopButton.rightAnchor, right: nil, bottom: nil, topConstant: defaultMargin , leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 3, height: 50, centerX: nil, centerY: nil)
+        
+        let gestureRec = UITapGestureRecognizer(target: self, action:  #selector(progressSliderTapGesture))
+        musicProgressSlider.addGestureRecognizer(gestureRec)
+    }
+
+    // MARK: - ************************* WSPlayerDelegate *************************
+    
+    func wsPlayerDidLoadItem(_ WSPlayer: WSPlayer, item: WSPlayItem) {
+        print("didLoad: \(item.URL.lastPathComponent)")
+    }
+    
+    func wsPlayerPlaybackProgressDidChange(_ WSPlayer: WSPlayer) {
+        
+        if let currentTime = WSPlayer.currentItem?.currentTime, let duration = WSPlayer.currentItem?.meta.duration {
+            let value = Float(currentTime / duration)
+            musicProgressSlider.value = value
+            populateLabelWithTime(currentProgressLB, time: currentTime)
+            populateLabelWithTime(musicDurationLB, time: duration)
+        } else {
+            resetUI()
+        }
+    }
+    
+    func wsPlayerStateDidChange(_ WSPlayer: WSPlayer) {
+        
+//        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+//            self.indicator.alpha = jukebox.state == .loading ? 1 : 0
+//            self.playPauseButton.alpha = jukebox.state == .loading ? 0 : 1
+//            self.playPauseButton.isEnabled = jukebox.state == .loading ? false : true
+//        })
+        let changedState = WSPlayer.state
+        
+        if changedState == .ready
+        {
+            playOrStopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: UIControlState())
+        } else if changedState == .loading
+        {
+            self.playOrStopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"), for: UIControlState())
+
+        } else //.playing, .paused, .failed
+        {
+//            volumeSlider.value = player.volume
+            let image: UIImage
+            switch WSPlayer.state
+            {
+            case .playing, .loading:
+                image = #imageLiteral(resourceName: "MusicPlayer_pause")
+                let imgStr:String = (self.musicPlayer?.currentItem?.meta.albumImg)!
+                if let url = URL(string: imgStr)
                 {
-                    let seconds = CMTimeGetSeconds(duration)
-                    
-                    let secondsText = Int(seconds) % 60
-                    let minutesText = String(format: "%02d", Int(seconds) / 60)
-                    totalLengthOfSongLB.text = "\(minutesText):\(secondsText)"
+                    self.albumCoverView.sd_setImage(with: url, completed: nil)
+                }
+                updateSongMetaData()
+            case .paused, .failed, .ready:
+                image = #imageLiteral(resourceName: "MusicPlayer_play")
+            }
+            playOrStopButton.setImage(image, for: UIControlState())
+        }
+        NotificationCenter.default.post(name: Notification.Name("PlayerStateChanged"), object: nil, userInfo: ["playerState": changedState, "currentAlbumImageView": self.albumCoverView, "currentSongTitle" : self.songTitleLabel])
+        
+        print("state changed to \(WSPlayer.state)")
+        print("현재 재생중인 곡: ", self.songTitleLabel.text)
+    }
+    
+    func wsPlayerDidUpdateMetadata(_ WSPlayer: WSPlayer, forItem: WSPlayItem) {
+        print("Item updated:\n\(forItem)")
+    }
+    
+/***********************************************************************************/
+    func updateSongMetaData()
+    {
+        self.songTitleLabel.text = musicPlayer?.currentItem?.meta.title
+        self.artistLabel.text = musicPlayer?.currentItem?.meta.artist
+    }
+    
+    
+    override func remoteControlReceived(with event: UIEvent?)
+    {
+        guard let musicPlayer = self.musicPlayer else { return }
+        if event?.type == .remoteControl
+        {
+            switch event!.subtype
+            {
+            case .remoteControlPlay :
+                musicPlayer.play()
+            case .remoteControlPause :
+                musicPlayer.pause()
+            case .remoteControlNextTrack :
+                musicPlayer.playNext()
+            case .remoteControlPreviousTrack:
+                musicPlayer.playPrevious()
+            case .remoteControlTogglePlayPause:
+                if musicPlayer.state == .playing
+                {
+                    musicPlayer.pause()
+                } else
+                {
+                    musicPlayer.play()
                 }
             default:
                 break
@@ -242,12 +295,87 @@ class MusicPlayerViewController: UIViewController {
         }
     }
     
-//    func playFinished(send: NotificationCenter){
-//        self.removeObserver()
-//    }
-//    
-//    func removeObserver(){
-//        self.musicPlayer?.currentItem?.removeObserver(self, forKeyPath: "currentItem.loadedTimeRanges")
-//    }
     
+    
+    func addToMyListButtonHandler()
+    {
+        print("addToMyListButtonHandler touched")
+    }
+    
+    func previousSongButtonHandler()
+    {
+        if let time = musicPlayer?.currentItem?.currentTime, time > 5.0 || musicPlayer?.playIndex == 0
+        {
+            musicPlayer?.replayCurrentItem()
+        } else {
+            musicPlayer?.playPrevious()
+        }
+        print("previousSongButtonHandler touched")
+    }
+    
+    func nextSongButtonHandler()
+    {
+        
+        musicPlayer?.playNext()
+        print("nextSongButtonHandler touched")
+    }
+    
+    func playOrStopButtonHandler()
+    {
+        if let state = musicPlayer?.state
+        {
+            switch state//musicPlayer?.state
+            {
+            case .ready :
+                musicPlayer?.play(atIndex: 0)
+            case .playing :
+                musicPlayer?.pause()
+            case .paused :
+                musicPlayer?.play()
+            default:
+                musicPlayer?.stop()
+            }
+        }
+    }
+
+    
+    func playerProgressSliderValueChanged(_ sender: UISlider)
+    {
+        if let duration = musicPlayer?.currentItem?.meta.duration
+        {
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+        }
+    }
+    
+    func progressSliderTapGesture(_ sender: UITapGestureRecognizer)
+    {
+        
+        let pointTapped: CGPoint = sender.location(in: self.view)
+        
+        let positionOfSlider: CGPoint = musicProgressSlider.frame.origin
+        let widthOfSlider: CGFloat = musicProgressSlider.frame.size.width
+        let newValue = ((pointTapped.x - positionOfSlider.x) * CGFloat(musicProgressSlider.maximumValue) / widthOfSlider)
+        
+        musicProgressSlider.setValue(Float(newValue), animated: true)
+        
+        if let duration = musicPlayer?.currentItem?.meta.duration {
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+        }
+    }
+    
+    
+    func populateLabelWithTime(_ label : UILabel, time: Double) {
+        let minutes = Int(time / 60)
+        let seconds = Int(time) - minutes * 60
+        
+        label.text = String(format: "%02d", minutes) + ":" + String(format: "%02d", seconds)
+    }
+    
+    func resetUI()
+    {
+        currentProgressLB.text = "0:00"
+        musicDurationLB.text = "00:00"
+        musicProgressSlider.value = 0.0
+    }
+
 }
