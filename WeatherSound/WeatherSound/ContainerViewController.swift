@@ -26,6 +26,7 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
         self.setupAnimator()
         configureObservers()
     }
+
     
     func configureObservers()
     {
