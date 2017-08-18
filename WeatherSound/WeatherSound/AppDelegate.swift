@@ -45,6 +45,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        // 로그아웃 처리 로직 삽입 예정
+        print("applicationDidEnterBackground")
+        //UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+        //LoginDataCenter.shared.myLoginInfo = nil
+        //logoutFromBackendServer(with: (LoginDataCenter.shared.myLoginInfo?.token)!)
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -58,8 +65,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-        // 로그아웃 처리 로직 삽입 예정 
+        // 로그아웃 처리 로직 삽입 예정
+        //logoutFromBackendServer(with: (LoginDataCenter.shared.myLoginInfo?.token)!)
+        //UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+        
+        // 유저 디폴트에 딕셔너리로 저장 
+        
     }
+    
+    func logoutFromBackendServer(with token:String) {
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Token "+token,
+            "Accept": "application/json"
+        ]
+        
+        
+        
+        Alamofire.request(Authentication.logoutURL, headers: headers)
+            .responseJSON { response in
+                
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    
+                    // 데이터 초기화
+                    LoginDataCenter.shared.myLoginInfo = nil
+                    
+                    print(json)
+                    
+                    //let successMsg = json["detail"].stringValue
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    //                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Logout", messageToDisplay: successMsg)
+                    
+                    // move to login vc
+                    //self.showLoginVC()
+                    
+                    break
+                case .failure(let error):
+                    
+                    UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
+                    
+                    print(error)
+                    //CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                    
+                    break
+                }
+                
+                
+                
+        }
+        
+        
+        
+    }
+    
 
 
 }

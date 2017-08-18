@@ -26,6 +26,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var facebookLoginButton: UIButton!
     
+    @IBOutlet weak var resetPasswordButton: UIButton!
+    
+    
+    var token:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -45,7 +50,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.loginButton.isEnabled = false
         
         self.facebookLoginButton.layer.cornerRadius = 5
-        
+        self.resetPasswordButton.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,7 +85,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.view.viewWithTag(textField.tag + 100)?.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
-            self.loginRequestFirebase()
+            //self.loginRequestFirebase()
+            self.loginRequestAlamoFire(with: self.emailTextField.text!, password: self.passwordTextField.text!)
         }
         
         return true
@@ -173,10 +179,147 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    // 직접 서버에 요청해서 이메일/비밀번호 로그인 
+    func loginRequestAlamoFire(with email:String, password:String) {
+        
+        self.view.endEditing(true)
+        
+        let isEmailAddressValid = CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: email)
+        
+        
+        if isEmailAddressValid == false {
+            
+            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소가 유효하지 않습니다. 다시 입력하여 주세요.")
+            
+            return
+        }
+        
+        ////////////////////////// log in process 시작 //////////////////////////
+        let loginUrl:String = Authentication.loginURL
+        
+        // 로그온 처리 후 main page 이동
+        let loginParameters: Parameters = [
+            "username": email,
+            "password": password
+        ]
+        
+        // 로그인 처리
+        Alamofire.request(loginUrl, method: .post, parameters: loginParameters, encoding: JSONEncoding.prettyPrinted).responseJSON { (response) in
+            
+            switch response.result {
+            case .success(let value):
+                
+                let json = JSON(value)
+                print("JSON: \(json)")
+                
+                // statusCode가 202이 아니라면 에러 메시지를 뿌리고 롤백한다.
+                let statusCode = (response.response?.statusCode)!
+                print("...HTTP code: \(statusCode)")
+                
+                if statusCode == 202 { // 로그인 성공
+                    
+                    // 데이터 센터에 값 삽입
+                    LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                    
+                    print(LoginDataCenter.shared.myLoginInfo!)
+                    
+                    // pk 저장 (UserDefaults)
+                    UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.pk, forKey: Authentication.pk)
+                    
+                    // token 저장 (UserDefaults)
+                    UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.token, forKey: Authentication.token)
+                    
+                    // myLoginInfo 전체 데이터 UserDefaults에 저장
+                    LoginDataCenter.shared.saveMyLoginInfoInUserDefault(myLoginInfo: LoginDataCenter.shared.myLoginInfo!)
+                    
+                    UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
+                    
+                    // 프로필 편집 뷰 컨트롤러로 이동
+                    self.moveToProfileEdit()
+
+                    
+                } else { // 로그인 실패
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
+                    
+                }
+                
+                
+                break
+            case .failure(let error):
+                
+                print(error)
+                
+                
+                // 로그인 실패
+                UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                
+                // myLoginInfo 전체 데이터 UserDefaults에서 삭제 
+                //LoginDataCenter.shared.initializeUserInfoInUserDefault()
+                
+                //CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                
+                CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                
+                break
+            }
+            
+            
+        }
+        
+        
+
+    }
+    
+    // ProfileEdit View Controller 로 이동
+    func moveToProfileEdit() {
+        
+        // ProfileEdit View Controller 로 이동
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileEdit")
+        self.present(vc!, animated: true, completion: nil)
+        
+    }
+    
+    func moveToHomeVC() {
+        
+        // Home View Controller 로 이동
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+        self.present(vc!, animated: true, completion: nil)
+        
+    }
+    
     // 이메일/비밀번호로 로그인
     @IBAction func touchUpInsideLoginButton(_ sender: UIButton) {
         
-        loginRequestFirebase()
+        //loginRequestFirebase()
+        loginRequestAlamoFire(with: self.emailTextField.text!, password: self.passwordTextField.text!)
+        
+    }
+    
+    // 페이스북 로그인 백엔드서버 
+    func loginWithFacebookRequestBackendServer() {
+        
+        let fbLoginManager = FBSDKLoginManager()
+        
+        fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
+            if let error = error {
+                print("Failed to login: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let accessToken = FBSDKAccessToken.current() else {
+                print("Failed to get access token")
+                return
+            }
+            
+            //let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            // 백엔드 서버에 로그인 처리 
+            // 키캆 1447618781970418 과 함께 accessToken.tokenString 을 서버에 전달 
+            
+        }
         
         
     }
