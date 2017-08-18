@@ -64,5 +64,25 @@ class CommonLibraries {
         vc.present(alertController, animated: true, completion:nil)
     }
     
+    // 알럿 메시지 보여주기
+    func displayAlertMessageAndDissmiss(vc: UIViewController, title: String, messageToDisplay: String)
+    {
+        let alertController = UIAlertController(title: title, message: messageToDisplay, preferredStyle: .alert)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+            
+            // Code in this block will trigger when OK button tapped.
+            //print("Ok button tapped");
+            
+            vc.dismiss(animated: false, completion: nil)
+            
+        }
+        
+        alertController.addAction(OKAction)
+        
+        vc.present(alertController, animated: true, completion:nil)
+    }
+
+    
     
 }

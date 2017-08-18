@@ -26,6 +26,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var facebookLoginButton: UIButton!
     
+    @IBOutlet weak var resetPasswordButton: UIButton!
+    
+    
+    var token:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -45,7 +50,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.loginButton.isEnabled = false
         
         self.facebookLoginButton.layer.cornerRadius = 5
-        
+        self.resetPasswordButton.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,7 +85,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.view.viewWithTag(textField.tag + 100)?.becomeFirstResponder()
         default:
             textField.resignFirstResponder()
-            self.loginRequestFirebase()
+            //self.loginRequestFirebase()
+            self.loginRequestAlamoFire(with: self.emailTextField.text!, password: self.passwordTextField.text!)
         }
         
         return true
@@ -178,22 +184,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.view.endEditing(true)
         
-        var isLoginSucceed = false
-        
-        
-        
         let isEmailAddressValid = CommonLibraries.sharedFunc.isValidEmailAddress(emailAddressString: email)
-        let isPasswordValid = CommonLibraries.sharedFunc.isPasswordValid(password: password)
+        
         
         if isEmailAddressValid == false {
             
             CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "이메일 주소가 유효하지 않습니다. 다시 입력하여 주세요.")
-            
-            return
-        }
-        if isPasswordValid == false { // 비밀번호가 유효하지 않을 때
-            
-            CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: "패스워드는 최소 8자리이상 입력하셔야 하며 대문자 소문자 및 특수문자가 반드시 포함되어야 합니다.")
             
             return
         }
@@ -203,7 +199,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         // 로그온 처리 후 main page 이동
         let loginParameters: Parameters = [
-            "email": email,
+            "username": email,
             "password": password
         ]
         
@@ -216,20 +212,56 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 let json = JSON(value)
                 print("JSON: \(json)")
                 
-                isLoginSucceed = true
+                // statusCode가 202이 아니라면 에러 메시지를 뿌리고 롤백한다.
+                let statusCode = (response.response?.statusCode)!
+                print("...HTTP code: \(statusCode)")
                 
-                // 데이터 센터에 값 삽입
-                LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                if statusCode == 202 { // 로그인 성공
+                    
+                    // 데이터 센터에 값 삽입
+                    LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                    
+                    print(LoginDataCenter.shared.myLoginInfo!)
+                    
+                    // pk 저장 (UserDefaults)
+                    UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.pk, forKey: Authentication.pk)
+                    
+                    // token 저장 (UserDefaults)
+                    UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.token, forKey: Authentication.token)
+                    
+                    // myLoginInfo 전체 데이터 UserDefaults에 저장
+                    LoginDataCenter.shared.saveMyLoginInfoInUserDefault(myLoginInfo: LoginDataCenter.shared.myLoginInfo!)
+                    
+                    UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
+                    
+                    // 프로필 편집 뷰 컨트롤러로 이동
+                    self.moveToProfileEdit()
+
+                    
+                } else { // 로그인 실패
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: json["detail"].stringValue)
+                    
+                }
                 
-                token = json["token"].stringValue
-                
-                UserDefaults.standard.setValue(isLoginSucceed, forKey: Authentication.isLoginSucceed)
                 
                 break
             case .failure(let error):
                 
                 print(error)
-                CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                
+                
+                // 로그인 실패
+                UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                
+                // myLoginInfo 전체 데이터 UserDefaults에서 삭제 
+                //LoginDataCenter.shared.initializeUserInfoInUserDefault()
+                
+                //CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                
+                CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
                 
                 break
             }
@@ -237,21 +269,25 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
         }
         
-        if isLoginSucceed == true {
-            
-            // Home View Controller 로 이동
-            let nextVC = HomeViewController()
-            
-            nextVC.userName = email
-            nextVC.token = token
-            self.present(nextVC, animated: true, completion: nil)
-            
-        }
-
-
         
 
-
+    }
+    
+    // ProfileEdit View Controller 로 이동
+    func moveToProfileEdit() {
+        
+        // ProfileEdit View Controller 로 이동
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileEdit")
+        self.present(vc!, animated: true, completion: nil)
+        
+    }
+    
+    func moveToHomeVC() {
+        
+        // Home View Controller 로 이동
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+        self.present(vc!, animated: true, completion: nil)
+        
     }
     
     // 이메일/비밀번호로 로그인
@@ -278,10 +314,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            //let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
             
             // 백엔드 서버에 로그인 처리 
-            
+            // 키캆 1447618781970418 과 함께 accessToken.tokenString 을 서버에 전달 
             
         }
         

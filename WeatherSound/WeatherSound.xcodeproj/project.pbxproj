@@ -24,41 +24,9 @@
 		48178CF01F35774D00559932 /* DataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CEF1F35774C00559932 /* DataCenter.swift */; };
 		48178CF21F35CD8300559932 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF11F35CD8300559932 /* Extension.swift */; };
 		48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF61F36EA5C00559932 /* CommonLibraries.swift */; };
-<<<<<<< HEAD
-		48178D161F399C4E00559932 /* 0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CF81F399C4E00559932 /* 0.mp3 */; };
-		48178D171F399C4E00559932 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CF91F399C4E00559932 /* 1.mp3 */; };
-		48178D181F399C4E00559932 /* 2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFA1F399C4E00559932 /* 2.mp3 */; };
-		48178D191F399C4E00559932 /* 3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFB1F399C4E00559932 /* 3.mp3 */; };
-		48178D1A1F399C4E00559932 /* 4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFC1F399C4E00559932 /* 4.mp3 */; };
-		48178D1B1F399C4E00559932 /* 5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFD1F399C4E00559932 /* 5.mp3 */; };
-		48178D1C1F399C4E00559932 /* 6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFE1F399C4E00559932 /* 6.mp3 */; };
-		48178D1D1F399C4E00559932 /* 7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178CFF1F399C4E00559932 /* 7.mp3 */; };
-		48178D1E1F399C4E00559932 /* 8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D001F399C4E00559932 /* 8.mp3 */; };
-		48178D1F1F399C4E00559932 /* 9.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D011F399C4E00559932 /* 9.mp3 */; };
-		48178D201F399C4E00559932 /* 10.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D021F399C4E00559932 /* 10.mp3 */; };
-		48178D211F399C4E00559932 /* 11.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D031F399C4E00559932 /* 11.mp3 */; };
-		48178D221F399C4E00559932 /* 12.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D041F399C4E00559932 /* 12.mp3 */; };
-		48178D231F399C4E00559932 /* 13.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D051F399C4E00559932 /* 13.mp3 */; };
-		48178D241F399C4E00559932 /* 14.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D061F399C4E00559932 /* 14.mp3 */; };
-		48178D251F399C4E00559932 /* 15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D071F399C4E00559932 /* 15.mp3 */; };
-		48178D261F399C4E00559932 /* 16.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D081F399C4E00559932 /* 16.mp3 */; };
-		48178D271F399C4E00559932 /* 17.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D091F399C4E00559932 /* 17.mp3 */; };
-		48178D281F399C4E00559932 /* 18.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0A1F399C4E00559932 /* 18.mp3 */; };
-		48178D291F399C4E00559932 /* 19.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0B1F399C4E00559932 /* 19.mp3 */; };
-		48178D2A1F399C4E00559932 /* 20.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0C1F399C4E00559932 /* 20.mp3 */; };
-		48178D2B1F399C4E00559932 /* 21.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0D1F399C4E00559932 /* 21.mp3 */; };
-		48178D2C1F399C4E00559932 /* 22.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0E1F399C4E00559932 /* 22.mp3 */; };
-		48178D2D1F399C4E00559932 /* 23.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D0F1F399C4E00559932 /* 23.mp3 */; };
-		48178D2E1F399C4E00559932 /* 24.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D101F399C4E00559932 /* 24.mp3 */; };
-		48178D2F1F399C4E00559932 /* 25.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D111F399C4E00559932 /* 25.mp3 */; };
-		48178D301F399C4E00559932 /* 26.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D121F399C4E00559932 /* 26.mp3 */; };
-		48178D311F399C4E00559932 /* 27.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D131F399C4E00559932 /* 27.mp3 */; };
-		48178D321F399C4E00559932 /* 28.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D141F399C4E00559932 /* 28.mp3 */; };
-		48178D331F399C4E00559932 /* 29.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 48178D151F399C4E00559932 /* 29.mp3 */; };
-		48178D351F3ACE9E00559932 /* LoginDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178D341F3ACE9E00559932 /* LoginDataCenter.swift */; };
-		48178D381F3B076700559932 /* LoginConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178D371F3B076700559932 /* LoginConstants.swift */; };
-=======
->>>>>>> a6209faaf74fed73cae3bd36361d562e3cfe1520
+		486456D31F3C841B00BFC402 /* LoginConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D21F3C841B00BFC402 /* LoginConstants.swift */; };
+		486456D51F3C842E00BFC402 /* LoginDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D41F3C842E00BFC402 /* LoginDataCenter.swift */; };
+		486456D71F3D849F00BFC402 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */; };
 		83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */; };
 		83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */; };
 		83951A6E1F38679900EEB5BC /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */; };
@@ -92,41 +60,9 @@
 		48178CEF1F35774C00559932 /* DataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCenter.swift; sourceTree = "<group>"; };
 		48178CF11F35CD8300559932 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		48178CF61F36EA5C00559932 /* CommonLibraries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonLibraries.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		48178CF81F399C4E00559932 /* 0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 0.mp3; path = "../../../../Downloads/Song 2/0.mp3"; sourceTree = "<group>"; };
-		48178CF91F399C4E00559932 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 1.mp3; path = "../../../../Downloads/Song 2/1.mp3"; sourceTree = "<group>"; };
-		48178CFA1F399C4E00559932 /* 2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 2.mp3; path = "../../../../Downloads/Song 2/2.mp3"; sourceTree = "<group>"; };
-		48178CFB1F399C4E00559932 /* 3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 3.mp3; path = "../../../../Downloads/Song 2/3.mp3"; sourceTree = "<group>"; };
-		48178CFC1F399C4E00559932 /* 4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 4.mp3; path = "../../../../Downloads/Song 2/4.mp3"; sourceTree = "<group>"; };
-		48178CFD1F399C4E00559932 /* 5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 5.mp3; path = "../../../../Downloads/Song 2/5.mp3"; sourceTree = "<group>"; };
-		48178CFE1F399C4E00559932 /* 6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 6.mp3; path = "../../../../Downloads/Song 2/6.mp3"; sourceTree = "<group>"; };
-		48178CFF1F399C4E00559932 /* 7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 7.mp3; path = "../../../../Downloads/Song 2/7.mp3"; sourceTree = "<group>"; };
-		48178D001F399C4E00559932 /* 8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 8.mp3; path = "../../../../Downloads/Song 2/8.mp3"; sourceTree = "<group>"; };
-		48178D011F399C4E00559932 /* 9.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 9.mp3; path = "../../../../Downloads/Song 2/9.mp3"; sourceTree = "<group>"; };
-		48178D021F399C4E00559932 /* 10.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 10.mp3; path = "../../../../Downloads/Song 2/10.mp3"; sourceTree = "<group>"; };
-		48178D031F399C4E00559932 /* 11.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 11.mp3; path = "../../../../Downloads/Song 2/11.mp3"; sourceTree = "<group>"; };
-		48178D041F399C4E00559932 /* 12.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 12.mp3; path = "../../../../Downloads/Song 2/12.mp3"; sourceTree = "<group>"; };
-		48178D051F399C4E00559932 /* 13.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 13.mp3; path = "../../../../Downloads/Song 2/13.mp3"; sourceTree = "<group>"; };
-		48178D061F399C4E00559932 /* 14.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 14.mp3; path = "../../../../Downloads/Song 2/14.mp3"; sourceTree = "<group>"; };
-		48178D071F399C4E00559932 /* 15.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 15.mp3; path = "../../../../Downloads/Song 2/15.mp3"; sourceTree = "<group>"; };
-		48178D081F399C4E00559932 /* 16.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 16.mp3; path = "../../../../Downloads/Song 2/16.mp3"; sourceTree = "<group>"; };
-		48178D091F399C4E00559932 /* 17.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 17.mp3; path = "../../../../Downloads/Song 2/17.mp3"; sourceTree = "<group>"; };
-		48178D0A1F399C4E00559932 /* 18.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 18.mp3; path = "../../../../Downloads/Song 2/18.mp3"; sourceTree = "<group>"; };
-		48178D0B1F399C4E00559932 /* 19.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 19.mp3; path = "../../../../Downloads/Song 2/19.mp3"; sourceTree = "<group>"; };
-		48178D0C1F399C4E00559932 /* 20.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 20.mp3; path = "../../../../Downloads/Song 2/20.mp3"; sourceTree = "<group>"; };
-		48178D0D1F399C4E00559932 /* 21.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 21.mp3; path = "../../../../Downloads/Song 2/21.mp3"; sourceTree = "<group>"; };
-		48178D0E1F399C4E00559932 /* 22.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 22.mp3; path = "../../../../Downloads/Song 2/22.mp3"; sourceTree = "<group>"; };
-		48178D0F1F399C4E00559932 /* 23.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 23.mp3; path = "../../../../Downloads/Song 2/23.mp3"; sourceTree = "<group>"; };
-		48178D101F399C4E00559932 /* 24.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 24.mp3; path = "../../../../Downloads/Song 2/24.mp3"; sourceTree = "<group>"; };
-		48178D111F399C4E00559932 /* 25.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 25.mp3; path = "../../../../Downloads/Song 2/25.mp3"; sourceTree = "<group>"; };
-		48178D121F399C4E00559932 /* 26.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 26.mp3; path = "../../../../Downloads/Song 2/26.mp3"; sourceTree = "<group>"; };
-		48178D131F399C4E00559932 /* 27.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 27.mp3; path = "../../../../Downloads/Song 2/27.mp3"; sourceTree = "<group>"; };
-		48178D141F399C4E00559932 /* 28.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 28.mp3; path = "../../../../Downloads/Song 2/28.mp3"; sourceTree = "<group>"; };
-		48178D151F399C4E00559932 /* 29.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 29.mp3; path = "../../../../Downloads/Song 2/29.mp3"; sourceTree = "<group>"; };
-		48178D341F3ACE9E00559932 /* LoginDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDataCenter.swift; sourceTree = "<group>"; };
-		48178D371F3B076700559932 /* LoginConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConstants.swift; sourceTree = "<group>"; };
-=======
->>>>>>> a6209faaf74fed73cae3bd36361d562e3cfe1520
+		486456D21F3C841B00BFC402 /* LoginConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConstants.swift; sourceTree = "<group>"; };
+		486456D41F3C842E00BFC402 /* LoginDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDataCenter.swift; sourceTree = "<group>"; };
+		486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerTransitionAnimation.swift; sourceTree = "<group>"; };
 		83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerViewController.swift; sourceTree = "<group>"; };
 		83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
@@ -206,6 +142,7 @@
 				48178CDD1F33061F00559932 /* LoginAndSignup.storyboard */,
 				48178CD71F3085C000559932 /* SignupViewController.swift */,
 				48178CED1F345E9C00559932 /* HomeViewController.swift */,
+				486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */,
 			);
 			name = LoginAndSignup;
 			sourceTree = "<group>";
@@ -238,8 +175,8 @@
 		48178CF31F36E47D00559932 /* DataCenter */ = {
 			isa = PBXGroup;
 			children = (
+				486456D41F3C842E00BFC402 /* LoginDataCenter.swift */,
 				48178CEF1F35774C00559932 /* DataCenter.swift */,
-				48178D341F3ACE9E00559932 /* LoginDataCenter.swift */,
 			);
 			name = DataCenter;
 			sourceTree = "<group>";
@@ -264,7 +201,7 @@
 		48178D361F3B074B00559932 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				48178D371F3B076700559932 /* LoginConstants.swift */,
+				486456D21F3C841B00BFC402 /* LoginConstants.swift */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -330,7 +267,7 @@
 				TargetAttributes = {
 					48178CBC1F2B127A00559932 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = A3XPZZJZ6S;
+						DevelopmentTeam = NN7QXHC8A3;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -407,7 +344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B24F65BF22A4903EA49145C8 /* [CP] Embed Pods Frameworks */ = {
@@ -462,11 +399,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				83951A711F3867D600EEB5BC /* FirstViewController.swift in Sources */,
+				486456D71F3D849F00BFC402 /* ProfileEditViewController.swift in Sources */,
 				1DF1856F1F385B94009F6819 /* MainTableViewCell.swift in Sources */,
 				48178CF21F35CD8300559932 /* Extension.swift in Sources */,
 				83951A771F3867F900EEB5BC /* SongDataSource.swift in Sources */,
 				83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */,
-				48178D351F3ACE9E00559932 /* LoginDataCenter.swift in Sources */,
 				48178CC31F2B127A00559932 /* LoginViewController.swift in Sources */,
 				48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */,
 				83951A781F3867F900EEB5BC /* SongMetaData.swift in Sources */,
@@ -475,9 +412,10 @@
 				1DF185741F385E0C009F6819 /* MyPageViewController.swift in Sources */,
 				48178CF01F35774D00559932 /* DataCenter.swift in Sources */,
 				83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */,
+				486456D31F3C841B00BFC402 /* LoginConstants.swift in Sources */,
 				48178CEE1F345E9C00559932 /* HomeViewController.swift in Sources */,
-				48178D381F3B076700559932 /* LoginConstants.swift in Sources */,
 				83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */,
+				486456D51F3C842E00BFC402 /* LoginDataCenter.swift in Sources */,
 				48178CC11F2B127A00559932 /* AppDelegate.swift in Sources */,
 				83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */,
 				1DF1856E1F385B94009F6819 /* MainViewController.swift in Sources */,
@@ -604,7 +542,7 @@
 			baseConfigurationReference = 06DDC48FD65A65F07BF8DC2D /* Pods-WeatherSound.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A3XPZZJZ6S;
+				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				INFOPLIST_FILE = WeatherSound/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -619,7 +557,7 @@
 			baseConfigurationReference = B7C4C4325541523040933C1A /* Pods-WeatherSound.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A3XPZZJZ6S;
+				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				INFOPLIST_FILE = WeatherSound/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
