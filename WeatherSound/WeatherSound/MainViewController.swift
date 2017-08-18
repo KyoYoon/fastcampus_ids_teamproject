@@ -49,7 +49,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //날씨정보 가져오는 시점에 tableview reload
-    var recommendMusicList: [Music]?{
+    var recommendMusicList: [WSPlayItem]?{
         didSet {
             self.mainTableView.reloadData()
             
@@ -196,8 +196,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseId) as! MainTableViewCell
         
         if let item = self.recommendMusicList?[indexPath.row]{
-            cell.set(title: item.title, artist: item.artist)
-            cell.setAlbum(urlStr: item.albumImg)
+            cell.set(title: item.meta.title, artist: item.meta.artist)
+            cell.setAlbum(urlStr: item.meta.albumImg)
         }
         return cell
     }

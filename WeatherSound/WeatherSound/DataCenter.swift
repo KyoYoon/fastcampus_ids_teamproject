@@ -33,19 +33,19 @@ class DataCenter {
         }
     }
 
-    var recommendList: [Music] = [] {
-        didSet {
-
-                if recommendList.count > 0
-                {
-                    let musicItem = recommendList[recommendList.count - 1]
-                    let songUrl = musicItem.musicUrl
-                    print("songUrl: \(songUrl)")
-                    let playItem = WSPlayItem(URL: URL(string: songUrl)!, musicItem: musicItem)
-                    self.playItems.append(playItem)
-                }
-        }
-    }
+//    var playItems: [WSPlayItem] = [] {
+//        didSet {
+////
+////                if recommendList.count > 0
+////                {
+////                    let musicItem = recommendList[recommendList.count - 1]
+////                    let songUrl = musicItem.musicUrl
+////                    print("songUrl: \(songUrl)")
+////                    let playItem = WSPlayItem(URL: URL(string: songUrl)!, musicItem: musicItem)
+////                    self.playItems.append(playItem)
+////                }
+//        }
+//    }
     
     func requestIsLogin() -> Bool {
         
@@ -97,9 +97,9 @@ class DataCenter {
 
     
     //get recommend list
-    func getRecommendList(completion: @escaping (_ arry: [Music]) -> Void){
+    func getRecommendList(completion: @escaping (_ arry: [WSPlayItem]) -> Void){
         
-        self.recommendList = []
+        self.playItems = []
         
         let url = "https://weather-sound.com/api/music/"
         
@@ -109,28 +109,43 @@ class DataCenter {
                 
                 switch response.result{
                 case .success(let value):
-                    
+//                    print("---complete request",value)
+
                     let json = JSON(value)
                     
-                    guard let musicList =  json["results"].array else {
+//                    print("complete",json)
+                    
+                    guard let musicList =  json.array else {
                         return
                     }
                     
-                    self.numberOfList = musicList.count
+                    
+//                    self.numberOfList = musicList.count
                     
                     for item in musicList {
-                        if let title = item["name_music"].string,
-                            let artist = item["name_artist"].string,
-                            let albumImg = item["img_music"].string,
-                            let musicUrl = item["source_music"].string{
+                        if let tmp = item["playlist_musics"].array{
                             
-                            let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                            self.numberOfList = tmp.count
                             
-                            let newMusicItem = Music(dic: dic)
-                            self.recommendList.append(newMusicItem)
+                            for temp in tmp{
+                                if let title = temp["name_music"].string,
+                                    let artist = temp["name_artist"].string,
+                                    let albumImg = temp["img_music"].string,
+                                    let musicUrl = temp["source_music"].string {
+                                    
+                                    let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                                    
+                                    let newMusicItem = Music(dic: dic)
+                                    let songUrl = newMusicItem.musicUrl
+                                    print("songUrl: \(songUrl)")
+                                    let playItem = WSPlayItem(URL: URL(string: songUrl)!, musicItem: newMusicItem)
+                                    self.playItems.append(playItem)
+                                }
+                            }
                         }
                     }
-                    completion(self.recommendList)
+//                    print("playItems: ",self.playItems)
+                    completion(self.playItems)
                     break
                 case .failure(let error):
                     print("failure response: ", error)
