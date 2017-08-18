@@ -25,6 +25,8 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
         self.setUpUI()
         self.setupAnimator()
         configureObservers()
+        UserDefaults.standard.set(true, forKey: "FirstPlayback")
+        miniPlayerView.isHidden = UserDefaults.standard.bool(forKey: "FirstPlayback")
     }
     
     func configureObservers()
