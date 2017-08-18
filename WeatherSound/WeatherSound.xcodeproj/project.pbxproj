@@ -24,14 +24,13 @@
 		48178CF01F35774D00559932 /* DataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CEF1F35774C00559932 /* DataCenter.swift */; };
 		48178CF21F35CD8300559932 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF11F35CD8300559932 /* Extension.swift */; };
 		48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF61F36EA5C00559932 /* CommonLibraries.swift */; };
+		8332A3001F400999001DDBFF /* WSPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8332A2FF1F400999001DDBFF /* WSPlayer.swift */; };
+		8332A3021F40B0EE001DDBFF /* WSPlayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */; };
 		83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */; };
 		83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */; };
 		83951A6E1F38679900EEB5BC /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */; };
 		83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A6B1F38679900EEB5BC /* ContainerViewController.swift */; };
-		83951A711F3867D600EEB5BC /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A701F3867D600EEB5BC /* FirstViewController.swift */; };
 		83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A721F3867DD00EEB5BC /* AutoLayoutExtensions.swift */; };
-		83951A771F3867F900EEB5BC /* SongDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A751F3867F900EEB5BC /* SongDataSource.swift */; };
-		83951A781F3867F900EEB5BC /* SongMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A761F3867F900EEB5BC /* SongMetaData.swift */; };
 		83951AB71F3868C200EEB5BC /* DY.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83951AB61F3868C200EEB5BC /* DY.storyboard */; };
 		D3213EF847630897FE407FDD /* Pods_WeatherSound.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0D153E2F002D955B767848 /* Pods_WeatherSound.framework */; };
 /* End PBXBuildFile section */
@@ -57,14 +56,14 @@
 		48178CEF1F35774C00559932 /* DataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCenter.swift; sourceTree = "<group>"; };
 		48178CF11F35CD8300559932 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		48178CF61F36EA5C00559932 /* CommonLibraries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonLibraries.swift; sourceTree = "<group>"; };
+		8332A2FC1F3FCBAF001DDBFF /* WeatherSound.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherSound.entitlements; sourceTree = "<group>"; };
+		8332A2FF1F400999001DDBFF /* WSPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPlayer.swift; sourceTree = "<group>"; };
+		8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPlayItem.swift; sourceTree = "<group>"; };
 		83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerTransitionAnimation.swift; sourceTree = "<group>"; };
 		83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayerViewController.swift; sourceTree = "<group>"; };
 		83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
 		83951A6B1F38679900EEB5BC /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
-		83951A701F3867D600EEB5BC /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		83951A721F3867DD00EEB5BC /* AutoLayoutExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutExtensions.swift; sourceTree = "<group>"; };
-		83951A751F3867F900EEB5BC /* SongDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongDataSource.swift; sourceTree = "<group>"; };
-		83951A761F3867F900EEB5BC /* SongMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongMetaData.swift; sourceTree = "<group>"; };
 		83951AB61F3868C200EEB5BC /* DY.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DY.storyboard; sourceTree = "<group>"; };
 		B7C4C4325541523040933C1A /* Pods-WeatherSound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSound.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherSound/Pods-WeatherSound.release.xcconfig"; sourceTree = "<group>"; };
 		EE0D153E2F002D955B767848 /* Pods_WeatherSound.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherSound.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +110,7 @@
 		48178CBF1F2B127A00559932 /* WeatherSound */ = {
 			isa = PBXGroup;
 			children = (
+				8332A2FC1F3FCBAF001DDBFF /* WeatherSound.entitlements */,
 				48178CF51F36EA1B00559932 /* CommonLibraries */,
 				48178CF41F36E57500559932 /* Extension */,
 				48178CF31F36E47D00559932 /* DataCenter */,
@@ -153,12 +153,12 @@
 		48178CE41F3317F900559932 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				83951A741F3867E800EEB5BC /* SongData */,
-				83951A701F3867D600EEB5BC /* FirstViewController.swift */,
+				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
 				83951A6A1F38679900EEB5BC /* MiniPlayerView.swift */,
 				83951A6B1F38679900EEB5BC /* ContainerViewController.swift */,
-				83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */,
 				83951A691F38679900EEB5BC /* MusicPlayerViewController.swift */,
+				8332A2FF1F400999001DDBFF /* WSPlayer.swift */,
+				8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */,
 				83951AB61F3868C200EEB5BC /* DY.storyboard */,
 			);
 			name = MusicPlayer;
@@ -195,15 +195,6 @@
 				EE0D153E2F002D955B767848 /* Pods_WeatherSound.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		83951A741F3867E800EEB5BC /* SongData */ = {
-			isa = PBXGroup;
-			children = (
-				83951A751F3867F900EEB5BC /* SongDataSource.swift */,
-				83951A761F3867F900EEB5BC /* SongMetaData.swift */,
-			);
-			name = SongData;
 			sourceTree = "<group>";
 		};
 		931ED31CC0FE8DB4E657445C /* Pods */ = {
@@ -255,6 +246,9 @@
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
 							};
 						};
 					};
@@ -327,7 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B24F65BF22A4903EA49145C8 /* [CP] Embed Pods Frameworks */ = {
@@ -381,14 +375,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83951A711F3867D600EEB5BC /* FirstViewController.swift in Sources */,
+				8332A3001F400999001DDBFF /* WSPlayer.swift in Sources */,
 				1DF1856F1F385B94009F6819 /* MainTableViewCell.swift in Sources */,
 				48178CF21F35CD8300559932 /* Extension.swift in Sources */,
-				83951A771F3867F900EEB5BC /* SongDataSource.swift in Sources */,
 				83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */,
 				48178CC31F2B127A00559932 /* LoginViewController.swift in Sources */,
 				48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */,
-				83951A781F3867F900EEB5BC /* SongMetaData.swift in Sources */,
 				83951A6E1F38679900EEB5BC /* MiniPlayerView.swift in Sources */,
 				48178CD81F3085C000559932 /* SignupViewController.swift in Sources */,
 				1DF185741F385E0C009F6819 /* MyPageViewController.swift in Sources */,
@@ -397,6 +389,7 @@
 				48178CEE1F345E9C00559932 /* HomeViewController.swift in Sources */,
 				83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */,
 				48178CC11F2B127A00559932 /* AppDelegate.swift in Sources */,
+				8332A3021F40B0EE001DDBFF /* WSPlayItem.swift in Sources */,
 				83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */,
 				1DF1856E1F385B94009F6819 /* MainViewController.swift in Sources */,
 			);

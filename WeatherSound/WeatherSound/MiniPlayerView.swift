@@ -23,7 +23,7 @@ class MiniPlayerView: UIView {
         return button
     }()
     
-    let miniPlayerImageView:UIImageView = {
+    var miniPlayerImageView:UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "hotdog")
         imageView.contentMode = .scaleAspectFit
@@ -32,11 +32,10 @@ class MiniPlayerView: UIView {
         return imageView
     }()
     
-    let songTitleLabel:UILabel = {
+    var songTitleLabel:UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 14)
         titleLabel.textAlignment = .left
-//        titleLabel.backgroundColor = .blue
         return titleLabel
     }()
     
@@ -46,7 +45,6 @@ class MiniPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: .normal)
         button.tintColor = .black
-//        button.backgroundColor = .red
         button.addTarget(self, action: #selector(playOrStopButtonHandler), for: .touchUpInside)
         return button
     }()
@@ -55,13 +53,12 @@ class MiniPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "MusicPlayer_next"), for: .normal)
         button.tintColor = .black
-//        button.backgroundColor = .green
         button.addTarget(self, action: #selector(nextSongButtonHandler), for: .touchUpInside)
         return button
     }()
     
     let visualEffectView:UIVisualEffectView = {
-        let blurEffect:UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect:UIBlurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         return blurEffectView
     }()
@@ -86,7 +83,7 @@ class MiniPlayerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        self.backgroundColor = .clear
         self.setUpSubviews()
         self.songTitleLabel.text = "핫도그 마시써"
         
@@ -103,10 +100,9 @@ class MiniPlayerView: UIView {
     
     func nextSongButtonHandler()
     {
+        NotificationCenter.default.post(name: Notification.Name("nextSongButtonTouched"), object: nil, userInfo: nil)
         print("nextSongButtonHandler touched")
-        
     }
-
     
     func playOrStopButtonHandler()
     {
@@ -158,7 +154,6 @@ class MiniPlayerView: UIView {
         nextSongButton.anchor(top: self.topAnchor, left: self.playOrstopButton.rightAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 5, leftConstant: 0, rightConstant: margin, bottomConstant: 5, width: side, height: side, centerX: nil, centerY: centerYAnchor)
         
         miniPlayerButton.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: self.frame.width, height: self.frame.height, centerX: self.centerXAnchor, centerY: self.centerYAnchor)
-
     }
     
 }
