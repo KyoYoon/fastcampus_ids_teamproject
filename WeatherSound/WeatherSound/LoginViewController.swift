@@ -261,7 +261,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 //CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
                 
-                CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
                 
                 break
             }
@@ -314,10 +314,91 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             
+            // 페이스북 로그온 성공 후 나오는 토큰
+            print("Facebook access token string: ",accessToken.tokenString)
+            
             //let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
             
             // 백엔드 서버에 로그인 처리 
             // 키캆 1447618781970418 과 함께 accessToken.tokenString 을 서버에 전달 
+            
+            ////////////////////////// facebook log in process 시작 //////////////////////////
+            
+            print("--------------- facebook login process ---------------")
+            
+            let facebookLoginUrl:String = Authentication.facebookLoginURL
+            
+            // 로그온 처리 후 main page 이동
+            let loginParameters: Parameters = [
+                "token": accessToken.tokenString
+            ]
+
+            // 로그인 처리
+            Alamofire.request(facebookLoginUrl, method: .post, parameters: loginParameters, encoding: JSONEncoding.prettyPrinted).responseJSON { (response) in
+                
+                switch response.result {
+                case .success(let value):
+                    
+                    let json = JSON(value)
+                    print("JSON: \(json)")
+                    
+                    // statusCode가 202이 아니라면 에러 메시지를 뿌리고 롤백한다.
+                    let statusCode = (response.response?.statusCode)!
+                    print("...HTTP code: \(statusCode)")
+                    
+                    if statusCode == 202 { // 로그인 성공
+                        
+                        // 데이터 센터에 값 삽입
+                        LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                        
+                        print(LoginDataCenter.shared.myLoginInfo!)
+                        
+                        // pk 저장 (UserDefaults)
+                        UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.pk, forKey: Authentication.pk)
+                        
+                        // token 저장 (UserDefaults)
+                        UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.token, forKey: Authentication.token)
+                        
+                        // myLoginInfo 전체 데이터 UserDefaults에 저장
+                        LoginDataCenter.shared.saveMyLoginInfoInUserDefault(myLoginInfo: LoginDataCenter.shared.myLoginInfo!)
+                        
+                        UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
+                        
+                        // 프로필 편집 뷰 컨트롤러로 이동
+                        self.moveToProfileEdit()
+                        
+                        
+                    } else { // 로그인 실패
+                        
+                        UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                        
+                        CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
+                        
+                    }
+                    
+                    
+                    break
+                case .failure(let error):
+                    
+                    print(error)
+                    
+                    
+                    // 로그인 실패
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    // myLoginInfo 전체 데이터 UserDefaults에서 삭제
+                    //LoginDataCenter.shared.initializeUserInfoInUserDefault()
+                    
+                    //CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                    
+                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
+                    
+                    break
+                }
+                
+                
+            }
+
             
         }
         
@@ -420,7 +501,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // 페이스북 로그인 - 가입과 동시에 로그온 처리 => 그 뒤부터는 계속 로그온 상태임..
     @IBAction func touchUpInsideFacebookLoginButton(_ sender: UIButton) {
         
-        loginWithFacebookRequestFirebase()
+        //loginWithFacebookRequestFirebase()
+        loginWithFacebookRequestBackendServer()
+        
         
     }
     
