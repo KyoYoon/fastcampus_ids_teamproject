@@ -10,6 +10,7 @@ import UIKit
 import SDWebImage
 import Alamofire
 import SwiftyJSON
+import FBSDKLoginKit
 
 
 class ProfileEditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
@@ -794,6 +795,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
     // 로그아웃 처리 로직
     func logoutFromBackendServer(with token:String) {
         
+        //UserDefaults.standard.setValue(true, forKey: Authentication.isFacebookLogin)
+        
         let headers: HTTPHeaders = [
             "Authorization": "Token "+token,
             "Accept": "application/json"
@@ -822,6 +825,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                         print(json["detail"].stringValue)
                         
                         self.displayLogoutConfirmMessageAndBackToLoginView(vc: self, title: "Logout Success", messageToDisplay: json["detail"].stringValue)
+                        
+                        
                         
                     } else {
                         
@@ -872,6 +877,19 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
+            // facebook 로그온으로 되어있다면 facebook 로그아웃을 시킨다.
+            if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == true {
+                
+                print("------ facebook logout -----")
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                FBSDKLoginManager().logOut()
+                
+            }
+            
+            
+
+            
             self.showLoginVC()
             
         }
@@ -903,6 +921,16 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+            
+            // facebook 로그온으로 되어있다면 facebook 로그아웃을 시킨다.
+            if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == true {
+                
+                print("------ facebook logout -----")
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                FBSDKLoginManager().logOut()
+                
+            }
             
             self.showLoginVC()
             

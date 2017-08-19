@@ -317,7 +317,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             // 페이스북 로그온 성공 후 나오는 토큰
             print("Facebook access token string: ",accessToken.tokenString)
             
-            //let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            
+            print()
             
             // 백엔드 서버에 로그인 처리 
             // 키캆 1447618781970418 과 함께 accessToken.tokenString 을 서버에 전달 
@@ -340,13 +342,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 case .success(let value):
                     
                     let json = JSON(value)
-                    print("JSON: \(json)")
+                    print("Facebook Login JSON: \(json)")
                     
                     // statusCode가 202이 아니라면 에러 메시지를 뿌리고 롤백한다.
                     let statusCode = (response.response?.statusCode)!
                     print("...HTTP code: \(statusCode)")
                     
                     if statusCode == 202 { // 로그인 성공
+                        
+                        
+                        print("-------------- facebook login success ----------")
                         
                         // 데이터 센터에 값 삽입
                         LoginDataCenter.shared.parseMyLoginInfo(with: json)
@@ -364,6 +369,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         
                         UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                         
+                        // 페이스북 로그온 상태 true 로 셋팅
+                        UserDefaults.standard.setValue(true, forKey: Authentication.isFacebookLogin)
+                        
                         // 프로필 편집 뷰 컨트롤러로 이동
                         self.moveToProfileEdit()
                         
@@ -372,7 +380,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         
                         UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
                         
-                        CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
+                        UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                        
+                        CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"].stringValue)
                         
                     }
                     
@@ -385,6 +395,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     
                     // 로그인 실패
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    // 페이스북 로그인 실패
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                     
                     // myLoginInfo 전체 데이터 UserDefaults에서 삭제
                     //LoginDataCenter.shared.initializeUserInfoInUserDefault()
