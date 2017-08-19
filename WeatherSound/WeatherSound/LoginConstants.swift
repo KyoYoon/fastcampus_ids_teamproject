@@ -16,6 +16,8 @@ struct Authentication {
     
     static let loginURL = "https://weather-sound.com/api/member/login/"
     
+    static let facebookLoginURL = "https://weather-sound.com/api/member/facebook-login/"
+    
     static let logoutURL = "https://weather-sound.com/api/member/logout/"
     
     static let baseUserInfoURL = "https://weather-sound.com/api/member/profile/" // 이 URL에 5/ 를 붙여서 사용자 정보를 가져올 수 있다.
