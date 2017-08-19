@@ -10,11 +10,15 @@ import UIKit
 import SDWebImage
 import Alamofire
 import SwiftyJSON
+import FBSDKLoginKit
 
 
 class ProfileEditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet var mainView: UIView! // 메인 뷰 (리프레쉬용)
+    
+    
+    
     
     
     @IBOutlet weak var profilePhotoButton: UIButton!
@@ -35,7 +39,9 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
     var pk:Int?         // primary key
     var token:String?   // token
     
-    var loadedNum:Int = 0
+    
+    
+    var changedImage:UIImage? // 사용자가 선택한 이미지
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +51,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -104,6 +112,12 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         setInitialDataAndImage()
         
+        // 사용자가 선택한 이미지가 있다면 현재 버튼에 있는 이미지를 사용자가 선택한 이미지로 바꾼다.
+        if let image = self.changedImage {
+            
+            self.profilePhotoButton.setImage(image, for: .normal)
+            
+        }
         
     }
     
@@ -111,14 +125,6 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         super.viewDidAppear(animated)
         
         print("------ ViewDidAppear ProfileEditViewController -----")
-        
-        loadedNum = loadedNum + 1
-        
-        print("loadedNum: ",loadedNum)
-        
-        
-        
-        
             
         showLoginStatusAlamofire() // 로그아웃된 상태라면 로그인 페이지를 보여주고 아니면 현재 페이지를 보여준다.
             
@@ -157,14 +163,36 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         print ("action Photo")
         
         
+        
         let picker = UIImagePickerController()
         picker.delegate = self
+        picker.sourceType = .photoLibrary
         picker.allowsEditing = true // edit된 이미지 가져올 때
         self.present(picker, animated: true, completion: nil)
         
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            image.withRenderingMode(.alwaysOriginal)
+            //image.withRenderingMode(.automatic)
+            
+            print("setting image")
+            
+            self.changedImage = image
+            
+            
+        } else{
+            
+            print("Something went wrong")
+            
+            return
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+        
         
 //        print("info://",info)
 //        
@@ -191,33 +219,36 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         print("info://",info)
         
-        /// chcek if you can return edited image that user choose it if user already edit it(crop it), return it as image
-        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-            
-            editedImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
-
-            /// if user update it and already got it , just return it to 'self.imgView.image'
-            
-            self.profilePhotoButton.setImage(editedImage, for: .normal)
-            self.profilePhotoButton.clipsToBounds = true
-            
-            
-            
-            /// else if you could't find the edited image that means user select original image same is it without editing .
-        } else if let orginalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            
-            orginalImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
-            
-            /// if user update it and already got it , just return it to 'self.imgView.image'.
-            self.profilePhotoButton.setImage(orginalImage, for: .normal)
-            self.profilePhotoButton.clipsToBounds = true
-            
-            
-        }
-        else { print ("error") }
-        
-        /// if the request successfully done just dismiss
-        self.dismiss(animated: true, completion: nil)
+//        /// chcek if you can return edited image that user choose it if user already edit it(crop it), return it as image
+//        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+//            
+//            editedImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
+//
+//            /// if user update it and already got it , just return it to 'self.imgView.image'
+//            
+//            self.profilePhotoButton.setImage(editedImage, for: .normal)
+//            self.profilePhotoButton.clipsToBounds = true
+//            
+//            
+//            
+//            /// else if you could't find the edited image that means user select original image same is it without editing .
+//        } else if let orginalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+//            
+//            orginalImage.withRenderingMode(.alwaysOriginal) // 이미지 변조가 일어날 경우를 대비해 항상 오리지널 이미지로 셋팅 (틴트 컬러 등에 의해 자동으로 이미지 변환이 일어나기 때문)
+//            
+//            /// if user update it and already got it , just return it to 'self.imgView.image'.
+//            self.profilePhotoButton.setImage(orginalImage, for: .normal)
+//            self.profilePhotoButton.clipsToBounds = true
+//            
+//            
+//        }
+//        else {
+//            print ("error")
+//            return
+//        }
+//        
+//        /// if the request successfully done just dismiss
+//        self.dismiss(animated: true, completion: nil)
 
         
     }
@@ -425,7 +456,7 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                                 
                                     // 프로필 정보 변경 성공
                                     // OK 를 눌렀을 때 전체 뷰가 리프레쉬된다.
-                                    self.displayProfileUpdateConfirmMessageAndRefreshThisView(vc: self, title: "Profile Update Success", messageToDisplay: json["detail"].stringValue) // detail 오타
+                                    self.displayProfileUpdateConfirmMessageAndRefreshThisView(vc: self, title: "Profile Update Success", messageToDisplay: json["datail"].stringValue) // detail 오타
                                     
                                     
                                 } else {
@@ -457,7 +488,7 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                                 if json.dictionaryObject != nil {
                                     
                                     // 서버에서 받아서 메시지 뿌려줌
-                                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"].stringValue)
+                                    CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["datail"].stringValue) // detail 오타
                                     
                                 } else {
                                     
@@ -764,6 +795,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
     // 로그아웃 처리 로직
     func logoutFromBackendServer(with token:String) {
         
+        //UserDefaults.standard.setValue(true, forKey: Authentication.isFacebookLogin)
+        
         let headers: HTTPHeaders = [
             "Authorization": "Token "+token,
             "Accept": "application/json"
@@ -792,6 +825,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                         print(json["detail"].stringValue)
                         
                         self.displayLogoutConfirmMessageAndBackToLoginView(vc: self, title: "Logout Success", messageToDisplay: json["detail"].stringValue)
+                        
+                        
                         
                     } else {
                         
@@ -842,6 +877,19 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
+            // facebook 로그온으로 되어있다면 facebook 로그아웃을 시킨다.
+            if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == true {
+                
+                print("------ facebook logout -----")
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                FBSDKLoginManager().logOut()
+                
+            }
+            
+            
+
+            
             self.showLoginVC()
             
         }
@@ -873,6 +921,16 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+            
+            // facebook 로그온으로 되어있다면 facebook 로그아웃을 시킨다.
+            if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == true {
+                
+                print("------ facebook logout -----")
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                FBSDKLoginManager().logOut()
+                
+            }
             
             self.showLoginVC()
             
