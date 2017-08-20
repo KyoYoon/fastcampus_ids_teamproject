@@ -118,16 +118,11 @@ class DataCenter {
                     guard let musicList =  json.array else {
                         return
                     }
-                    
-                    
-//                    self.numberOfList = musicList.count
-                    
-                    for item in musicList {
-                        if let tmp = item["playlist_musics"].array{
-                            
+                    if let tmp = musicList[0]["playlist_musics"].array
+                    {
                             self.numberOfList = tmp.count
-                            
-                            for temp in tmp{
+                            for temp in tmp
+                            {
                                 if let title = temp["name_music"].string,
                                     let artist = temp["name_artist"].string,
                                     let albumImg = temp["img_music"].string,
@@ -143,7 +138,7 @@ class DataCenter {
                                 }
                             }
                         }
-                    }
+//                    }
 //                    print("playItems: ",self.playItems)
                     completion(self.playItems)
                     break
