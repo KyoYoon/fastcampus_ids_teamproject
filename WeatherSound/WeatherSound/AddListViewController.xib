@@ -42,6 +42,9 @@
                             <state key="normal" title="확인">
                                 <color key="titleColor" red="0.2888549268245697" green="0.56401586532592773" blue="0.88728398084640503" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
+                            <connections>
+                                <action selector="submitBtnTouched:" destination="-1" eventType="touchUpInside" id="vpD-3z-PWd"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9BI-4K-1wM">
                             <rect key="frame" x="22" y="96" width="269" height="30"/>

@@ -136,16 +136,6 @@
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCell" id="Chr-zo-ugq">
-                                        <rect key="frame" x="0.0" y="328" width="295" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Chr-zo-ugq" id="2cA-eV-B9e">
-                                            <rect key="frame" x="0.0" y="0.0" width="295" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -206,7 +196,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="id7-Rg-YuF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2405.7971014492755" y="121.46739130434784"/>
+            <point key="canvasLocation" x="2386" y="122"/>
+        </scene>
+        <!--Detail List View Controller-->
+        <scene sceneID="Amn-0R-D9k">
+            <objects>
+                <viewController storyboardIdentifier="DetailListViewController" id="dhG-If-gQW" customClass="DetailListViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1Zp-UM-qXJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="xdw-dW-pMo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b1w-e9-6rf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nSX-u4-TA4">
+                                <rect key="frame" x="12" y="100" width="390" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijZ-kU-57C">
+                                        <rect key="frame" x="23" y="31" width="345" height="66"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5yF-oW-HMb">
+                                <rect key="frame" x="12" y="236" width="390" height="500"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="playListNameLabel" destination="ijZ-kU-57C" id="q5c-Os-8e8"/>
+                        <outlet property="tableview" destination="5yF-oW-HMb" id="EK5-J2-BxH"/>
+                        <outlet property="titleBackgroundView" destination="nSX-u4-TA4" id="K44-og-ayh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jG-Hf-gWF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3147.826086956522" y="120.65217391304348"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mGJ-9a-wHf">
