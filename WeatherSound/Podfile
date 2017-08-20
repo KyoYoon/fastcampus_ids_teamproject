@@ -20,6 +20,5 @@ target 'WeatherSound' do
   pod 'FBSDKCoreKit', '~> 4.22.1'
   pod 'FBSDKLoginKit', '~> 4.22.1'
   pod 'FBSDKShareKit', '~> 4.22.1'
-  pod 'SDWebImage'
   pod 'ARNTransitionAnimator', '~> 2.1'
 end

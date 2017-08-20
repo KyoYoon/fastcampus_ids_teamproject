@@ -13,7 +13,11 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     @IBOutlet weak var addNewListBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
+    let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    let indicatorContainer: UIView = UIView()
+    
     var isEdit:Bool = false
+    var selectedId:[Int] = []
     
     let leftBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     let rightBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -27,8 +31,11 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         self.tableView.dataSource = self
         
         self.prepareView()
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("EditMyList will appear")
+        self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,6 +83,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         else{
             //edit
             self.isEdit = false
+            self.checkErasable()
             
             self.title = "내 리스트 편집"
             rightString = "취소"
@@ -84,6 +92,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
             
             self.leftBtn.isHidden = true
             self.tableView.allowsMultipleSelection = true
+            
         }
         
         let attributedBtnString: NSMutableAttributedString = NSMutableAttributedString(string: buttonString, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(white: 1, alpha: 1)])
@@ -92,6 +101,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         let attributedRightString: NSMutableAttributedString = NSMutableAttributedString(string: rightString, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
         rightBtn.setAttributedTitle(attributedRightString, for: .normal)
         
+        self.selectedId = []
         self.tableView.reloadData()
     }
     
@@ -99,24 +109,63 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    @IBAction func addNewListBtnTouched(_ sender: UIButton) {
+    func checkErasable(){
         
-        if isEdit{
-            let addListVC: AddListViewController = AddListViewController(nibName: "AddListViewController", bundle: nil)
-            addListVC.modalPresentationStyle = .overCurrentContext
-            present(addListVC, animated: false, completion: nil)
+        if self.selectedId.count == 0{
+            self.addNewListBtn.isEnabled = false
+        }else{
+            self.addNewListBtn.isEnabled = true
         }
-        
     }
     
+    @IBAction func addNewListBtnTouched(_ sender: UIButton) {
+        if isEdit{
+            //add list
+//            let addListVC: AddListViewController = AddListViewController(nibName: "AddListViewController", bundle: nil)
+            let addListVC: AddListViewController = AddListViewController(completion: { 
+                self.tableView.reloadData()
+            })
+            addListVC.modalPresentationStyle = .overCurrentContext
+            present(addListVC, animated: false, completion: nil)
+        }else{
+            //remove list
+            self.showIndicator()
+            
+            DataCenter.shared.deleteRequestMyList(self.selectedId, completion: {
+                
+                self.indicatorContainer.removeFromSuperview()
+                
+                self.changeAttr()
+            })
+        }
+    }
+    
+    func showIndicator(){
+        
+        let rect = self.view.bounds
+        
+        indicatorContainer.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        indicatorContainer.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        
+        indicator.frame = CGRect(x:rect.midX-40, y: rect.midY-40, width: 80, height: 80)
+        indicator.activityIndicatorViewStyle = .white
+        
+        indicatorContainer.addSubview(indicator)
+        self.view.addSubview(indicatorContainer)
+        
+        indicator.startAnimating()
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return DataCenter.shared.myPlayLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: EditMyListTableViewCell = tableView.dequeueReusableCell(withIdentifier: EditMyListTableViewCell.reuseId, for: indexPath) as! EditMyListTableViewCell
+        let playList = DataCenter.shared.myPlayLists[indexPath.row]
+        
+        cell.set(listName: playList.name,count: playList.musicList.count)
+        cell.set(iconOf: playList.weather)
         
         if isEdit{
             cell.checkboxBtn.isHidden = true
@@ -128,18 +177,31 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell: EditMyListTableViewCell = tableView.cellForRow(at: indexPath) as! EditMyListTableViewCell
         
         if isEdit{
-            //single
+            //add
+            let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
+            detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+            self.navigationController?.pushViewController(detailVC, animated: true)
         }else{
-            //multiple
-            cell.checkboxBtn.backgroundColor = .gray
+            //remove
+            selectedId.append(DataCenter.shared.myPlayLists[indexPath.row].playListId)
+            self.checkErasable()
+            print("selected: ", self.selectedId)
         }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        self.selectedId = selectedId.filter { $0 != DataCenter.shared.myPlayLists[indexPath.row].playListId }
+        self.checkErasable()
+        print("selected: ", self.selectedId)
+
+        
     }
 
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 70
     }
 }

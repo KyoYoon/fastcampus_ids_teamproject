@@ -15,7 +15,19 @@ class AddListViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var insertTitleTF: UITextField!
+    
+    let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    let indicatorContainer: UIView = UIView()
 
+    private var addCallback: (()->Void)?
+    init(completion: (()->Void)?) {
+        super.init(nibName: "AddListViewController", bundle: nil)
+        self.addCallback = completion
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,5 +67,39 @@ class AddListViewController: UIViewController {
         self.dismiss(animated: false, completion: nil)
     }
     
-   
+
+    
+    @IBAction func submitBtnTouched(_ sender: UIButton) {
+        
+        self.showIndicator()
+        
+        guard let newListName = self.insertTitleTF.text else {
+            return
+        }
+        DataCenter.shared.putRequestAddMyList(newListName) {
+            self.addCallback?()
+            
+            self.indicator.stopAnimating()
+            self.indicatorContainer.removeFromSuperview()
+            
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    
+    func showIndicator(){
+        
+        let rect = self.view.bounds
+        
+        indicatorContainer.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        indicatorContainer.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        
+        indicator.frame = CGRect(x:rect.midX-40, y: rect.midY-40, width: 80, height: 80)
+        indicator.activityIndicatorViewStyle = .white
+        
+        indicatorContainer.addSubview(indicator)
+        self.view.addSubview(indicatorContainer)
+        
+        indicator.startAnimating()
+    }
 }
