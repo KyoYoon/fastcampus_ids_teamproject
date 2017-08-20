@@ -22,39 +22,25 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var grid: (lon: Double,lat: Double)?{
         didSet{
             if let lon = grid?.lon, let lat = grid?.lat{
+                self.requestCount += 1
                 
-                DataCenter.shared.getCurrentWeatherFromFireBase(lon: lon, lat: lat, completion: { (weatherInfo) in
-                    print("weather request complete")
-
-                    self.weatherInfo = weatherInfo
+                self.showIndicator()
+                
+                DataCenter.shared.getRecommendList(lat: lat, lon: lon, completion: {
+                    
+//                    print(DataCenter.shared.playItems)
+//                    print(DataCenter.shared.weatherInfo!)
                     self.setWeatherInfo()
-                    self.requestCount += 1
+                    self.mainTableView.reloadData()
+                    
+                    self.indicatorContainer.removeFromSuperview()
+                    
                     print("//weather comlpete//request count : ", self.requestCount)
                 })
             }
         }
     }
     
-    //날씨정보 저장되는 시점에 추천 노래 리스트 가져옴
-    var weatherInfo: Weather?{
-        didSet{
-            DataCenter.shared.getRecommendList(completion: { (musicArry) in
-                print("music request complete")
-                
-                self.recommendMusicList = musicArry
-                
-                print("//music comlpete//request count : ", self.requestCount)
-            })
-        }
-    }
-    
-    //날씨정보 가져오는 시점에 tableview reload
-    var recommendMusicList: [WSPlayItem]?{
-        didSet {
-            self.mainTableView.reloadData()
-            
-        }
-    }
     
     //view
     var weatherInfoLabel: UILabel = {
@@ -66,6 +52,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return label
     }()
     
+    let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    let indicatorContainer: UIView = UIView()
+    
     
     //MARK:- life cycle
     override func viewDidLoad() {
@@ -74,6 +63,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.locationManager.delegate = self
         self.mainTableView.delegate = self
         self.mainTableView.dataSource = self
+        
+        self.prepareView()
         
         //scroll refresh
         let refreshControl = UIRefreshControl()
@@ -84,11 +75,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         //tableView Nib
         self.mainTableView.register(UINib.init(nibName: "MainTableViewCell", bundle: nil), forCellReuseIdentifier: MainTableViewCell.reuseId)
         
-         self.loadLocation()
+        self.loadLocation()
+        
+    }
+    
+    func showIndicator(){
+        let rect = self.view.bounds
+        
+        indicatorContainer.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
+        indicatorContainer.backgroundColor = .white
+        
+        indicator.frame = CGRect(x:rect.midX-40, y: rect.midY-40, width: 80, height: 80)
+        indicator.activityIndicatorViewStyle = .gray
+        
+        indicatorContainer.addSubview(indicator)
+        self.navigationController?.view.addSubview(indicatorContainer)
+        
+        indicator.startAnimating()
     }
     
     func refreshHandler(sender: UIRefreshControl){
-        
         print("refresh")
         
         self.locationManager.requestLocation()
@@ -98,10 +104,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         //prepare view
-        self.prepareView()
-        self.setWeatherInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -154,18 +158,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK:- view
     //날씨 정보 있는 label 업데이트
     func setWeatherInfo(){
-
+        
         self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
         
-        if let info = weatherInfo {
-            
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
+        if let info = DataCenter.shared.weatherInfo
+        {
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
             attributedString.append(NSAttributedString(string: "\n \(info.curTemperate)°", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))
-            attributedString.append(NSAttributedString(string: "\n\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
+            attributedString.append(NSAttributedString(string: "\n\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
             
             self.weatherInfoLabel.attributedText = attributedString
         }
-        
     }
     
     //view layout
@@ -174,6 +177,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let rect = self.view.bounds
         
         self.mainTableView.separatorStyle = .none
+        
+        //userdefault에 마지막곡 있을때는 , 없을떄 height변경
         self.mainTableView.frame = CGRect(x: 0, y: 65, width: rect.width, height: rect.height-55-65)
         
         //weather image
@@ -189,16 +194,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK:- tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.recommendMusicList?.count ?? 0
+        return DataCenter.shared.musicList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseId) as! MainTableViewCell
         
-        if let item = self.recommendMusicList?[indexPath.row]{
-            cell.set(title: item.meta.title, artist: item.meta.artist)
-            cell.setAlbum(urlStr: item.meta.albumImg)
-        }
+        let item = DataCenter.shared.musicList[indexPath.row]
+        
+        //        cell.set(title: item.meta.title, artist: item.meta.artist)
+        //        cell.setAlbum(urlStr: item.meta.albumImg)
+        
+        cell.set(title: item.title, artist: item.artist)
+        cell.setAlbum(urlStr: item.albumImg)
+        
         return cell
     }
     
