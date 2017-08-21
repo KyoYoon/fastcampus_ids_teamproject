@@ -458,12 +458,25 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                     // 로그온 상태 저장
                     UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                     
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                    
                     // 프로필 편집 뷰 컨트롤러로 이동 
-                    self.moveToProfileEdit()
+                    //self.moveToProfileEdit()
+                    
+                    // My Page View Controller 로 이동
+                    //self.moveToMyPageView()
+                    
+                    // MainView Controller로 이동
+                    //self.moveToMainView()
+                    
+                    // Container View Controller로 이동
+                    self.moveToContainerView()
                 
                 } else {
                     
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                     
                     CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
                     
@@ -476,6 +489,8 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                 
                 UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
                 
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                
                 CommonLibraries.sharedFunc.displayAlertMessageAndDissmiss(vc: self, title: "Error", messageToDisplay: error.localizedDescription)
                 
                 break
@@ -483,6 +498,39 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
             
             
         }
+        
+    }
+    
+    // Container View Controller로 이동
+    func moveToContainerView() {
+        
+        // Story ID: ContainerView
+        let viewController:UIViewController = UIStoryboard(name: "DY", bundle: nil).instantiateViewController(withIdentifier: "ContainerView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
+    }
+    
+    // MainView Controller로 이동
+    func moveToMainView() {
+        
+        // Story ID: MainView
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MainView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+    }
+    
+    // MyPageView Controller 로 이동 
+    func moveToMyPageView() {
+        
+        // Story ID: MyPageView
+        
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MyPageView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
         
     }
     
