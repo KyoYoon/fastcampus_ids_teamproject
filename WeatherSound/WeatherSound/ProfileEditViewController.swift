@@ -731,9 +731,9 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         //UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
         
-        //self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
         
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        //self.navigationController?.dismiss(animated: true, completion: nil)
         
     }
     

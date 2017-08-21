@@ -246,7 +246,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     //self.moveToMainView()
                     
                     // Container View Controller로 이동
-                    self.moveToContainerView()
+                    //self.moveToContainerView()
+                    
+                    // 뒤의 View Controller 로 롤백
+                    self.dismiss(animated: false, completion: nil)
 
                     
                 } else { // 로그인 실패
@@ -431,7 +434,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         //self.moveToMainView()
                         
                         // Container View Controller로 이동
-                        self.moveToContainerView()
+                        //self.moveToContainerView()
+                        
+                        // 뒤의 View Controller 로 롤백
+                        self.dismiss(animated: false, completion: nil)
                         
                         
                     } else { // 로그인 실패
