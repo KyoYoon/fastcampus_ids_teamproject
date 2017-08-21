@@ -46,7 +46,7 @@
                                         <color key="titleColor" red="0.28820249438285828" green="0.25932019948959351" blue="0.27818804979324341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
-                                        <segue destination="WRg-H2-3Pn" kind="show" animates="NO" id="7dI-gc-SKW"/>
+                                        <segue destination="WRg-H2-3Pn" kind="show" id="ol5-Po-D5n"/>
                                     </connections>
                                 </button>
                             </barButtonItem>

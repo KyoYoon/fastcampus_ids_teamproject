@@ -14,6 +14,7 @@
 		1D013DAE1F4353920033BAC4 /* EditMyListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D013DAC1F4353920033BAC4 /* EditMyListTableViewCell.xib */; };
 		1D013DB21F4446840033BAC4 /* AddListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D013DB01F4446840033BAC4 /* AddListViewController.swift */; };
 		1D013DB31F4446840033BAC4 /* AddListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D013DB11F4446840033BAC4 /* AddListViewController.xib */; };
+		1DCA86DF1F49FE9500DAE85E /* DetailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA86DE1F49FE9500DAE85E /* DetailListViewController.swift */; };
 		1DEBB9C71F3D95E3004362EA /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEBB9C51F3D95E3004362EA /* SideMenuViewController.swift */; };
 		1DF1856E1F385B94009F6819 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF1856B1F385B94009F6819 /* MainViewController.swift */; };
 		1DF1856F1F385B94009F6819 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF1856C1F385B94009F6819 /* MainTableViewCell.swift */; };
@@ -52,6 +53,7 @@
 		1D013DAC1F4353920033BAC4 /* EditMyListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditMyListTableViewCell.xib; sourceTree = "<group>"; };
 		1D013DB01F4446840033BAC4 /* AddListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListViewController.swift; sourceTree = "<group>"; };
 		1D013DB11F4446840033BAC4 /* AddListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddListViewController.xib; sourceTree = "<group>"; };
+		1DCA86DE1F49FE9500DAE85E /* DetailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailListViewController.swift; sourceTree = "<group>"; };
 		1DEBB9C51F3D95E3004362EA /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		1DF1856B1F385B94009F6819 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		1DF1856C1F385B94009F6819 /* MainTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		1DF185751F385E0F009F6819 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				1DCA86DE1F49FE9500DAE85E /* DetailListViewController.swift */,
 				1DF185731F385E0C009F6819 /* MyPageViewController.swift */,
 				1DEBB9C51F3D95E3004362EA /* SideMenuViewController.swift */,
 				1D013DA61F40698A0033BAC4 /* SideMenuViewController.xib */,
@@ -356,7 +359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B24F65BF22A4903EA49145C8 /* [CP] Embed Pods Frameworks */ = {
@@ -414,7 +417,6 @@
 				1DF1856F1F385B94009F6819 /* MainTableViewCell.swift in Sources */,
 				48178CF21F35CD8300559932 /* Extension.swift in Sources */,
 				1D013DAD1F4353920033BAC4 /* EditMyListTableViewCell.swift in Sources */,
-				83951A771F3867F900EEB5BC /* SongDataSource.swift in Sources */,
 				1D013DA41F40440B0033BAC4 /* SideMenuTransition.swift in Sources */,
 				83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */,
 				1D013DAA1F43107D0033BAC4 /* EditMyListViewController.swift in Sources */,
@@ -431,6 +433,7 @@
 				48178CC11F2B127A00559932 /* AppDelegate.swift in Sources */,
 				8332A3021F40B0EE001DDBFF /* WSPlayItem.swift in Sources */,
 				83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */,
+				1DCA86DF1F49FE9500DAE85E /* DetailListViewController.swift in Sources */,
 				1DEBB9C71F3D95E3004362EA /* SideMenuViewController.swift in Sources */,
 				1DF1856E1F385B94009F6819 /* MainViewController.swift in Sources */,
 			);
