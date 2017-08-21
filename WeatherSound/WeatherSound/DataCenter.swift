@@ -328,11 +328,7 @@ struct Weather{
     
     var curLocation: String
     var curWeather: String
-    var curTemperate: Double {
-        didSet {
-            curTemperate.rounded()
-        }
-    }
+    var curTemperate: Double
     
     init(dic: [String:Any]) {
         
