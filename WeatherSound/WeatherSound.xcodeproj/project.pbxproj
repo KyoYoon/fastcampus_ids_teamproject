@@ -33,6 +33,9 @@
 		48178CF01F35774D00559932 /* DataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CEF1F35774C00559932 /* DataCenter.swift */; };
 		48178CF21F35CD8300559932 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF11F35CD8300559932 /* Extension.swift */; };
 		48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48178CF61F36EA5C00559932 /* CommonLibraries.swift */; };
+		486456D31F3C841B00BFC402 /* LoginConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D21F3C841B00BFC402 /* LoginConstants.swift */; };
+		486456D51F3C842E00BFC402 /* LoginDataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D41F3C842E00BFC402 /* LoginDataCenter.swift */; };
+		486456D71F3D849F00BFC402 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */; };
 		8332A3001F400999001DDBFF /* WSPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8332A2FF1F400999001DDBFF /* WSPlayer.swift */; };
 		8332A3021F40B0EE001DDBFF /* WSPlayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */; };
 		83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A681F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift */; };
@@ -74,6 +77,9 @@
 		48178CEF1F35774C00559932 /* DataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCenter.swift; sourceTree = "<group>"; };
 		48178CF11F35CD8300559932 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		48178CF61F36EA5C00559932 /* CommonLibraries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonLibraries.swift; sourceTree = "<group>"; };
+		486456D21F3C841B00BFC402 /* LoginConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginConstants.swift; sourceTree = "<group>"; };
+		486456D41F3C842E00BFC402 /* LoginDataCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDataCenter.swift; sourceTree = "<group>"; };
+		486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		8332A2FC1F3FCBAF001DDBFF /* WeatherSound.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherSound.entitlements; sourceTree = "<group>"; };
 		8332A2FF1F400999001DDBFF /* WSPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPlayer.swift; sourceTree = "<group>"; };
 		8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSPlayItem.swift; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 		48178CBF1F2B127A00559932 /* WeatherSound */ = {
 			isa = PBXGroup;
 			children = (
+				48178D361F3B074B00559932 /* Constants */,
 				8332A2FC1F3FCBAF001DDBFF /* WeatherSound.entitlements */,
 				48178CF51F36EA1B00559932 /* CommonLibraries */,
 				48178CF41F36E57500559932 /* Extension */,
@@ -170,6 +177,7 @@
 				48178CDD1F33061F00559932 /* LoginAndSignup.storyboard */,
 				48178CD71F3085C000559932 /* SignupViewController.swift */,
 				48178CED1F345E9C00559932 /* HomeViewController.swift */,
+				486456D61F3D849F00BFC402 /* ProfileEditViewController.swift */,
 			);
 			name = LoginAndSignup;
 			sourceTree = "<group>";
@@ -202,6 +210,7 @@
 		48178CF31F36E47D00559932 /* DataCenter */ = {
 			isa = PBXGroup;
 			children = (
+				486456D41F3C842E00BFC402 /* LoginDataCenter.swift */,
 				48178CEF1F35774C00559932 /* DataCenter.swift */,
 			);
 			name = DataCenter;
@@ -222,6 +231,14 @@
 				48178CF61F36EA5C00559932 /* CommonLibraries.swift */,
 			);
 			name = CommonLibraries;
+			sourceTree = "<group>";
+		};
+		48178D361F3B074B00559932 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				486456D21F3C841B00BFC402 /* LoginConstants.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		49466D1CDCABE0AD788E9AE4 /* Frameworks */ = {
@@ -276,7 +293,7 @@
 				TargetAttributes = {
 					48178CBC1F2B127A00559932 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = A3XPZZJZ6S;
+						DevelopmentTeam = NN7QXHC8A3;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -382,6 +399,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -399,6 +417,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				486456D71F3D849F00BFC402 /* ProfileEditViewController.swift in Sources */,
 				8332A3001F400999001DDBFF /* WSPlayer.swift in Sources */,
 				1DF1856F1F385B94009F6819 /* MainTableViewCell.swift in Sources */,
 				48178CF21F35CD8300559932 /* Extension.swift in Sources */,
@@ -428,8 +448,10 @@
 				1DF185741F385E0C009F6819 /* MyPageViewController.swift in Sources */,
 				48178CF01F35774D00559932 /* DataCenter.swift in Sources */,
 				83951A6D1F38679900EEB5BC /* MusicPlayerViewController.swift in Sources */,
+				486456D31F3C841B00BFC402 /* LoginConstants.swift in Sources */,
 				48178CEE1F345E9C00559932 /* HomeViewController.swift in Sources */,
 				83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */,
+				486456D51F3C842E00BFC402 /* LoginDataCenter.swift in Sources */,
 				48178CC11F2B127A00559932 /* AppDelegate.swift in Sources */,
 				8332A3021F40B0EE001DDBFF /* WSPlayItem.swift in Sources */,
 				83951A6C1F38679900EEB5BC /* MusicPlayerTransitionAnimation.swift in Sources */,
@@ -559,7 +581,7 @@
 			baseConfigurationReference = 06DDC48FD65A65F07BF8DC2D /* Pods-WeatherSound.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A3XPZZJZ6S;
+				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				INFOPLIST_FILE = WeatherSound/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -574,7 +596,7 @@
 			baseConfigurationReference = B7C4C4325541523040933C1A /* Pods-WeatherSound.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A3XPZZJZ6S;
+				DEVELOPMENT_TEAM = NN7QXHC8A3;
 				INFOPLIST_FILE = WeatherSound/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
