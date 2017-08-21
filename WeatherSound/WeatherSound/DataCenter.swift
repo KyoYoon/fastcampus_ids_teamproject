@@ -125,10 +125,10 @@ class DataCenter {
                     
                     
                     let addressArry: [String] = address.components(separatedBy: " ")
-                    let shortAddr: String = "\(addressArry[3]) \(addressArry[4])"
+//                    let shortAddr: String = "\(addressArry[3]) \(addressArry[4])"
                     
                     //weather
-                    let weatherDic: [String:Any] = ["location": shortAddr, "name" : weather, "temperate": temperate]
+                    let weatherDic: [String:Any] = ["location": address, "name" : weather, "temperate": temperate]
                     self.weatherInfo = Weather(dic: weatherDic)
                     
                     //music list

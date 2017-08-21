@@ -160,32 +160,55 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func setWeatherInfo(){
         
 //        self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
-        self.weatherImageView.image = #imageLiteral(resourceName: "weather_cloudy")
+        self.weatherImageView.image = #imageLiteral(resourceName: "rainy")
         
         if let info = DataCenter.shared.weatherInfo
         {
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])//NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
-            attributedString.append(NSAttributedString(string: "\n \(Int(info.curTemperate))°", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor.white])
+            //NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
+            //UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)
+            attributedString.append(NSAttributedString(string: "\n \(Int(info.curTemperate))°", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor.white]))
             
-            attributedString.append(NSAttributedString(string: "\n\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))//NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
+            attributedString.append(NSAttributedString(string: "\n\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor.white]))//NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
             
             self.weatherInfoLabel.attributedText = attributedString
+        }
+    }
+    
+    func popToMypage(){
+        if LoginDataCenter.shared.isLogin{
+            let storyboard = UIStoryboard.init(name: "MyPageViewController", bundle: nil)
+            let myVC: MyPageViewController = storyboard.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+            
+            self.navigationController?.pushViewController(myVC, animated: true)
+        }else{
+            let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
+            let loginVC: LoginViewController = storyboard.instantiateViewController(withIdentifier: "Login") as! LoginViewController
+
+            loginVC.modalPresentationStyle = .overFullScreen
+            self.present(loginVC, animated: true, completion: nil)
         }
     }
     
     //view layout
     func prepareView(){
         
+        let rightBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        rightBtn.addTarget(self, action: #selector(popToMypage), for: .touchUpInside)
+        let attributedRightString: NSMutableAttributedString = NSMutableAttributedString(string: "MY", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
+        rightBtn.setAttributedTitle(attributedRightString, for: .normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+        
         let rect = self.view.bounds
         self.weatherImageView.backgroundColor = .clear
         self.mainTableView.separatorStyle = .none
-        
+
         //userdefault에 마지막곡 있을때는 , 없을떄 height변경
         self.mainTableView.frame = CGRect(x: 0, y: 65, width: rect.width, height: rect.height-55-65)
         
         //weather image
         self.weatherImageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: 300)
-        self.weatherImageView.image = #imageLiteral(resourceName: "default")
+//        self.weatherImageView.image = #imageLiteral(resourceName: "default")
         
         let header = self.weatherImageView.frame
         self.weatherInfoLabel.frame = CGRect(x: 0, y: header.midY-80, width: header.width, height: 160)
