@@ -45,7 +45,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //view
     var weatherInfoLabel: UILabel = {
         let label = UILabel()
-        
+        label.backgroundColor = .clear
         label.textAlignment = .center
         label.numberOfLines = 0
         
@@ -159,13 +159,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //날씨 정보 있는 label 업데이트
     func setWeatherInfo(){
         
-        self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
+//        self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
+        self.weatherImageView.image = #imageLiteral(resourceName: "weather_cloudy")
         
         if let info = DataCenter.shared.weatherInfo
         {
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
-            attributedString.append(NSAttributedString(string: "\n \(info.curTemperate)°", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))
-            attributedString.append(NSAttributedString(string: "\n\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
+            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(info.curWeather)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])//NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
+            attributedString.append(NSAttributedString(string: "\n \(Int(info.curTemperate))°", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))
+            
+            attributedString.append(NSAttributedString(string: "\n\(info.curLocation)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)]))//NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)]))
             
             self.weatherInfoLabel.attributedText = attributedString
         }
@@ -175,7 +177,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func prepareView(){
         
         let rect = self.view.bounds
-        
+        self.weatherImageView.backgroundColor = .clear
         self.mainTableView.separatorStyle = .none
         
         //userdefault에 마지막곡 있을때는 , 없을떄 height변경
@@ -194,19 +196,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK:- tableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataCenter.shared.musicList.count
+        return DataCenter.shared.playItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseId) as! MainTableViewCell
         
-        let item = DataCenter.shared.musicList[indexPath.row]
+        let item = DataCenter.shared.playItems[indexPath.row]
         
-        //        cell.set(title: item.meta.title, artist: item.meta.artist)
-        //        cell.setAlbum(urlStr: item.meta.albumImg)
+                cell.set(title: item.meta.title, artist: item.meta.artist)
+                cell.setAlbum(urlStr: item.meta.albumImg)
         
-        cell.set(title: item.title, artist: item.artist)
-        cell.setAlbum(urlStr: item.albumImg)
+//        cell.set(title: item.title, artist: item.artist)
+//        cell.setAlbum(urlStr: item.albumImg)
         
         return cell
     }

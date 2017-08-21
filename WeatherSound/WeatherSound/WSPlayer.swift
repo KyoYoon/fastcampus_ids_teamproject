@@ -16,6 +16,7 @@ protocol WSPlayerDelegate: class {
     func wsPlayerPlaybackProgressDidChange(_ WSPlayer : WSPlayer)
     func wsPlayerDidLoadItem(_ WSPlayer : WSPlayer, item : WSPlayItem)
     func wsPlayerDidUpdateMetadata(_ WSPlayer : WSPlayer, forItem: WSPlayItem)
+    func updateCurrentPlay(metaData: Music)
 }
 
 public enum State: Int, CustomStringConvertible
@@ -58,7 +59,9 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
     fileprivate(set) weak var delegate    :   WSPlayerDelegate?
     
     fileprivate (set) open var playIndex       =   0 //현재 플레이 되는?될? 인덱스
-    fileprivate (set) var queuedItems     :   [WSPlayItem]!
+//    fileprivate (set) var queuedItems     :   [WSPlayItem]!
+    fileprivate (set) var queuedItems     :   [WSPlayItem] = []
+
     fileprivate (set) open var state           =   State.ready {
         didSet {
             delegate?.wsPlayerStateDidChange(self)
@@ -97,7 +100,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
      
      - returns: WSPlayer instance
      */
-    init?(delegate: WSPlayerDelegate? = nil, items: [WSPlayItem])
+    init?(delegate: WSPlayerDelegate? = nil)//, items: [WSPlayItem])
     {
         self.delegate = delegate
         super.init()
@@ -108,7 +111,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             print("[ Error] \(error)")
             return nil
         }
-        assignQueuedItems(items)
+//        assignQueuedItems(items)
         configureObservers()
     }
     
@@ -134,7 +137,6 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
      */
     public func play(atIndex index: Int)
     {
-        self.player?.currentItem?.isPlaybackLikelyToKeepUp
         guard index < queuedItems.count && index >= 0 else {return}
         configureBackgroundAudioTask()
         
@@ -149,6 +151,8 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             playIndex = index
             
+//            self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
+            
             if let asset = queuedItems[index].playerItem?.asset
             {
                 playCurrentItem(withAsset: asset)
@@ -158,6 +162,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             preloadNextAndPrevious(atIndex: playIndex)
         }
+        self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
         updateInfoCenter()
     }
     
@@ -302,6 +307,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
         guard let item = currentItem else {return}
         updateInfoCenter()
         self.delegate?.wsPlayerDidUpdateMetadata(self, forItem: item)
+        print("아이템!!!!!: ", item.meta.artist)
     }
     
     func wsPlayItemDidLoadPlayerItem(_ item: WSPlayItem)
