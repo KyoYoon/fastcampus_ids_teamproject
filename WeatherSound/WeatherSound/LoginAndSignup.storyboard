@@ -773,7 +773,7 @@
                                     <constraint firstAttribute="height" constant="50" id="SIV-M6-qUh"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
-                                <state key="normal" title="저장">
+                                <state key="normal" title="변경사항 저장">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -829,6 +829,7 @@
                         <outlet property="nicknameTextField" destination="jQ0-I7-OJD" id="H26-fi-tEU"/>
                         <outlet property="profilePhotoButton" destination="nla-3i-Dw6" id="nDE-Xp-92V"/>
                         <outlet property="saveProfileButton" destination="tbS-eQ-Hbs" id="pzV-ZC-Rc1"/>
+                        <outlet property="stackView" destination="7w8-fG-uhf" id="9mG-MW-Q3Z"/>
                         <outlet property="titleLabel" destination="n3e-gV-KOO" id="BEL-pq-1d1"/>
                     </connections>
                 </viewController>
