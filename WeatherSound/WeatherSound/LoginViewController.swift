@@ -234,13 +234,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     
                     UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                     
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                    
                     // 프로필 편집 뷰 컨트롤러로 이동
-                    self.moveToProfileEdit()
+                    //self.moveToProfileEdit()
+                    
+                    // My Page View Controller 로 이동 
+                    //self.moveToMyPageView()
+                    
+                    // MainView Controller로 이동
+                    //self.moveToMainView()
+                    
+                    // Container View Controller로 이동
+                    //self.moveToContainerView()
+                    
+                    // 뒤의 View Controller 로 롤백
+                    self.dismiss(animated: false, completion: nil)
 
                     
                 } else { // 로그인 실패
                     
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                     
                     CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
                     
@@ -255,6 +271,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 // 로그인 실패
                 UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                 
                 // myLoginInfo 전체 데이터 UserDefaults에서 삭제 
                 //LoginDataCenter.shared.initializeUserInfoInUserDefault()
@@ -271,6 +289,40 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         
 
+    }
+
+    // Container View Controller로 이동
+    func moveToContainerView() {
+        
+        // Story ID: ContainerView
+        let viewController:UIViewController = UIStoryboard(name: "DY", bundle: nil).instantiateViewController(withIdentifier: "ContainerView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
+    }
+    
+    // MainView Controller로 이동
+    func moveToMainView() {
+        
+        // Story ID: MainView
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MainView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+    }
+    
+    // MyPageView Controller 로 이동
+    func moveToMyPageView() {
+        
+        // Story ID: MyPageView
+        
+        // MyPage View Controller 로 이동
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MyPageView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
     }
     
     // ProfileEdit View Controller 로 이동
@@ -373,7 +425,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         UserDefaults.standard.setValue(true, forKey: Authentication.isFacebookLogin)
                         
                         // 프로필 편집 뷰 컨트롤러로 이동
-                        self.moveToProfileEdit()
+                        //self.moveToProfileEdit()
+                        
+                        // My Page View Controller 로 이동
+                        //self.moveToMyPageView()
+                        
+                        // MainView Controller로 이동
+                        //self.moveToMainView()
+                        
+                        // Container View Controller로 이동
+                        //self.moveToContainerView()
+                        
+                        // 뒤의 View Controller 로 롤백
+                        self.dismiss(animated: false, completion: nil)
                         
                         
                     } else { // 로그인 실패

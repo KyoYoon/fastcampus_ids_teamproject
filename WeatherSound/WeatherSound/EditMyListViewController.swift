@@ -180,6 +180,9 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         
         if isEdit{
             //add
+            //let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
+            //detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+            //self.navigationController?.pushViewController(detailVC, animated: true)
 //            let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
 //            detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
 //            self.navigationController?.pushViewController(detailVC, animated: true)

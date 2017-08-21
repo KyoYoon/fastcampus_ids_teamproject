@@ -13,7 +13,7 @@
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="MainViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainView" automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="MainViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -96,7 +96,7 @@
         <!--My Page View Controller-->
         <scene sceneID="WMt-6j-VuS">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="WRg-H2-3Pn" customClass="MyPageViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyPageView" automaticallyAdjustsScrollViewInsets="NO" id="WRg-H2-3Pn" customClass="MyPageViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kMb-ss-5FL"/>
                         <viewControllerLayoutGuide type="bottom" id="0FG-qc-hR4"/>

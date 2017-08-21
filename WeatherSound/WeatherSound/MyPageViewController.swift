@@ -186,12 +186,13 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         cell.selectionStyle = .none
         
-//        let storyboard = UIStoryboard.init(name: "MainView", bundle: nil)
-//        let detailVC: DetailListViewController = storyboard.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
-//        
-//        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
-//        
-//        self.navigationController?.pushViewController(detailVC, animated: true)
+        let storyboard = UIStoryboard.init(name: "MainView", bundle: nil)
+        let detailVC: DetailListViewController = storyboard.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
+        
+        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
