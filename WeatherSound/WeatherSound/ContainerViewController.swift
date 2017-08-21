@@ -21,16 +21,17 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.setUpUI()
         self.setupAnimator()
         configureObservers()
+        self.musicPlayerVC.musicPlayer = WSPlayer(delegate: self.musicPlayerVC)
     }
 
     
     func configureObservers()
     {
-        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.loadWSPlayerItems), name: Notification.Name("PlayItemsLoaded"), object: nil)
+//        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.loadWSPlayerItems), name: Notification.Name("PlayItemsLoaded"), object: nil)
+        NotificationCenter.default.addObserver(self.miniPlayerView, selector: #selector(miniPlayerView.updateFirstSongOfList), name: Notification.Name("FirstSongOfList"), object: nil)
         NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.playSongSelectedFromMain), name: Notification.Name("SongSelectedFromMain"), object: nil)
     }
     
@@ -44,6 +45,9 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
         let storyboard = UIStoryboard(name: "DY", bundle: nil)
         self.musicPlayerVC = storyboard.instantiateViewController(withIdentifier: "MusicPlayerViewController") as? MusicPlayerViewController
         self.musicPlayerVC?.modalPresentationStyle = .overFullScreen
+        
+        
+        DataCenter.shared.delegate = self.musicPlayerVC
         
         self.miniPlayerView.delegate = self
         self.musicPlayerVC.delegate = self.miniPlayerView

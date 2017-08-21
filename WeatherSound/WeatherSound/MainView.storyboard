@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ThE-Sh-Mb3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ThE-Sh-Mb3">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,18 +22,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="weather_cloudy" translatesAutoresizingMaskIntoConstraints="NO" id="ZWB-GC-fhx">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dr7-lL-vaS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FPC-4t-Xax">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="I4h-1w-MaP">
                                 <rect key="frame" x="46" y="84" width="283" height="499"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="3N0-df-Gei">
                                     <rect key="frame" x="0.0" y="0.0" width="283" height="142"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </imageView>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZWB-GC-fhx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Rh-yC-CfL"/>
+                            <constraint firstItem="ZWB-GC-fhx" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="SNt-xr-ppD"/>
+                            <constraint firstItem="ZWB-GC-fhx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="XX4-hR-RxK"/>
+                            <constraint firstItem="dr7-lL-vaS" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="YZ8-xY-hMb"/>
+                            <constraint firstItem="dr7-lL-vaS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cCk-Cb-igs"/>
+                            <constraint firstItem="dr7-lL-vaS" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ddl-Am-W9n"/>
+                            <constraint firstItem="ZWB-GC-fhx" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="fMI-m7-t0A"/>
+                            <constraint firstItem="dr7-lL-vaS" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="teg-8h-0Lx"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="nB8-rg-wyN">
                         <rightBarButtonItems>
@@ -264,5 +286,6 @@
     </scenes>
     <resources>
         <image name="hotdog" width="317" height="313"/>
+        <image name="weather_cloudy" width="170" height="170"/>
     </resources>
 </document>

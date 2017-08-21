@@ -25,7 +25,7 @@ class MiniPlayerView: UIView, MusicPlayerViewControllerDelegate {
     
     var miniPlayerImageView:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "hotdog")
+//        imageView.image = #imageLiteral(resourceName: "hotdog")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
 //        imageView.backgroundColor = .yellow
@@ -85,7 +85,7 @@ class MiniPlayerView: UIView, MusicPlayerViewControllerDelegate {
         super.init(frame: frame)
         self.backgroundColor = .clear
         self.setUpSubviews()
-        self.songTitleLabel.text = "핫도그 마시써"
+//        self.songTitleLabel.text = "핫도그 마시써"
         
         print("****************************init() in MiniPlayerView****************************")
     }
@@ -127,6 +127,15 @@ class MiniPlayerView: UIView, MusicPlayerViewControllerDelegate {
             print("퍼스 풰일")
         }
     }
+    
+    func updateFirstSongOfList(_ notification:Notification)
+    {
+        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
+        {
+            updateMiniPlayerCurrent(metaData: musicMeta)
+        }
+    }
+    
     
     func updateMiniPlayerCurrent(metaData: Music)
     {

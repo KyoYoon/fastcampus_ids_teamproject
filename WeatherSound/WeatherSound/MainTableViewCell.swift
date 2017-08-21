@@ -26,9 +26,9 @@ class MainTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        self.selectionStyle = .none
+//        self.selectionStyle = .none
 
-
+        self.backgroundColor = .clear
         if selected{
 
         }
@@ -37,10 +37,10 @@ class MainTableViewCell: UITableViewCell {
     func prepareCell(){
         
         self.backgroundColor = .clear
-        let blurEffect = UIBlurEffect(style: .extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        let blurEffect = UIBlurEffect(style: .extraLight)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
-        self.backgroundView = blurEffectView
+//        self.backgroundView = blurEffectView
 
         self.titleLabel.textAlignment = .left
         self.titleLabel.frame = CGRect(x: self.albumImageView.frame.maxX+10, y: self.frame.minY+5, width: self.frame.width-80, height: 50)

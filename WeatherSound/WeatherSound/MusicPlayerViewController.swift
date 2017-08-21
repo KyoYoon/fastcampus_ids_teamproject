@@ -11,7 +11,7 @@ import AVFoundation
 import MediaPlayer
 import SDWebImage
 
-class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
+class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterDelegate {
 
     var musicPlayer: WSPlayer?
     var delegate: MusicPlayerViewControllerDelegate?
@@ -129,11 +129,19 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    func loadWSPlayerItems()
+    func appendPlayback(item: WSPlayItem)
     {
-        self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems)
-        print("self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems) ")
+//        let delay = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: delay) {
+            self.musicPlayer?.append(item: item, loadingAssets: true)
+//        }
     }
+    
+//    func loadWSPlayerItems()
+//    {
+//        self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems)
+//        print("self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems) ")
+//    }
     
     override func viewDidLoad()
     {

@@ -59,7 +59,9 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
     fileprivate(set) weak var delegate    :   WSPlayerDelegate?
     
     fileprivate (set) open var playIndex       =   0 //현재 플레이 되는?될? 인덱스
-    fileprivate (set) var queuedItems     :   [WSPlayItem]!
+//    fileprivate (set) var queuedItems     :   [WSPlayItem]!
+    fileprivate (set) var queuedItems     :   [WSPlayItem] = []
+
     fileprivate (set) open var state           =   State.ready {
         didSet {
             delegate?.wsPlayerStateDidChange(self)
@@ -98,7 +100,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
      
      - returns: WSPlayer instance
      */
-    init?(delegate: WSPlayerDelegate? = nil, items: [WSPlayItem])
+    init?(delegate: WSPlayerDelegate? = nil)//, items: [WSPlayItem])
     {
         self.delegate = delegate
         super.init()
@@ -109,7 +111,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             print("[ Error] \(error)")
             return nil
         }
-        assignQueuedItems(items)
+//        assignQueuedItems(items)
         configureObservers()
     }
     
@@ -149,7 +151,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             playIndex = index
             
-            self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
+//            self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
             
             if let asset = queuedItems[index].playerItem?.asset
             {
@@ -160,6 +162,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             preloadNextAndPrevious(atIndex: playIndex)
         }
+        self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
         updateInfoCenter()
     }
     
