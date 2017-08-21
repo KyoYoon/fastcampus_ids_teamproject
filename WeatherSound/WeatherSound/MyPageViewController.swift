@@ -192,6 +192,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
         
         self.navigationController?.pushViewController(detailVC, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -199,7 +200,6 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func MyListButtonTouched(_ sender: UIButton) {
-
     }
     
     
