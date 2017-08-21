@@ -12,23 +12,38 @@ import Alamofire
 import SwiftyJSON
 import Firebase
 
+protocol DataCenterDelegate
+{
+    func appendPlayback(item: WSPlayItem)
+}
+
 class DataCenter {
     
     static let shared = DataCenter()
     
     var isLogin:Bool = false
-    var numberOfList:Int = 0
+//    var numberOfList:Int = 0
     var weatherInfo: Weather?
 
     var myPlayLists: [UserPlayList] = []
  
     //play될 노래 리스트
+    var delegate:DataCenterDelegate?
     var playItems:[WSPlayItem] = [] {
         didSet {
-            if playItems.count == self.numberOfList
+//            if playItems.count == self.numberOfList
+//            {
+//                NotificationCenter.default.post(name: Notification.Name("PlayItemsLoaded"), object: nil, userInfo: nil)
+//                print("Noti PlayItemsLoaded!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+//            }
+            
+            if playItems.count > 0
             {
-                NotificationCenter.default.post(name: Notification.Name("PlayItemsLoaded"), object: nil, userInfo: nil)
-                print("Noti PlayItemsLoaded!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                self.delegate?.appendPlayback(item: playItems.last!)
+            }
+            if playItems.count == 1
+            {
+                NotificationCenter.default.post(name: Notification.Name("FirstSongOfList"), object: nil, userInfo: ["FirstSongOfList":playItems.last!])
             }
             
         }
@@ -117,7 +132,7 @@ class DataCenter {
                     self.weatherInfo = Weather(dic: weatherDic)
                     
                     //music list
-                    self.numberOfList = musicList.count
+//                    self.numberOfList = musicList.count
 
                     for musicItem in musicList{
                         if let pk = musicItem["pk"].int,
@@ -130,11 +145,11 @@ class DataCenter {
                             
                             let newMusicItem = Music(dic: dic)
                             
-                            self.musicList.append(newMusicItem)
+//                            self.musicList.append(newMusicItem)
                             
-//                            let songUrl = newMusicItem.musicUrl
-//                            let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
-//                            self.playItems.append(playItem)
+                            let songUrl = newMusicItem.musicUrl
+                            let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
+                            self.playItems.append(playItem)
                         }
                     }
                     completion?()

@@ -829,6 +829,7 @@
                         <outlet property="nicknameTextField" destination="jQ0-I7-OJD" id="H26-fi-tEU"/>
                         <outlet property="profilePhotoButton" destination="nla-3i-Dw6" id="nDE-Xp-92V"/>
                         <outlet property="saveProfileButton" destination="tbS-eQ-Hbs" id="pzV-ZC-Rc1"/>
+                        <outlet property="stackView" destination="7w8-fG-uhf" id="9mG-MW-Q3Z"/>
                         <outlet property="titleLabel" destination="n3e-gV-KOO" id="BEL-pq-1d1"/>
                     </connections>
                 </viewController>

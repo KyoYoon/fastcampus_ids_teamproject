@@ -8,12 +8,12 @@
 
 import UIKit
 
-class MiniPlayerView: UIView {
+class MiniPlayerView: UIView, MusicPlayerViewControllerDelegate {
 
     var delegate:MiniPlayerViewDelegate?
 
     //임시 이미지 바꾸기 위한 플레이버튼 플래그
-    var isPlayingMusic:Bool = false
+//    var isPlayingMusic:Bool = false
 
     
     let miniPlayerButton:UIButton = {
@@ -25,7 +25,7 @@ class MiniPlayerView: UIView {
     
     var miniPlayerImageView:UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "hotdog")
+//        imageView.image = #imageLiteral(resourceName: "hotdog")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
 //        imageView.backgroundColor = .yellow
@@ -85,15 +85,13 @@ class MiniPlayerView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .clear
         self.setUpSubviews()
-        self.songTitleLabel.text = "핫도그 마시써"
+//        self.songTitleLabel.text = "핫도그 마시써"
         
         print("****************************init() in MiniPlayerView****************************")
     }
     
     required init?(coder aDecoder: NSCoder)
     {
-//        super.init(coder: aDecoder)
-//        self.setUpSubviews()
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -108,22 +106,47 @@ class MiniPlayerView: UIView {
     {
 
         NotificationCenter.default.post(name: Notification.Name("playOrStopButtonTouched"), object: nil, userInfo: nil)
-
-        if self.isPlayingMusic //노래가 나오고 있을때 --> pause 이미지 ---바꾸기---> play 이미지로
-        {
-            playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: .normal)
-            self.isPlayingMusic = false
-        }else // pause 이미지로 바꾸기
-        {
-            playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"),for: .normal)
-            self.isPlayingMusic = true
-        }
-        
-        
         print("playOrStopButtonHandler touched")
         
     }
+    func playerStateDidChange(_ state: State)
+    {
+        switch state
+        {
+        case .ready:
+            self.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: UIControlState())
+            print("레디")
+        case .loading:
+            self.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"), for: UIControlState())
+            print("로딩")
+        case .playing:
+            self.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_pause"), for: UIControlState())
+            print("플레잉")
+        case .paused, .failed:
+            self.playOrstopButton.setImage(#imageLiteral(resourceName: "MusicPlayer_play"), for: UIControlState())
+            print("퍼스 풰일")
+        }
+    }
     
+    func updateFirstSongOfList(_ notification:Notification)
+    {
+        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
+        {
+            updateMiniPlayerCurrent(metaData: musicMeta)
+        }
+    }
+    
+    
+    func updateMiniPlayerCurrent(metaData: Music)
+    {
+        let imgStr:String = metaData.albumImg
+        if let url = URL(string: imgStr)
+        {
+            self.miniPlayerImageView.sd_setImage(with: url, completed: nil)
+        }
+        self.songTitleLabel.text = metaData.title
+    }
+
     func miniPlayerButtonHandler()
     {        
         self.delegate?.presentMusicPlayerController()
@@ -136,24 +159,26 @@ class MiniPlayerView: UIView {
     func setUpSubviews()
     {
         self.addSubviews([nextSongButton, miniPlayerImageView, songTitleLabel, miniPlayerButton, playOrstopButton, nextSongButton, visualEffectView])
-        self.sendSubview(toBack: visualEffectView)
+        
 
         let side:CGFloat = 45
         let margin:CGFloat = 20
-        let labelWidth:CGFloat = self.frame.width - (margin * 4) - (side * 3)
         
-        visualEffectView.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: self.frame.width, height: self.frame.height, centerX: self.centerXAnchor, centerY: self.centerYAnchor)
+        visualEffectView.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, bottom: nil, topConstant: 2, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: self.frame.width , height: self.frame.height - 4, centerX: nil, centerY: nil)
+        self.sendSubview(toBack: visualEffectView)
         
-        miniPlayerImageView.anchor(top: self.topAnchor, left: self.leftAnchor, right: nil, bottom: self.bottomAnchor, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 5, width: side, height: side, centerX: nil, centerY: self.centerYAnchor)
+        miniPlayerImageView.anchor(top: self.topAnchor, left: self.leftAnchor, right: nil, bottom: nil, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 0, width: side, height: side, centerX: nil, centerY: nil)
         miniPlayerImageView.layer.cornerRadius = 45 / 10
+        
+        nextSongButton.anchor(top: self.topAnchor, left: nil, right: self.rightAnchor, bottom: nil, topConstant: 5, leftConstant: 0, rightConstant: margin, bottomConstant: 0, width: side, height: side, centerX: nil, centerY: nil)
 
-        songTitleLabel.anchor(top: self.topAnchor, left: self.miniPlayerImageView.rightAnchor, right: nil, bottom: self.bottomAnchor, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 5, width: labelWidth, height: side / 2, centerX: nil, centerY: self.centerYAnchor)
+        playOrstopButton.anchor(top: self.topAnchor, left: nil, right: self.nextSongButton.leftAnchor, bottom: nil, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 0, width: side, height: side, centerX: nil, centerY: nil)
         
-        playOrstopButton.anchor(top: self.topAnchor, left: self.songTitleLabel.rightAnchor, right: nil, bottom: self.bottomAnchor, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 5, width: side, height: side, centerX: nil, centerY: centerYAnchor)
         
-        nextSongButton.anchor(top: self.topAnchor, left: self.playOrstopButton.rightAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 5, leftConstant: 0, rightConstant: margin, bottomConstant: 5, width: side, height: side, centerX: nil, centerY: centerYAnchor)
+        songTitleLabel.anchor(top: nil, left: self.miniPlayerImageView.rightAnchor, right: self.playOrstopButton.leftAnchor, bottom: nil, topConstant: 5, leftConstant: margin, rightConstant: 0, bottomConstant: 0, width: -1, height: side / 2, centerX: nil, centerY: self.centerYAnchor)
         
-        miniPlayerButton.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: self.frame.width, height: self.frame.height, centerX: self.centerXAnchor, centerY: self.centerYAnchor)
+        
+        miniPlayerButton.anchor(top: self.topAnchor, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: self.frame.width, height: self.frame.height, centerX: nil, centerY: nil)
     }
     
 }

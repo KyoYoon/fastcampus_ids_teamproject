@@ -11,9 +11,10 @@ import AVFoundation
 import MediaPlayer
 import SDWebImage
 
-class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
+class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterDelegate {
 
-    var musicPlayer : WSPlayer?
+    var musicPlayer: WSPlayer?
+    var delegate: MusicPlayerViewControllerDelegate?
     
     @IBOutlet weak var closeButton: UIButton!
     
@@ -128,12 +129,19 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    func loadWSPlayerItems()
+    func appendPlayback(item: WSPlayItem)
     {
-        self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems)
-        print("self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems) ")
+//        let delay = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+//        DispatchQueue.main.asyncAfter(deadline: delay) {
+            self.musicPlayer?.append(item: item, loadingAssets: true)
+//        }
     }
-
+    
+//    func loadWSPlayerItems()
+//    {
+//        self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems)
+//        print("self.musicPlayer = WSPlayer(delegate: self, items: DataCenter.shared.playItems) ")
+//    }
     
     override func viewDidLoad()
     {
@@ -142,13 +150,16 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         print("MusicPlayerViewController!!!******************************************************")
         
+        NotificationCenter.default.addObserver(self, selector: #selector(playOrStopButtonHandler), name: Notification.Name("playOrStopButtonTouched"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nextSongButtonHandler), name: Notification.Name("nextSongButtonTouched"), object: nil)
+    
         setupUI()
         
     }
     
     func playSongSelectedFromMain(_ notification:Notification)
     {
-        print("playSongSelectedFromMain hahahahahah")
+        print("playSongSelectedFromMain")
         if let userInfo = notification.userInfo
         {
             if let selectedIndex = userInfo["SongSelectedRowAt"] as? Int
@@ -237,35 +248,37 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
             {
             case .playing, .loading:
                 image = #imageLiteral(resourceName: "MusicPlayer_pause")
-                let imgStr:String = (self.musicPlayer?.currentItem?.meta.albumImg)!
-                if let url = URL(string: imgStr)
-                {
-                    self.albumCoverView.sd_setImage(with: url, completed: nil)
-                }
-                updateSongMetaData()
+
             case .paused, .failed, .ready:
                 image = #imageLiteral(resourceName: "MusicPlayer_play")
             }
             playOrStopButton.setImage(image, for: UIControlState())
         }
-        NotificationCenter.default.post(name: Notification.Name("PlayerStateChanged"), object: nil, userInfo: ["playerState": changedState, "currentAlbumImageView": self.albumCoverView, "currentSongTitle" : self.songTitleLabel])
-        
+
+        self.delegate?.playerStateDidChange(changedState)
         print("state changed to \(WSPlayer.state)")
-        print("현재 재생중인 곡: ", self.songTitleLabel.text)
+
     }
     
-    func wsPlayerDidUpdateMetadata(_ WSPlayer: WSPlayer, forItem: WSPlayItem) {
+    func wsPlayerDidUpdateMetadata(_ WSPlayer: WSPlayer, forItem: WSPlayItem)
+    {
         print("Item updated:\n\(forItem)")
     }
     
-/***********************************************************************************/
-    func updateSongMetaData()
+    func updateCurrentPlay(metaData: Music)
     {
-        self.songTitleLabel.text = musicPlayer?.currentItem?.meta.title
-        self.artistLabel.text = musicPlayer?.currentItem?.meta.artist
+        let imgStr:String = metaData.albumImg
+        if let url = URL(string: imgStr)
+        {
+            self.albumCoverView.sd_setImage(with: url, completed: nil)
+        }
+        self.songTitleLabel.text = metaData.title
+        self.artistLabel.text = metaData.artist
+        
+        self.delegate?.updateMiniPlayerCurrent(metaData: metaData)
     }
-    
-    
+/***********************************************************************************/
+
     override func remoteControlReceived(with event: UIEvent?)
     {
         guard let musicPlayer = self.musicPlayer else { return }
@@ -378,4 +391,10 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate {
         musicProgressSlider.value = 0.0
     }
 
+}
+
+protocol MusicPlayerViewControllerDelegate
+{
+    func playerStateDidChange(_ state: State)
+    func updateMiniPlayerCurrent(metaData: Music)
 }

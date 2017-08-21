@@ -183,6 +183,9 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
             //let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
             //detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
             //self.navigationController?.pushViewController(detailVC, animated: true)
+//            let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
+//            detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+//            self.navigationController?.pushViewController(detailVC, animated: true)
         }else{
             //remove
             selectedId.append(DataCenter.shared.myPlayLists[indexPath.row].playListId)
