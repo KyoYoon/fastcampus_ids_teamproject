@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
-
+    
     @IBOutlet weak var myPageTableView: UITableView!
     
     @IBOutlet weak var userInfoViewContainer: UIView!
@@ -22,27 +23,27 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     let indicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let indicatorContainer: UIView = UIView()
-
     
-//    var userPlayLists: [UserPlayList] = []
-
+    
+    //    var userPlayLists: [UserPlayList] = []
+    
     //MARK:- view life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.myPageTableView.register(UINib.init(nibName: "EditMyListTableViewCell", bundle: nil), forCellReuseIdentifier: EditMyListTableViewCell.reuseId)
-
+        
         
         self.myPageTableView.delegate = self
         self.myPageTableView.dataSource = self
-
+        
         self.prepareView()
         
         self.myPageTableView.separatorStyle = .none
         
         
         self.showIndicator()
-
+        
         //get request
         DataCenter.shared.getMyList { (userPlayLists) in
             self.myPageTableView.reloadData()
@@ -54,7 +55,16 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.myPageTableView.reloadData()
+        if UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed) {
+            self.myPageTableView.reloadData()
+        }else{
+            let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
+            let loginVC: LoginViewController = storyboard.instantiateViewController(withIdentifier: "Login") as! LoginViewController
+            
+            loginVC.modalPresentationStyle = .overFullScreen
+            self.present(loginVC, animated: true, completion: nil)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -68,7 +78,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func hamHandler(){
-     
+        
         let sideMenuVC: SideMenuViewController = SideMenuViewController(nibName: "SideMenuViewController", bundle: nil)
         sideMenuVC.modalPresentationStyle = .overFullScreen
         
@@ -103,23 +113,30 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.profileImgView.frame = CGRect(x: self.userInfoView.frame.midX-40, y: self.userInfoView.frame.midY-64+40, width: 80, height: 80)
         self.profileImgView.layer.cornerRadius = 40
         
-        //hotdog asset쓰는 부분 url로 가져오는 것으로 수정 예정
-        self.profileImgView.image = #imageLiteral(resourceName: "hotdog")
-        
         self.backgroundProfileImageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: 245)
-        self.backgroundProfileImageView.image = #imageLiteral(resourceName: "hotdog")
         self.backgroundProfileImageView.contentMode = .center
+        
+        if let userInfo = LoginDataCenter.shared.myLoginInfo?.img_profile,
+            let url = URL(string: userInfo){
+            self.profileImgView.sd_setImage(with: url)
+            self.backgroundProfileImageView.sd_setImage(with: url)
+        }
         
         self.effectView.frame = self.userInfoView.frame
         
         self.userInfoView.bringSubview(toFront: self.profileImgView)
         self.userInfoView.bringSubview(toFront: self.profileLable)
-
+        
         self.profileLable.frame = CGRect(x: 0, y:  self.profileImgView.frame.maxY+2, width: rect.width, height: 50)
         self.profileLable.textAlignment = .center
-        let attributedProfileString: NSMutableAttributedString = NSMutableAttributedString(string: "hyunjung", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white])
-        attributedProfileString.append(NSAttributedString(string: "\nseoul", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightUltraLight), NSForegroundColorAttributeName: UIColor.white]))
-        self.profileLable.attributedText = attributedProfileString
+        
+        if let nickname = LoginDataCenter.shared.myLoginInfo?.nickname{
+            let attributedProfileString: NSMutableAttributedString = NSMutableAttributedString(string: nickname, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white])
+            attributedProfileString.append(NSAttributedString(string: "\nseoul", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightUltraLight), NSForegroundColorAttributeName: UIColor.white]))
+            self.profileLable.attributedText = attributedProfileString
+        }
+        
+        
         self.profileLable.numberOfLines = 0
         
     }
@@ -129,7 +146,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         indicatorContainer.frame = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
         indicatorContainer.backgroundColor = .white
-    
+        
         indicator.frame = CGRect(x:rect.midX-40, y: rect.midY-40, width: 80, height: 80)
         indicator.activityIndicatorViewStyle = .gray
         
@@ -144,7 +161,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 1
     }
     
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
@@ -154,7 +171,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let view = UIView()
         let label : UILabel = UILabel(frame: CGRect(x: 20, y: 0, width: UIScreen.main.bounds.width-40, height: 30))
         label.font = UIFont.systemFont(ofSize: 16, weight: UIFontWeightMedium)
-
+        
         if DataCenter.shared.myPlayLists.count == 0{
             label.text = "내 리스트가 없습니다."
             label.textAlignment = .center
@@ -168,7 +185,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return DataCenter.shared.myPlayLists.count
+        return DataCenter.shared.myPlayLists.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -192,7 +209,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
         
         self.navigationController?.pushViewController(detailVC, animated: true)
-
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,9 +217,8 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func MyListButtonTouched(_ sender: UIButton) {
-
     }
     
     
-   
+    
 }

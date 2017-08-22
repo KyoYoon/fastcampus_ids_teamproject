@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,7 +38,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rainy" id="3N0-df-Gei">
+                                <imageView key="tableHeaderView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="3N0-df-Gei">
                                     <rect key="frame" x="0.0" y="0.0" width="283" height="142"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -56,7 +57,32 @@
                             <constraint firstItem="dr7-lL-vaS" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="teg-8h-0Lx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="nB8-rg-wyN"/>
+                    <navigationItem key="navigationItem" id="nB8-rg-wyN">
+                        <rightBarButtonItems>
+                            <barButtonItem style="plain" id="siG-Vh-EfE">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YkI-eQ-8HQ">
+                                    <rect key="frame" x="311" y="7" width="83" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="MY">
+                                        <color key="titleColor" red="0.28820249438285828" green="0.25932019948959351" blue="0.27818804979324341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="WRg-H2-3Pn" kind="show" id="ol5-Po-D5n"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="M0l-u6-9Ki">
+                                <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="acc-tn-Snp">
+                                    <rect key="frame" x="220" y="7" width="83" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="SHARE">
+                                        <color key="titleColor" red="0.28820249438285828" green="0.25932019948959351" blue="0.27818804979324341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="MainTableView" destination="I4h-1w-MaP" id="Ivf-bY-EGV"/>
                         <outlet property="mainTableView" destination="I4h-1w-MaP" id="HIj-Pm-sI5"/>
@@ -70,9 +96,7 @@
         <!--My Page View Controller-->
         <scene sceneID="WMt-6j-VuS">
             <objects>
-
                 <viewController storyboardIdentifier="MyPageView" automaticallyAdjustsScrollViewInsets="NO" id="WRg-H2-3Pn" customClass="MyPageViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
-
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kMb-ss-5FL"/>
                         <viewControllerLayoutGuide type="bottom" id="0FG-qc-hR4"/>
@@ -103,7 +127,7 @@
                                             <rect key="frame" x="-8" y="0.0" width="295" height="245"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hotdog" translatesAutoresizingMaskIntoConstraints="NO" id="JUg-Vs-SFf">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JUg-Vs-SFf">
                                                     <rect key="frame" x="8" y="0.0" width="287" height="245"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -261,7 +285,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="hotdog" width="317" height="313"/>
-        <image name="rainy" width="250" height="375"/>
+        <image name="rainy" width="214" height="320"/>
     </resources>
 </document>

@@ -175,26 +175,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func popToMypage(){
-        if LoginDataCenter.shared.isLogin{
-            let storyboard = UIStoryboard.init(name: "MyPageViewController", bundle: nil)
-            let myVC: MyPageViewController = storyboard.instantiateViewController(withIdentifier: "MyPageViewController") as! MyPageViewController
+    func pushToMypage(){
+            let storyboard = UIStoryboard.init(name: "MainView", bundle: nil)
+            let myVC: MyPageViewController = storyboard.instantiateViewController(withIdentifier: "MyPageView") as! MyPageViewController
             
             self.navigationController?.pushViewController(myVC, animated: true)
-        }else{
-            let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
-            let loginVC: LoginViewController = storyboard.instantiateViewController(withIdentifier: "Login") as! LoginViewController
-
-            loginVC.modalPresentationStyle = .overFullScreen
-            self.present(loginVC, animated: true, completion: nil)
-        }
     }
     
     //view layout
     func prepareView(){
         
         let rightBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        rightBtn.addTarget(self, action: #selector(popToMypage), for: .touchUpInside)
+        rightBtn.addTarget(self, action: #selector(pushToMypage), for: .touchUpInside)
         let attributedRightString: NSMutableAttributedString = NSMutableAttributedString(string: "MY", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
         rightBtn.setAttributedTitle(attributedRightString, for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
