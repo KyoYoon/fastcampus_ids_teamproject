@@ -17,7 +17,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     let indicatorContainer: UIView = UIView()
     
     var isEdit:Bool = false
-    var selectedId:[Int] = []
+    var selectedPk:[Int] = []
     
     let leftBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     let rightBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -101,7 +101,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         let attributedRightString: NSMutableAttributedString = NSMutableAttributedString(string: rightString, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
         rightBtn.setAttributedTitle(attributedRightString, for: .normal)
         
-        self.selectedId = []
+        self.selectedPk = []
         self.tableView.reloadData()
     }
     
@@ -111,7 +111,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     
     func checkErasable(){
         
-        if self.selectedId.count == 0{
+        if self.selectedPk.count == 0{
             self.addNewListBtn.isEnabled = false
         }else{
             self.addNewListBtn.isEnabled = true
@@ -131,7 +131,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
             //remove list
             self.showIndicator()
             
-            DataCenter.shared.deleteRequestMyList(self.selectedId, completion: {
+            DataCenter.shared.deleteRequestMyList(of: self.selectedPk, completion: {
                 
                 self.indicatorContainer.removeFromSuperview()
                 
@@ -188,18 +188,18 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
 //            self.navigationController?.pushViewController(detailVC, animated: true)
         }else{
             //remove
-            selectedId.append(DataCenter.shared.myPlayLists[indexPath.row].playListId)
+            selectedPk.append(DataCenter.shared.myPlayLists[indexPath.row].pk)
             self.checkErasable()
-            print("selected: ", self.selectedId)
+            print("selected: ", self.selectedPk)
         }
         
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
-        self.selectedId = selectedId.filter { $0 != DataCenter.shared.myPlayLists[indexPath.row].playListId }
+        self.selectedPk = selectedPk.filter { $0 != DataCenter.shared.myPlayLists[indexPath.row].pk }
         self.checkErasable()
-        print("selected: ", self.selectedId)
+        print("selected: ", self.selectedPk)
 
         
     }
