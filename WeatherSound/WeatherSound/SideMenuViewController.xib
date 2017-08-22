@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -27,17 +27,6 @@
                     <rect key="frame" x="136" y="0.0" width="278" height="736"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDc-bP-cfK">
-                            <rect key="frame" x="33" y="279" width="74" height="32"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                            <state key="normal" title="프로필 편집">
-                                <color key="titleColor" red="0.29422733187675476" green="0.56045103073120117" blue="0.89117878675460815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="logOutBtonTouched:" destination="-1" eventType="touchUpInside" id="NRy-gg-xlK"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7U-2v-xlh">
                             <rect key="frame" x="33" y="211" width="46" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -50,14 +39,25 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGG-0e-d87">
-                            <rect key="frame" x="33" y="331" width="56" height="32"/>
+                            <rect key="frame" x="33" y="269" width="84" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
+                            <state key="normal" title="프로필 편집">
+                                <color key="titleColor" red="0.29422733187675476" green="0.56045103073120117" blue="0.89117878675460815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="editProfileBtnTouched:" destination="-1" eventType="touchUpInside" id="rZ6-Gj-gPL"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDc-bP-cfK">
+                            <rect key="frame" x="33" y="326" width="74" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
                             <state key="normal" title="로그아웃">
                                 <color key="titleColor" red="0.29422733187675476" green="0.56045103073120117" blue="0.89117878675460815" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
-                                <action selector="editProfileBtnTouched:" destination="-1" eventType="touchUpInside" id="rZ6-Gj-gPL"/>
+                                <action selector="logOutBtonTouched:" destination="-1" eventType="touchUpInside" id="NRy-gg-xlK"/>
                             </connections>
                         </button>
                     </subviews>
@@ -65,7 +65,7 @@
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <point key="canvasLocation" x="96" y="59"/>
+            <point key="canvasLocation" x="95.5" y="58.5"/>
         </view>
     </objects>
 </document>
