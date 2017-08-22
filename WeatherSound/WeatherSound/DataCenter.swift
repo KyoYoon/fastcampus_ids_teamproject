@@ -43,13 +43,13 @@ class DataCenter {
             }
             if playItems.count == 1
             {
-                NotificationCenter.default.post(name: Notification.Name("FirstSongOfList"), object: nil, userInfo: ["FirstSongOfList":playItems.last!])
+                NotificationCenter.default.post(name: Notification.Name("FirstSongOfListLoaded"), object: nil, userInfo: ["FirstSongOfList":playItems.last!])
             }
             
         }
     }
 
-    var musicList: [Music] = []
+//    var musicList: [Music] = []
     
     func requestIsLogin() -> Bool {
         
@@ -104,7 +104,7 @@ class DataCenter {
     func getRecommendList(lat: Double, lon: Double ,completion:  (() -> Void)?){
         
         self.playItems = []
-        self.musicList = []
+//        self.musicList = []
         
         let url = "https://weather-sound.com/api/music/"
         let param = ["longitude" : lon, "latitude" : lat]
@@ -146,8 +146,7 @@ class DataCenter {
                             let newMusicItem = Music(dic: dic)
                             
 //                            self.musicList.append(newMusicItem)
-                            
-                            let songUrl = newMusicItem.musicUrl
+//                            let songUrl = newMusicItem.musicUrl
                             let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
                             self.playItems.append(playItem)
                         }

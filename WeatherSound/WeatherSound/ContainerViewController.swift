@@ -31,7 +31,9 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
     func configureObservers()
     {
 //        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.loadWSPlayerItems), name: Notification.Name("PlayItemsLoaded"), object: nil)
-        NotificationCenter.default.addObserver(self.miniPlayerView, selector: #selector(miniPlayerView.updateFirstSongOfList), name: Notification.Name("FirstSongOfList"), object: nil)
+
+        NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.loadFirstSongOfList), name: Notification.Name("FirstSongOfListLoaded"), object: nil)
+        
         NotificationCenter.default.addObserver(self.musicPlayerVC, selector: #selector(musicPlayerVC.playSongSelectedFromMain), name: Notification.Name("SongSelectedFromMain"), object: nil)
     }
     
@@ -106,5 +108,34 @@ class ContainerViewController: UIViewController, MiniPlayerViewDelegate {
         return image!
     }
     
+//    override func remoteControlReceived(with event: UIEvent?)
+//    {
+//        guard let musicPlayer = self.musicPlayerVC.musicPlayer else { return }
+//        if event?.type == .remoteControl
+//        {
+//            switch event!.subtype
+//            {
+//            case .remoteControlPlay :
+//                musicPlayer.play()
+//            case .remoteControlPause :
+//                musicPlayer.pause()
+//            case .remoteControlNextTrack :
+//                musicPlayer.playNext()
+//            case .remoteControlPreviousTrack:
+//                musicPlayer.playPrevious()
+//            case .remoteControlTogglePlayPause:
+//                if musicPlayer.state == .playing
+//                {
+//                    musicPlayer.pause()
+//                } else
+//                {
+//                    musicPlayer.play()
+//                }
+//            default:
+//                break
+//            }
+//        }
+//    }
+
     
 }

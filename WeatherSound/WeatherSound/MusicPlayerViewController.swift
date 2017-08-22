@@ -55,7 +55,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     
     let currentProgressLB:UILabel = {
         let titleLabel = UILabel()
-        titleLabel.text = "0:00"
+        titleLabel.text = "--:--"
         titleLabel.font = UIFont.systemFont(ofSize: 11)
         titleLabel.textColor = .lightGray
         titleLabel.textAlignment = .left
@@ -64,7 +64,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     
     let musicDurationLB:UILabel = {
         let titleLabel = UILabel()
-        titleLabel.text = "11:11"
+        titleLabel.text = "--:--"
         titleLabel.font = UIFont.systemFont(ofSize: 11)
         titleLabel.textColor = .lightGray
         titleLabel.textAlignment = .right
@@ -263,6 +263,14 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     func wsPlayerDidUpdateMetadata(_ WSPlayer: WSPlayer, forItem: WSPlayItem)
     {
         print("Item updated:\n\(forItem)")
+    }
+    
+    func loadFirstSongOfList(_ notification:Notification)
+    {
+        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
+        {
+            updateCurrentPlay(metaData: musicMeta)
+        }
     }
     
     func updateCurrentPlay(metaData: Music)
