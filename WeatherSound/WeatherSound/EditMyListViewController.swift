@@ -121,8 +121,8 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     @IBAction func addNewListBtnTouched(_ sender: UIButton) {
         if isEdit{
             //add list
-//            let addListVC: AddListViewController = AddListViewController(nibName: "AddListViewController", bundle: nil)
-            let addListVC: AddListViewController = AddListViewController(completion: { 
+            //            let addListVC: AddListViewController = AddListViewController(nibName: "AddListViewController", bundle: nil)
+            let addListVC: AddListViewController = AddListViewController(completion: {
                 self.tableView.reloadData()
             })
             addListVC.modalPresentationStyle = .overCurrentContext
@@ -172,7 +172,7 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         }else{
             cell.checkboxBtn.isHidden = false
         }
-
+        
         return cell
     }
     
@@ -180,12 +180,10 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         
         if isEdit{
             //add
-            //let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
-            //detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
-            //self.navigationController?.pushViewController(detailVC, animated: true)
-//            let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
+            let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
 //            detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
-//            self.navigationController?.pushViewController(detailVC, animated: true)
+            detailVC.detailIndex = indexPath.row
+            self.navigationController?.pushViewController(detailVC, animated: true)
         }else{
             //remove
             selectedPk.append(DataCenter.shared.myPlayLists[indexPath.row].pk)
@@ -200,10 +198,10 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         self.selectedPk = selectedPk.filter { $0 != DataCenter.shared.myPlayLists[indexPath.row].pk }
         self.checkErasable()
         print("selected: ", self.selectedPk)
-
+        
         
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }

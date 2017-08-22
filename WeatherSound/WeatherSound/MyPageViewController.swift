@@ -208,7 +208,8 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let storyboard = UIStoryboard.init(name: "MainView", bundle: nil)
         let detailVC: DetailListViewController = storyboard.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
         
-        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+//        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+        detailVC.detailIndex = indexPath.row
         
         self.navigationController?.pushViewController(detailVC, animated: true)
         
