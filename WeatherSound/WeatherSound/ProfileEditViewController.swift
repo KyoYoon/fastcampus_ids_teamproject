@@ -670,7 +670,12 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
-            self.showLoginVC()
+            // 페이스북 로그온 상태 false 로 셋팅 
+            UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+            
+            //self.showLoginVC()
+            
+            self.moveToContainerView()
             
         }
         
@@ -702,7 +707,12 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
-            self.showLoginVC()
+            // 페이스북 로그온 상태 false 로 셋팅
+            UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+            
+            //self.showLoginVC()
+            
+            self.moveToContainerView()
             
         }
         
@@ -928,10 +938,10 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             }
             
             // 로그인 화면으로 이동
-            self.showLoginVC()
+            //self.showLoginVC()
             
             // Container View Controller로 이동
-            //self.moveToContainerView()
+            self.moveToContainerView()
             
         }
         
@@ -974,10 +984,10 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             }
             
             // 로그인 화면으로 이동
-            self.showLoginVC()
+            //self.showLoginVC()
             
             // Container View Controller로 이동
-            //self.moveToContainerView()
+            self.moveToContainerView()
             
         }
         
