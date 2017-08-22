@@ -127,7 +127,7 @@
                                             <rect key="frame" x="-8" y="0.0" width="295" height="245"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hotdog" translatesAutoresizingMaskIntoConstraints="NO" id="JUg-Vs-SFf">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JUg-Vs-SFf">
                                                     <rect key="frame" x="8" y="0.0" width="287" height="245"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -285,7 +285,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="hotdog" width="317" height="313"/>
         <image name="rainy" width="214" height="320"/>
     </resources>
 </document>
