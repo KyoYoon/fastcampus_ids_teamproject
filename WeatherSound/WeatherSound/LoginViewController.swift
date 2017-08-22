@@ -13,7 +13,14 @@ import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
 
+// MyPageView의 데이터를 리프레쉬하기 위해서 프로토콜 선언
+//protocol LoginReloadDataDelegateProtocol {
+//    func didLoginReloadData()
+//}
+
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    //var delegate: LoginReloadDataDelegateProtocol? // 델리게이트 선언
 
     var dbRef : DatabaseReference! // 파이어베이스 데이터베이스 인스턴스 변수
     var storageRef : StorageReference! // 파이어베이스 스토리지 인스턴스 변수
@@ -234,13 +241,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     
                     UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                     
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+                    
                     // 프로필 편집 뷰 컨트롤러로 이동
-                    self.moveToProfileEdit()
+                    //self.moveToProfileEdit()
+                    
+                    // My Page View Controller 로 이동 
+                    //self.moveToMyPageView()
+                    
+                    // MainView Controller로 이동
+                    //self.moveToMainView()
+                    
+                    // Container View Controller로 이동
+                    self.moveToContainerView()
+                    
+                    // 뒤의 View Controller 데이터 리프레쉬 
+                    //self.delegate?.didLoginReloadData()
+                    
+                    // 뒤의 View Controller 로 롤백
+                    //self.dismiss(animated: false, completion: nil)
 
                     
                 } else { // 로그인 실패
                     
                     UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                    
+                    UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                     
                     CommonLibraries.sharedFunc.displayAlertMessage(vc: self, title: "Error", messageToDisplay: json["detail"][0].stringValue)
                     
@@ -255,6 +281,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 // 로그인 실패
                 UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
+                
+                UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
                 
                 // myLoginInfo 전체 데이터 UserDefaults에서 삭제 
                 //LoginDataCenter.shared.initializeUserInfoInUserDefault()
@@ -271,6 +299,40 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         
 
+    }
+
+    // Container View Controller로 이동
+    func moveToContainerView() {
+        
+        // Story ID: ContainerView
+        let viewController:UIViewController = UIStoryboard(name: "DY", bundle: nil).instantiateViewController(withIdentifier: "ContainerView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
+    }
+    
+    // MainView Controller로 이동
+    func moveToMainView() {
+        
+        // Story ID: MainView
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MainView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+    }
+    
+    // MyPageView Controller 로 이동
+    func moveToMyPageView() {
+        
+        // Story ID: MyPageView
+        
+        // MyPage View Controller 로 이동
+        let viewController:UIViewController = UIStoryboard(name: "MainView", bundle: nil).instantiateViewController(withIdentifier: "MyPageView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
     }
     
     // ProfileEdit View Controller 로 이동
@@ -317,7 +379,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             // 페이스북 로그온 성공 후 나오는 토큰
             print("Facebook access token string: ",accessToken.tokenString)
             
-            let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
+            //let credential = FacebookAuthProvider.credential(withAccessToken: accessToken.tokenString)
             
             print()
             
@@ -373,7 +435,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         UserDefaults.standard.setValue(true, forKey: Authentication.isFacebookLogin)
                         
                         // 프로필 편집 뷰 컨트롤러로 이동
-                        self.moveToProfileEdit()
+                        //self.moveToProfileEdit()
+                        
+                        // My Page View Controller 로 이동
+                        //self.moveToMyPageView()
+                        
+                        // MainView Controller로 이동
+                        //self.moveToMainView()
+                        
+                        // Container View Controller로 이동
+                        self.moveToContainerView()
+                        
+                        // 뒤의 View Controller 데이터 리프레쉬
+                        //self.delegate?.didLoginReloadData()
+                        
+                        // 뒤의 View Controller 로 롤백
+                        //self.dismiss(animated: false, completion: nil)
                         
                         
                     } else { // 로그인 실패

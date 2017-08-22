@@ -120,7 +120,6 @@
 		1DF185751F385E0F009F6819 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				1DCA86DE1F49FE9500DAE85E /* DetailListViewController.swift */,
 				1DF185731F385E0C009F6819 /* MyPageViewController.swift */,
 				1DEBB9C51F3D95E3004362EA /* SideMenuViewController.swift */,
 				1D013DA61F40698A0033BAC4 /* SideMenuViewController.xib */,
@@ -187,6 +186,7 @@
 			children = (
 				1DF1856B1F385B94009F6819 /* MainViewController.swift */,
 				1DF1856C1F385B94009F6819 /* MainTableViewCell.swift */,
+				1DCA86DE1F49FE9500DAE85E /* DetailListViewController.swift */,
 				1DF1856D1F385B94009F6819 /* MainTableViewCell.xib */,
 				1DF185711F385D62009F6819 /* MainView.storyboard */,
 			);

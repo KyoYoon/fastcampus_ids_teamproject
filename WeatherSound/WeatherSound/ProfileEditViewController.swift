@@ -18,6 +18,7 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet var mainView: UIView! // 메인 뷰 (리프레쉬용)
     
     
+    @IBOutlet weak var stackView: UIStackView!
     
     
     
@@ -281,7 +282,19 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         // 앱을 사용자가 강제로 재시작하거나 백그라운드로 보낸 거 없이 정상적으로 앱이 실행중일 때
         if LoginDataCenter.shared.myLoginInfo != nil {
             
-            self.titleLabel.text = LoginDataCenter.shared.myLoginInfo?.email
+            // 페이스북 로그인 아니라면 email을 보여주고 아니면 nickname을 보여준다.
+            if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == false {
+                self.titleLabel.text = LoginDataCenter.shared.myLoginInfo?.email
+                
+                
+                
+            } else {
+                self.titleLabel.text = LoginDataCenter.shared.myLoginInfo?.nickname
+                
+                self.deleteProfileButton.isHidden = true
+                
+            }
+            
             
             if let urlStr = LoginDataCenter.shared.myLoginInfo?.img_profile, let url = URL(string: urlStr) {
                 
@@ -301,7 +314,18 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             
             if dic != nil {
                 
-                self.titleLabel.text = dic?["username"] as? String
+                if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == false {
+                    
+                    self.titleLabel.text = dic?["username"] as? String
+                    
+                } else {
+                    
+                    self.titleLabel.text = dic?["nickname"] as? String
+                    
+                    self.deleteProfileButton.isHidden = true
+                    
+                }
+                
                 
                 if let urlStr = dic?["img_profile"] as? String, let url = URL(string: urlStr) {
                     
@@ -343,44 +367,58 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         
         var parameters: Parameters?
         
-        // 케이스 별로 parameters를 완성 
-        // 1. 아무것도 입력안했을 경우 프로필 사진에 있는 이미지파일만 업로드하겠다
-        if self.nicknameTextField.text == "" &&
-            self.currentPasswordTextField.text == "" &&
-            self.newPasswordTextField.text == "" &&
-            self.newPasswordConfirmTextField.text == "" {
+        // 페이스북 로그인인 경우 - 프로필 사진과 닉네임만 가지고 정보를 변경한다.
+        if UserDefaults.standard.bool(forKey: Authentication.isFacebookLogin) == true {
             
-            print("case 1")
+            if self.nicknameTextField.text != "" {
+                isParameterNeeded = true
+                parameters = ["nickname": self.nicknameTextField.text!]
+            }
+            
+        } else { // 이메일/비밀번호 로그인인 경우
+            
+            // 케이스 별로 parameters를 완성
+            // 1. 아무것도 입력안했을 경우 프로필 사진에 있는 이미지파일만 업로드하겠다
+            if self.nicknameTextField.text == "" &&
+                self.currentPasswordTextField.text == "" &&
+                self.newPasswordTextField.text == "" &&
+                self.newPasswordConfirmTextField.text == "" {
+                
+                print("case 1")
+                
+            }
+            // 2. 닉네임만 입력했을 경우 변경할 데이터는 사진에 있는 이미지파일 업로드하고 닉네임 변경
+            if self.nicknameTextField.text != "" &&
+                self.currentPasswordTextField.text == "" &&
+                self.newPasswordTextField.text == "" &&
+                self.newPasswordConfirmTextField.text == "" {
+                
+                print("case 2")
+                
+                isParameterNeeded = true
+                parameters = ["nickname": self.nicknameTextField.text!]
+                
+            }
+            
+            // 3. 닉네임, 기존 비밀번호, 새로운 비밀번호, 확인을 위해 다시 입력한 새로운 비밀번호까지 입력한 경우 이미지 파일 업로드하고 닉네임과 비밀번호를 변경
+            if self.nicknameTextField.text != "" &&
+                self.currentPasswordTextField.text != "" &&
+                self.newPasswordTextField.text != "" &&
+                self.newPasswordConfirmTextField.text != "" {
+                
+                print("case 3")
+                
+                isParameterNeeded = true
+                parameters = ["nickname": self.nicknameTextField.text!,
+                              "password": self.currentPasswordTextField.text!,
+                              "new_password1":self.newPasswordTextField.text!,
+                              "new_password2":self.newPasswordConfirmTextField.text!]
+                
+            }
+
             
         }
-        // 2. 닉네임만 입력했을 경우 변경할 데이터는 사진에 있는 이미지파일 업로드하고 닉네임 변경
-        if self.nicknameTextField.text != "" &&
-            self.currentPasswordTextField.text == "" &&
-            self.newPasswordTextField.text == "" &&
-            self.newPasswordConfirmTextField.text == "" {
-            
-            print("case 2")
-            
-            isParameterNeeded = true
-            parameters = ["nickname": self.nicknameTextField.text!]
         
-        }
-        
-        // 3. 닉네임, 기존 비밀번호, 새로운 비밀번호, 확인을 위해 다시 입력한 새로운 비밀번호까지 입력한 경우 이미지 파일 업로드하고 닉네임과 비밀번호를 변경
-        if self.nicknameTextField.text != "" &&
-            self.currentPasswordTextField.text != "" &&
-            self.newPasswordTextField.text != "" &&
-            self.newPasswordConfirmTextField.text != "" {
-            
-            print("case 3")
-            
-            isParameterNeeded = true
-            parameters = ["nickname": self.nicknameTextField.text!,
-                          "password": self.currentPasswordTextField.text!,
-                          "new_password1":self.newPasswordTextField.text!,
-                          "new_password2":self.newPasswordConfirmTextField.text!]
-            
-        }
 
         // http://www.weather-sound.com/api/member/profile/12/edit/ 
         
@@ -632,7 +670,12 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
-            self.showLoginVC()
+            // 페이스북 로그온 상태 false 로 셋팅 
+            UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+            
+            //self.showLoginVC()
+            
+            self.moveToContainerView()
             
         }
         
@@ -664,7 +707,12 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
             // 로그온 상태 false로 셋팅
             UserDefaults.standard.setValue(false, forKey: Authentication.isLoginSucceed)
             
-            self.showLoginVC()
+            // 페이스북 로그온 상태 false 로 셋팅
+            UserDefaults.standard.setValue(false, forKey: Authentication.isFacebookLogin)
+            
+            //self.showLoginVC()
+            
+            self.moveToContainerView()
             
         }
         
@@ -694,6 +742,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
         //UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
         
         self.dismiss(animated: false, completion: nil)
+        
+        //self.navigationController?.dismiss(animated: true, completion: nil)
         
     }
     
@@ -887,10 +937,11 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                 
             }
             
+            // 로그인 화면으로 이동
+            //self.showLoginVC()
             
-
-            
-            self.showLoginVC()
+            // Container View Controller로 이동
+            self.moveToContainerView()
             
         }
         
@@ -932,13 +983,28 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                 
             }
             
-            self.showLoginVC()
+            // 로그인 화면으로 이동
+            //self.showLoginVC()
+            
+            // Container View Controller로 이동
+            self.moveToContainerView()
             
         }
         
         alertController.addAction(OKAction)
         
         vc.present(alertController, animated: true, completion:nil)
+    }
+    
+    // Container View Controller로 이동
+    func moveToContainerView() {
+        
+        // Story ID: ContainerView
+        let viewController:UIViewController = UIStoryboard(name: "DY", bundle: nil).instantiateViewController(withIdentifier: "ContainerView") as UIViewController
+        
+        
+        self.present(viewController, animated: false, completion: nil)
+        
     }
     
     // 저장 버튼 비활성화할 지 활성화할 지 판단하는 로직

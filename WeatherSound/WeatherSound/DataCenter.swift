@@ -124,11 +124,11 @@ class DataCenter {
                     }
                     
                     
-                    let addressArry: [String] = address.components(separatedBy: " ")
-                    let shortAddr: String = "\(addressArry[3]) \(addressArry[4])"
+//                    let addressArry: [String] = address.components(separatedBy: " ")
+//                    let shortAddr: String = "\(addressArry[3]) \(addressArry[4])"
                     
                     //weather
-                    let weatherDic: [String:Any] = ["location": shortAddr, "name" : weather, "temperate": temperate]
+                    let weatherDic: [String:Any] = ["location": address, "name" : weather, "temperate": temperate]
                     self.weatherInfo = Weather(dic: weatherDic)
                     
                     //music list
@@ -142,11 +142,7 @@ class DataCenter {
                             let musicUrl = musicItem["source_music"].string {
                             
                             let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
-                            
                             let newMusicItem = Music(dic: dic)
-                            
-//                            self.musicList.append(newMusicItem)
-//                            let songUrl = newMusicItem.musicUrl
                             let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
                             self.playItems.append(playItem)
                         }
