@@ -128,15 +128,6 @@ class MiniPlayerView: UIView, MusicPlayerViewControllerDelegate {
         }
     }
     
-    func updateFirstSongOfList(_ notification:Notification)
-    {
-        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
-        {
-            updateMiniPlayerCurrent(metaData: musicMeta)
-        }
-    }
-    
-    
     func updateMiniPlayerCurrent(metaData: Music)
     {
         let imgStr:String = metaData.albumImg

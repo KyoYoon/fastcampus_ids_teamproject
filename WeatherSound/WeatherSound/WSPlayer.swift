@@ -9,9 +9,9 @@
 import Foundation
 import AVFoundation
 import MediaPlayer
-//import SDWebImage
 
-protocol WSPlayerDelegate: class {
+protocol WSPlayerDelegate: class
+{
     func wsPlayerStateDidChange(_ WSPlayer : WSPlayer)
     func wsPlayerPlaybackProgressDidChange(_ WSPlayer : WSPlayer)
     func wsPlayerDidLoadItem(_ WSPlayer : WSPlayer, item : WSPlayItem)
@@ -138,6 +138,11 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
     public func play(atIndex index: Int)
     {
         guard index < queuedItems.count && index >= 0 else {return}
+        
+        DispatchQueue.main.async {
+            self.delegate?.updateCurrentPlay(metaData: self.queuedItems[index].meta)
+        }
+        
         configureBackgroundAudioTask()
         
         if queuedItems[index].playerItem != nil && playIndex == index
@@ -151,8 +156,6 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             playIndex = index
             
-//            self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
-            
             if let asset = queuedItems[index].playerItem?.asset
             {
                 playCurrentItem(withAsset: asset)
@@ -162,7 +165,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
             }
             preloadNextAndPrevious(atIndex: playIndex)
         }
-        self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
+//        self.delegate?.updateCurrentPlay(metaData: (self.currentItem?.meta)!)
         updateInfoCenter()
     }
     
