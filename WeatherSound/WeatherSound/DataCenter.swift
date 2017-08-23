@@ -48,13 +48,9 @@ class DataCenter {
             
         }
     }
-<<<<<<< HEAD
 
-//    var musicList: [Music] = []
-=======
     
-    var musicList: [Music] = []
->>>>>>> c59dd3050342c0cfe4533acd3dc512f952fdacdc
+//    var musicList: [Music] = []
     
     func requestIsLogin() -> Bool {
         
