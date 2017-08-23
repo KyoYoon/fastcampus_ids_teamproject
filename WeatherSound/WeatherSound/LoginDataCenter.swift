@@ -47,7 +47,7 @@ class LoginDataCenter {
     // 로그인 후 사용자 정보를 요청하면서 계속 로그인 체크하고 사용자 정보 업데이트 (서버와의 통신에 실패하는 즉시 로그인 페이지 보여주기)
     // 프로필 페이지와 같이 로그온 정보가 있어야 접근할 수 있는 페이지에 한해 이 함수를 호출하여 서버와 통신하고 성공하면 정보 가져오고
     // 실패하면 바로 로그인 페이지를 띄운다.
-    func requestUserInfoFromServer(with pk:Int, token:String) {
+    func requestUserInfoFromServer(with pk:Int, token:String, comletion: (()->Void)?) {
         
         print("---------------  requestUserInfoFromServer  -------------")
         
@@ -90,7 +90,7 @@ class LoginDataCenter {
                 UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                 //self.updateMyLoginInfo(with: json)
                 self.parseMyLoginInfo(with: json)
-        
+                comletion?()
             case .failure(let error):
                 print(error)
                 

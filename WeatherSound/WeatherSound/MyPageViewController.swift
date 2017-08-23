@@ -15,7 +15,7 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var userInfoViewContainer: UIView!
     @IBOutlet weak var userInfoView: UIView! //배경
-    @IBOutlet weak var backgroundProfileImageView: UIImageView!
+    @IBOutlet weak var backgroundProfileImageView: UIImageView!//프로필사진배경
     @IBOutlet weak var effectView: UIVisualEffectView!
     @IBOutlet weak var profileImgView: UIImageView! //프로필사진
     @IBOutlet weak var profileLable: UILabel!
@@ -34,31 +34,38 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.myPageTableView.register(UINib.init(nibName: "EditMyListTableViewCell", bundle: nil), forCellReuseIdentifier: EditMyListTableViewCell.reuseId)
         
+
         //self.loginVC = UIStoryboard(name: "LoginAndSignup", bundle: nil).instantiateViewController(withIdentifier: "Login") as? LoginViewController
         
         //self.loginVC?.delegate = self
         
+
         self.myPageTableView.delegate = self
         self.myPageTableView.dataSource = self
         
-        self.prepareView()
-        
         self.myPageTableView.separatorStyle = .none
         
+        self.prepareView()
         
         self.showIndicator()
-        
-        //get request
-        DataCenter.shared.getMyList { (userPlayLists) in
-            self.myPageTableView.reloadData()
-            self.indicator.stopAnimating()
-            self.indicatorContainer.removeFromSuperview()
-        }
+
+        //user profile request
+        LoginDataCenter.shared.requestUserInfoFromServer(with: UserDefaults.standard.integer(forKey: Authentication.pk),
+                                                         token: UserDefaults.standard.string(forKey: Authentication.token)!,
+                                                         comletion: {
+                                                            self.setProfie()
+       //user play list request
+                                                            DataCenter.shared.getMyList { (userPlayLists) in
+                                                                self.myPageTableView.reloadData()
+                                                                self.indicatorContainer.removeFromSuperview()
+                                                            }
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+
         print("isLoginSucceed: ",UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed))
         print("LoginDataCenter.shared.myLoginInfo: ",LoginDataCenter.shared.myLoginInfo ?? "no data in LoginDataCenter.shared.myLoginInfo")
         
@@ -71,13 +78,10 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             self.loginVC?.modalPresentationStyle = .overFullScreen
             self.present(loginVC!, animated: true, completion: nil)
-        
+       
         }else{
-            
             self.myPageTableView.reloadData()
-        
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -159,12 +163,6 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.backgroundProfileImageView.frame = CGRect(x: 0, y: 0, width: rect.width, height: 245)
         self.backgroundProfileImageView.contentMode = .center
         
-        if let userInfo = LoginDataCenter.shared.myLoginInfo?.img_profile,
-            let url = URL(string: userInfo){
-            self.profileImgView.sd_setImage(with: url)
-            self.backgroundProfileImageView.sd_setImage(with: url)
-        }
-        
         self.effectView.frame = self.userInfoView.frame
         
         self.userInfoView.bringSubview(toFront: self.profileImgView)
@@ -172,18 +170,26 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.profileLable.frame = CGRect(x: 0, y:  self.profileImgView.frame.maxY+2, width: rect.width, height: 50)
         self.profileLable.textAlignment = .center
+        self.profileLable.numberOfLines = 0
+    }
+    
+    func setProfie(){
         
-        if let nickname = LoginDataCenter.shared.myLoginInfo?.nickname {
-            
+
+        if let userInfo = LoginDataCenter.shared.myLoginInfo?.img_profile,
+            let url = URL(string: userInfo){
+            self.profileImgView.sd_setImage(with: url)
+            self.backgroundProfileImageView.sd_setImage(with: url)
+        }
+        if let nickname = LoginDataCenter.shared.myLoginInfo?.nickname{
             let attributedProfileString: NSMutableAttributedString = NSMutableAttributedString(string: nickname, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white])
             attributedProfileString.append(NSAttributedString(string: "\nseoul", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightUltraLight), NSForegroundColorAttributeName: UIColor.white]))
             self.profileLable.attributedText = attributedProfileString
-        
-        
         }
-        
+
+
         self.profileLable.numberOfLines = 0
-        
+
     }
     
     func showIndicator(){
@@ -251,7 +257,8 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let storyboard = UIStoryboard.init(name: "MainView", bundle: nil)
         let detailVC: DetailListViewController = storyboard.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
         
-        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+//        detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
+        detailVC.detailIndex = indexPath.row
         
         self.navigationController?.pushViewController(detailVC, animated: true)
         
