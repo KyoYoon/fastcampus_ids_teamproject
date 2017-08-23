@@ -27,9 +27,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.showIndicator()
                 
                 DataCenter.shared.getRecommendList(lat: lat, lon: lon, completion: {
-                    
-//                    print(DataCenter.shared.playItems)
-//                    print(DataCenter.shared.weatherInfo!)
+
                     self.setWeatherInfo()
                     self.mainTableView.reloadData()
                     

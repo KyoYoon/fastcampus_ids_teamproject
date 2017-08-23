@@ -84,6 +84,24 @@ class EditMyListTableViewCell: UITableViewCell{
         self.cellImageView.image = icon
     }
     
+    func set(title: String, artist: String){
+        
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(title)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
+        
+        let attributedSubString: NSMutableAttributedString = NSMutableAttributedString(string: "\(artist)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
+        
+        self.infoLabel.attributedText = attributedString
+        self.infoSubLabel.attributedText = attributedSubString
+    }
+    
+    func setAlbum(urlStr: String){
+
+        if let url = URL(string: urlStr){
+            self.cellImageView.sd_setImage(with: url)
+        }
+        
+    }
+    
     @IBAction func checkBoxBtnTouched(_ sender: UIButton) {
 
         delegate?.selectRemove(cell: self)
