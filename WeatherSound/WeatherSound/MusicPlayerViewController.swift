@@ -31,6 +31,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         let titleLabel = UILabel()
         titleLabel.text = "song title label"
         titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
+        
         return titleLabel
     }()
     
@@ -38,6 +40,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         let titleLabel = UILabel()
         titleLabel.text = "artist label"
         titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
         return titleLabel
     }()
     
@@ -75,7 +78,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "MusicPlayer_add"), for: .normal)
         button.tintColor = .black
-//        button.addTarget(self, action: #selector(addToMyListButtonHandler), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addToMyListButtonHandler), for: .touchUpInside)
         return button
     }()
     
@@ -181,14 +184,16 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         let defaultWidth = self.view.frame.width - 40
         let defaultMargin: CGFloat = 20
         
-        self.view.addSubviews([albumCoverView, songTitleLabel, artistLabel, musicProgressSlider, currentProgressLB, musicDurationLB, previousSongButton, playOrStopButton, nextSongButton])
+        self.view.addSubviews([albumCoverView, songTitleLabel, artistLabel, musicProgressSlider, currentProgressLB, musicDurationLB, previousSongButton, playOrStopButton, nextSongButton, addToMyListButton])
         
         self.albumCoverView.anchor(top: self.closeButton.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth, height: defaultWidth, centerX: self.view.centerXAnchor, centerY: nil)
         self.albumCoverView.layer.cornerRadius = defaultWidth / 20
         
-        self.songTitleLabel.anchor(top: self.albumCoverView.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 50, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        self.songTitleLabel.anchor(top: self.albumCoverView.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: defaultMargin, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 90, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
         
-        self.artistLabel.anchor(top: self.songTitleLabel.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 50, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        self.artistLabel.anchor(top: self.songTitleLabel.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth - 90, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
+        
+        self.addToMyListButton.anchor(top: nil, left: self.artistLabel.rightAnchor, right: nil, bottom: self.artistLabel.bottomAnchor, topConstant: 0, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: 45, height: 45, centerX: nil, centerY: nil)
         
         self.musicProgressSlider.anchor(top: self.artistLabel.bottomAnchor, left: nil, right: nil, bottom: nil, topConstant: 20, leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth, height: 30, centerX: self.view.centerXAnchor, centerY: nil)
         
@@ -201,6 +206,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         self.previousSongButton.anchor(top: self.musicProgressSlider.bottomAnchor, left: nil, right: self.playOrStopButton.leftAnchor, bottom: nil, topConstant: defaultMargin , leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 3, height: 50, centerX: nil, centerY: nil)
         
         self.nextSongButton.anchor(top: self.musicProgressSlider.bottomAnchor, left: self.playOrStopButton.rightAnchor, right: nil, bottom: nil, topConstant: defaultMargin , leftConstant: 0, rightConstant: 0, bottomConstant: 0, width: defaultWidth / 3, height: 50, centerX: nil, centerY: nil)
+        
+        
         
         let gestureRec = UITapGestureRecognizer(target: self, action:  #selector(progressSliderTapGesture))
         musicProgressSlider.addGestureRecognizer(gestureRec)
@@ -224,14 +231,19 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         }
     }
     
+    let inidicator:UIActivityIndicatorView = {
+       let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        return indicator
+    }()
     func wsPlayerStateDidChange(_ WSPlayer: WSPlayer) {
+
+        let changedState = WSPlayer.state
         
 //        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-//            self.indicator.alpha = jukebox.state == .loading ? 1 : 0
-//            self.playPauseButton.alpha = jukebox.state == .loading ? 0 : 1
-//            self.playPauseButton.isEnabled = jukebox.state == .loading ? false : true
+//            self.inidicator.alpha = changedState == .loading ? 1 : 0
+//            self.playOrStopButton.alpha = changedState == .loading ? 0 : 1
+//            self.playOrStopButton.isEnabled = changedState == .loading ? false : true
 //        })
-        let changedState = WSPlayer.state
         
         if changedState == .ready
         {
