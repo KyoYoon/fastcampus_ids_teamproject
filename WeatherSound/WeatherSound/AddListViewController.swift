@@ -20,6 +20,7 @@ class AddListViewController: UIViewController {
     let indicatorContainer: UIView = UIView()
 
     private var addCallback: (()->Void)?
+    
     init(completion: (()->Void)?) {
         super.init(nibName: "AddListViewController", bundle: nil)
         self.addCallback = completion
