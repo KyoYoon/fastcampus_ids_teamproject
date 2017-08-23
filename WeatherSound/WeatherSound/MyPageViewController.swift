@@ -33,10 +33,12 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         self.myPageTableView.register(UINib.init(nibName: "EditMyListTableViewCell", bundle: nil), forCellReuseIdentifier: EditMyListTableViewCell.reuseId)
+        
 
         //self.loginVC = UIStoryboard(name: "LoginAndSignup", bundle: nil).instantiateViewController(withIdentifier: "Login") as? LoginViewController
         
         //self.loginVC?.delegate = self
+        
 
         self.myPageTableView.delegate = self
         self.myPageTableView.dataSource = self
@@ -69,20 +71,16 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed) == false && LoginDataCenter.shared.myLoginInfo == nil { // 로그아웃 상태
             
-
             let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
             self.loginVC = storyboard.instantiateViewController(withIdentifier: "Login") as? LoginViewController
             
             //self.loginVC?.delegate = self
             
-
             self.loginVC?.modalPresentationStyle = .overFullScreen
             self.present(loginVC!, animated: true, completion: nil)
-        
+       
         }else{
-            
             self.myPageTableView.reloadData()
-
         }
     }
     
@@ -189,9 +187,8 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.profileLable.attributedText = attributedProfileString
         }
 
-        
+
         self.profileLable.numberOfLines = 0
-        
 
     }
     
