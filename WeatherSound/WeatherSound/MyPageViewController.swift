@@ -50,16 +50,21 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.showIndicator()
 
         //user profile request
-        LoginDataCenter.shared.requestUserInfoFromServer(with: UserDefaults.standard.integer(forKey: Authentication.pk),
-                                                         token: UserDefaults.standard.string(forKey: Authentication.token)!,
-                                                         comletion: {
-                                                            self.setProfie()
-       //user play list request
-                                                            DataCenter.shared.getMyList { (userPlayLists) in
-                                                                self.myPageTableView.reloadData()
-                                                                self.indicatorContainer.removeFromSuperview()
-                                                            }
-        })
+        
+        if UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed){
+            LoginDataCenter.shared.requestUserInfoFromServer(with: UserDefaults.standard.integer(forKey: Authentication.pk),
+                                                             token: UserDefaults.standard.string(forKey: Authentication.token)!,
+                                                             comletion: {
+                                                                self.setProfie()
+                                                                //user play list request
+                                                                DataCenter.shared.getMyList { (userPlayLists) in
+                                                                    self.myPageTableView.reloadData()
+                                                                    self.indicatorContainer.removeFromSuperview()
+                                                                }
+            })
+        }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
