@@ -333,6 +333,16 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     func addToMyListButtonHandler()
     {
         print("addToMyListButtonHandler touched")
+        
+        //hyunjung
+        
+        let addMusicVC: AddMusicViewController = AddMusicViewController(nibName: "AddMusicViewController", bundle: nil)
+        
+        addMusicVC.modalPresentationStyle = .overCurrentContext
+        addMusicVC.currentMusicPk = self.musicPlayer?.currentItem?.meta.pk
+        
+        self.present(addMusicVC, animated: true, completion: nil)
+        
     }
     
     func previousSongButtonHandler()

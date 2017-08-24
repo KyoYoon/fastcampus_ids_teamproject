@@ -34,13 +34,19 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("EditMyList will appear")
         self.tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("edit vc will disappear")
+        self.tableView.reloadData()
     }
     
     func prepareView(){
@@ -61,6 +67,8 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         
         rightBtn.addTarget(self, action: #selector(changeAttr), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+        
+        self.tableView.separatorStyle = .none
     }
     
     func changeAttr(){
@@ -181,7 +189,6 @@ class EditMyListViewController: UIViewController , UITableViewDelegate, UITableV
         if isEdit{
             //add
             let detailVC: DetailListViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailListViewController") as! DetailListViewController
-//            detailVC.detailMyPlayList = DataCenter.shared.myPlayLists[indexPath.row]
             detailVC.detailIndex = indexPath.row
             self.navigationController?.pushViewController(detailVC, animated: true)
         }else{

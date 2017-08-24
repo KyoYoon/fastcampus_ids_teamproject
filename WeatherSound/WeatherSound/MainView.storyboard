@@ -86,6 +86,7 @@
                     <connections>
                         <outlet property="MainTableView" destination="I4h-1w-MaP" id="Ivf-bY-EGV"/>
                         <outlet property="mainTableView" destination="I4h-1w-MaP" id="HIj-Pm-sI5"/>
+                        <outlet property="weatherBackground" destination="ZWB-GC-fhx" id="ayu-za-aKJ"/>
                         <outlet property="weatherImageView" destination="3N0-df-Gei" id="Ko1-wQ-eNk"/>
                     </connections>
                 </viewController>
@@ -180,7 +181,7 @@
         <!--Edit My List View Controller-->
         <scene sceneID="AWk-Zp-48k">
             <objects>
-                <viewController id="8gO-CN-NWw" customClass="EditMyListViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditMyListViewController" id="8gO-CN-NWw" customClass="EditMyListViewController" customModule="WeatherSound" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hZ4-YY-NPq"/>
                         <viewControllerLayoutGuide type="bottom" id="6Wd-Vv-fW4"/>
@@ -269,7 +270,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ThE-Sh-Mb3" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="O0n-LN-6eE">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="O0n-LN-6eE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
