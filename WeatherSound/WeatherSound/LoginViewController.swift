@@ -180,10 +180,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 if statusCode == 202 { // 로그인 성공
                     
+                    print ("------------ login success -------------")
+                    
                     // 데이터 센터에 값 삽입
-                    LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                    LoginDataCenter.shared.parseMyLoginInfo(with: json, token: json["token"].stringValue)
                     
                     print(LoginDataCenter.shared.myLoginInfo!)
+                    
+                   
                     
                     // pk 저장 (UserDefaults)
                     UserDefaults.standard.setValue(LoginDataCenter.shared.myLoginInfo?.pk, forKey: Authentication.pk)
@@ -295,7 +299,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print("-------------- facebook login success ----------")
                         
                         // 데이터 센터에 값 삽입
-                        LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                        LoginDataCenter.shared.parseMyLoginInfo(with: json, token: json["token"].stringValue)
+                        
+                        
                         
                         print(LoginDataCenter.shared.myLoginInfo!)
                         

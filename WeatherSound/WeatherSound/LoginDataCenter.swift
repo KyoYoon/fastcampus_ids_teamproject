@@ -51,6 +51,9 @@ class LoginDataCenter {
         
         print("---------------  requestUserInfoFromServer  -------------")
         
+        print("pk: ",pk)
+        print("token: ", token)
+        
         let headers: HTTPHeaders = [
             "Authorization": "Token "+token,
             "Accept": "application/json"
@@ -89,7 +92,7 @@ class LoginDataCenter {
                 
                 UserDefaults.standard.setValue(true, forKey: Authentication.isLoginSucceed)
                 //self.updateMyLoginInfo(with: json)
-                self.parseMyLoginInfo(with: json)
+                self.parseMyLoginInfo(with: json, token: token)
                 comletion?()
             case .failure(let error):
                 print(error)
@@ -132,9 +135,9 @@ class LoginDataCenter {
     
     
     // 최초 로그인 후 사용자 로그인 정보 생성
-    func parseMyLoginInfo(with dic:JSON) {
+    func parseMyLoginInfo(with dic:JSON, token:String) {
         
-        self.myLoginInfo = MyLoginInfo.init(data: dic)
+        self.myLoginInfo = MyLoginInfo.init(data: dic, token: token)
         
     }
     
@@ -226,7 +229,7 @@ struct MyLoginInfo {
     // "is_active"
     
     
-    init(data:JSON) {
+    init(data:JSON, token:String) {
         
         // 로그인 성공시 가져오는 JSON 구조
 //        {
@@ -246,7 +249,7 @@ struct MyLoginInfo {
         print("----------MyLoginInfo----------")
         
         
-        self.token = data["token"].stringValue
+        self.token = token
         print("token: ",self.token!)
         self.pk = data["userInfo"]["pk"].intValue
         print("pk: ",self.pk!)
