@@ -81,15 +81,12 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
     
     @IBAction func homeBtnTouched(_ sender: UIButton) {
         
-        //self.menuContainerView.removeFromSuperview()
-        //self.navigationController?.popToRootViewController(animated: true)
-        //self.navigationController?.dismiss(animated: false, completion: nil)
-        
-        //self.dismiss(animated: false, completion: nil)
-        
-        
-        moveToContainerView()
-        
+        self.dismiss(animated: true, completion: {
+            let window: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+            let container: UIViewController = window.rootViewController!
+            let naviCon: UINavigationController = container.childViewControllers[0] as! UINavigationController
+            naviCon.viewControllers = [naviCon.viewControllers[0]]
+        })
         
     }
     
@@ -202,7 +199,17 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
             //self.showLoginVC()
             
             // Container View Controller로 이동
-            self.moveToContainerView()
+//            self.moveToContainerView()
+            
+            self.dismiss(animated: true, completion: {
+                
+                let window: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+                let container: UIViewController = window.rootViewController!
+                let naviCon: UINavigationController = container.childViewControllers[0] as! UINavigationController
+                naviCon.viewControllers = [naviCon.viewControllers[0]]
+            })
+            
+            
             //self.navigationController?.popToRootViewController(animated: true)
             
         }
@@ -249,8 +256,18 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
             //self.showLoginVC()
             
             // Container View Controller로 이동
-            self.moveToContainerView()
+//            self.moveToContainerView()
+//            self.dismiss(animated: true, completion: nil)
+
             //self.navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true, completion: {
+                
+                let window: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+                let container: UIViewController = window.rootViewController!
+                let naviCon: UINavigationController = container.childViewControllers[0] as! UINavigationController
+                naviCon.viewControllers = [naviCon.viewControllers[0]]
+            })
+
             
         }
         
@@ -270,7 +287,6 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
         
         // ProfileEdit View Controller로 이동
         let viewController:UIViewController = UIStoryboard(name: "LoginAndSignup", bundle: nil).instantiateViewController(withIdentifier: "ProfileEdit") as UIViewController
-        
         
         self.present(viewController, animated: false, completion: nil)
         

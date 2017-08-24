@@ -43,13 +43,14 @@ class DataCenter {
             }
             if playItems.count == 1
             {
-                NotificationCenter.default.post(name: Notification.Name("FirstSongOfList"), object: nil, userInfo: ["FirstSongOfList":playItems.last!])
+                NotificationCenter.default.post(name: Notification.Name("FirstSongOfListLoaded"), object: nil, userInfo: ["FirstSongOfList":playItems.last!])
             }
             
         }
     }
+
     
-    var musicList: [Music] = []
+//    var musicList: [Music] = []
     
     func requestIsLogin() -> Bool {
         
@@ -79,7 +80,7 @@ class DataCenter {
     func getRecommendList(lat: Double, lon: Double ,completion:  (() -> Void)?){
         
         self.playItems = []
-        self.musicList = []
+//        self.musicList = []
         
         let url = "https://weather-sound.com/api/music/"
         let param = ["longitude" : lon, "latitude" : lat]
@@ -108,20 +109,18 @@ class DataCenter {
                 
                 //music list
 
-                for musicItem in musicList{
-                    if let pk = musicItem["pk"].int,
-                        let title = musicItem["name_music"].string,
-                        let artist = musicItem["name_artist"].string,
-                        let albumImg = musicItem["img_music"].string,
-                        let musicUrl = musicItem["source_music"].string {
-                        
-                        let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
-                        
-                        let newMusicItem = Music(dic: dic)
-                        
-                        let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
-                        self.playItems.append(playItem)
-                    }
+                    for musicItem in musicList{
+                        if let pk = musicItem["pk"].int,
+                            let title = musicItem["name_music"].string,
+                            let artist = musicItem["name_artist"].string,
+                            let albumImg = musicItem["img_music"].string,
+                            let musicUrl = musicItem["source_music"].string {
+                            
+                            let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                            let newMusicItem = Music(dic: dic)
+                            let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
+                            self.playItems.append(playItem)
+                        }
                 }
                 completion?()
                 break
