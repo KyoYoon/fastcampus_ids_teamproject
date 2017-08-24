@@ -442,7 +442,7 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                 if statusCode == 202 { // Accepted
                 
                     // 데이터 센터에 값 삽입
-                    LoginDataCenter.shared.parseMyLoginInfo(with: json)
+                    LoginDataCenter.shared.parseMyLoginInfo(with: json, token: json["token"].stringValue)
                     
                     print(LoginDataCenter.shared.myLoginInfo!)
                     

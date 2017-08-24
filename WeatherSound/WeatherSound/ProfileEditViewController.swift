@@ -485,8 +485,8 @@ class ProfileEditViewController: UIViewController, UIImagePickerControllerDelega
                                         
                                     } else {
                                         
-                                        LoginDataCenter.shared.parseMyLoginInfo(with: json)
-                                        LoginDataCenter.shared.myLoginInfo?.token = self.token
+                                        LoginDataCenter.shared.parseMyLoginInfo(with: json, token: self.token!)
+                                        
                                         
                                     }
                                     

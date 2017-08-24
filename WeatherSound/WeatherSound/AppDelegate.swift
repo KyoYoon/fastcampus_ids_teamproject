@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import Firebase
 import FBSDKCoreKit
+import Firebase
 import Alamofire
 import SwiftyJSON
 
