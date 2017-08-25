@@ -350,8 +350,8 @@ class SignupViewController: UIViewController, UIImagePickerControllerDelegate, U
                         if statusCode == 201 { // 성공 (Created)
                             
                             // 로그온 처리
-                            self.loginRequestAlamofire(loginUrl: loginUrl)
-                            
+//                            self.loginRequestAlamofire(loginUrl: loginUrl)
+                            self.dismiss(animated: true, completion: nil)
                         } else { // error 발생으로 간주
                             
                             if ((response.result.value) != nil) {

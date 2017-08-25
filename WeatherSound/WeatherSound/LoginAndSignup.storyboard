@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Quj-0J-3Hj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Quj-0J-3Hj">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -25,25 +25,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_oval5" translatesAutoresizingMaskIntoConstraints="NO" id="oNv-AM-dTt">
-                                <rect key="frame" x="89" y="64" width="197.5" height="189"/>
+                                <rect key="frame" x="89" y="108" width="197.5" height="189"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="oNv-AM-dTt" secondAttribute="height" multiplier="229:219" id="E0P-Ja-6Ow"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_oval4" translatesAutoresizingMaskIntoConstraints="NO" id="691-i4-cTv">
-                                <rect key="frame" x="107.5" y="82" width="161" height="154"/>
+                                <rect key="frame" x="107.5" y="126" width="161" height="154"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="691-i4-cTv" secondAttribute="height" multiplier="23:22" id="mHA-i2-CzH"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_weaherSoundLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WIE-og-qii">
-                                <rect key="frame" x="132.5" y="121" width="111" height="76"/>
+                                <rect key="frame" x="132.5" y="165" width="111" height="76"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WIE-og-qii" secondAttribute="height" multiplier="111:76" id="4e1-RJ-YhQ"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nfk-bV-9oo">
-                                <rect key="frame" x="25" y="317" width="326" height="95"/>
+                                <rect key="frame" x="25" y="361" width="326" height="95"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="아이디(이메일주소)를 입력하세요." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I3y-Dm-Kf6">
                                         <rect key="frame" x="0.0" y="0.0" width="326" height="33"/>
@@ -121,7 +121,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qej-Wf-c5h">
-                                <rect key="frame" x="25" y="491" width="326" height="26"/>
+                                <rect key="frame" x="25" y="535" width="326" height="15"/>
                                 <color key="backgroundColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
                                 <state key="normal" title="로그인">
@@ -132,7 +132,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4J-r7-Ij8">
-                                <rect key="frame" x="25" y="537" width="326" height="26.5"/>
+                                <rect key="frame" x="25" y="570" width="326" height="15.5"/>
                                 <color key="backgroundColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="20"/>
                                 <state key="normal" title="      페이스북으로 로그인" image="login_facebook_logo"/>
@@ -141,7 +141,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2G-43-Wqd">
-                                <rect key="frame" x="25" y="588.5" width="326" height="26"/>
+                                <rect key="frame" x="25" y="610.5" width="326" height="15"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <state key="normal" title="아이디가 없으신가요? -&gt; 회원가입    "/>
                                 <connections>
@@ -149,7 +149,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKw-Tu-UFa">
-                                <rect key="frame" x="25" y="620.5" width="326" height="26.5"/>
+                                <rect key="frame" x="25" y="631.5" width="326" height="15.5"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <state key="normal" title="패스워드 재설정   "/>
                                 <connections>
@@ -189,6 +189,7 @@
                             <constraint firstItem="691-i4-cTv" firstAttribute="centerX" secondItem="oNv-AM-dTt" secondAttribute="centerX" id="wmk-kT-EqI"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="pq5-M2-M3l"/>
                     <connections>
                         <outlet property="emailTextField" destination="I3y-Dm-Kf6" id="NFK-ZG-oHG"/>
                         <outlet property="facebookLoginButton" destination="C4J-r7-Ij8" id="JnY-7R-4ML"/>
@@ -199,7 +200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PEY-NL-iD7" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="23.188405797101453" y="36.684782608695656"/>
+            <point key="canvasLocation" x="960.79999999999995" y="36.431784107946029"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="BLq-pn-s0u">
@@ -474,7 +475,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aqZ-dG-cbH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1063.768115942029" y="-88.858695652173921"/>
+            <point key="canvasLocation" x="1812" y="35.532233883058474"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="DDS-ct-ree">
@@ -527,7 +528,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFB-Di-kYh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1863.7681159420292" y="-72.554347826086968"/>
+            <point key="canvasLocation" x="2802.4000000000001" y="-73.313343328335833"/>
         </scene>
         <!--Profile Edit View Controller-->
         <scene sceneID="HLM-HN-g7e">
@@ -835,7 +836,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6P-dI-eTQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2901.5999999999999" y="-37.331334332833585"/>
+            <point key="canvasLocation" x="3840.8000000000002" y="-37.331334332833585"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="umC-2v-60r">
+            <objects>
+                <navigationController storyboardIdentifier="LoginNavi" automaticallyAdjustsScrollViewInsets="NO" id="Ma8-Or-Xkn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ntW-I4-7fk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="81x-J9-iz1" kind="relationship" relationship="rootViewController" id="F66-py-Ran"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3mH-Pv-CuY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="21.600000000000001" y="36.431784107946029"/>
         </scene>
     </scenes>
     <resources>
