@@ -43,6 +43,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.dbRef = Database.database().reference() // 데이터베이스 인스턴스 생성
         self.storageRef = Storage.storage().reference() // 스토리지 인스턴스 생성
         
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

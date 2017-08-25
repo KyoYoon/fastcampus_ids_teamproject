@@ -157,8 +157,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //날씨 정보 있는 label 업데이트
     func setWeatherInfo(){
         
-        self.weatherImageView.image = #imageLiteral(resourceName: "weather_cloudy")
-        self.weatherBackground.image = #imageLiteral(resourceName: "weather_cloudy")
+        self.weatherImageView.image = #imageLiteral(resourceName: "weather_sunny")
+        self.weatherBackground.image = #imageLiteral(resourceName: "weather_sunny")
         
         if let info = DataCenter.shared.weatherInfo
         {

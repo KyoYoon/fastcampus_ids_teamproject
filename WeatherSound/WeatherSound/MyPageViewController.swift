@@ -32,7 +32,6 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //MARK:- view life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.myPageTableView.register(UINib.init(nibName: "EditMyListTableViewCell", bundle: nil), forCellReuseIdentifier: EditMyListTableViewCell.reuseId)
         
         self.myPageTableView.delegate = self
@@ -82,12 +81,12 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myPageTableView.reloadData()
                     self.indicatorContainer.removeFromSuperview()
                     
-                    self.loginVC?.dismiss(animated: true, completion: nil)
+                    self.loginVC?.dismiss(animated: false, completion: nil)
                 }
             }
             
             self.loginVC?.modalPresentationStyle = .overFullScreen
-            self.present(loginVC!, animated: true, completion: nil)
+            self.present(loginVC!, animated: false, completion: nil)
        
         }else{
             print("login----mypage vc will appear")
