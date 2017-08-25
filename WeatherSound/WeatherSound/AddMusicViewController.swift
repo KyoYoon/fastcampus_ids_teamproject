@@ -85,6 +85,7 @@ class AddMusicViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
     @IBAction func addListBtnTouched(_ sender: UIButton) {
         let addListVC: AddListViewController = AddListViewController(completion: {
             self.tableview.reloadData()

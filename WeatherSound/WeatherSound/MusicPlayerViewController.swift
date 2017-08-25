@@ -279,7 +279,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     
     func loadFirstSongOfList(_ notification:Notification)
     {
-        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
+        if let userInfo = notification.userInfo as? [String:WSPlayItem],
+            let musicMeta = userInfo["FirstSongOfList"]?.meta
         {
             updateCurrentPlay(metaData: musicMeta)
         }
@@ -336,7 +337,10 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         
         //hyunjung
         
-        let addMusicVC: AddMusicViewController = AddMusicViewController(nibName: "AddMusicViewController", bundle: nil)
+//        let addMusicVC: AddMusicViewController = AddMusicViewController(nibName: "AddMusicViewController", bundle: nil)
+        
+        let addMusicVC = self.storyboard?.instantiateViewController(withIdentifier: "AddSongViewController") as! AddSongViewController
+        
         
         addMusicVC.modalPresentationStyle = .overCurrentContext
         addMusicVC.currentMusicPk = self.musicPlayer?.currentItem?.meta.pk
@@ -370,7 +374,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
             switch state//musicPlayer?.state
             {
             case .ready :
-                musicPlayer?.play(atIndex: 0)
+                musicPlayer?.play()//(atIndex: 0)
             case .playing :
                 musicPlayer?.pause()
             case .paused :

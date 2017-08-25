@@ -160,7 +160,8 @@ class DataCenter {
                     return
                 }
                 
-                for playList in myPlayLists {
+                for playList in myPlayLists
+                {
                     var myMusics: [Music] = []
                     
                     if let pk = playList["pk"].int,
@@ -168,7 +169,8 @@ class DataCenter {
                         let weather = playList["weather"].string,
                         //                        let isShared = playList["is_shared_list"].bool,
                         let playlistId = playList["playlist_id"].int,
-                        let playlistMusics = playList["playlist_musics"].array{
+                        let playlistMusics = playList["playlist_musics"].array
+                    {
                         
                         for musicItem in playlistMusics{
                             if let pk = musicItem["pk"].int,

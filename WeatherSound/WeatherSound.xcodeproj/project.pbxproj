@@ -46,6 +46,9 @@
 		83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A6B1F38679900EEB5BC /* ContainerViewController.swift */; };
 		83951A731F3867DD00EEB5BC /* AutoLayoutExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83951A721F3867DD00EEB5BC /* AutoLayoutExtensions.swift */; };
 		83951AB71F3868C200EEB5BC /* DY.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83951AB61F3868C200EEB5BC /* DY.storyboard */; };
+		83B691C91F4F2C070094F51E /* AddSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B691C81F4F2C070094F51E /* AddSongViewController.swift */; };
+		83B691CD1F4FA6220094F51E /* AddListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B691CC1F4FA6220094F51E /* AddListCollectionViewCell.swift */; };
+		83B691CF1F4FA6460094F51E /* MyMusicListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B691CE1F4FA6460094F51E /* MyMusicListCollectionViewCell.swift */; };
 		D3213EF847630897FE407FDD /* Pods_WeatherSound.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0D153E2F002D955B767848 /* Pods_WeatherSound.framework */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +96,9 @@
 		83951A6B1F38679900EEB5BC /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		83951A721F3867DD00EEB5BC /* AutoLayoutExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutExtensions.swift; sourceTree = "<group>"; };
 		83951AB61F3868C200EEB5BC /* DY.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DY.storyboard; sourceTree = "<group>"; };
+		83B691C81F4F2C070094F51E /* AddSongViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSongViewController.swift; sourceTree = "<group>"; };
+		83B691CC1F4FA6220094F51E /* AddListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddListCollectionViewCell.swift; sourceTree = "<group>"; };
+		83B691CE1F4FA6460094F51E /* MyMusicListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMusicListCollectionViewCell.swift; sourceTree = "<group>"; };
 		B7C4C4325541523040933C1A /* Pods-WeatherSound.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSound.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherSound/Pods-WeatherSound.release.xcconfig"; sourceTree = "<group>"; };
 		EE0D153E2F002D955B767848 /* Pods_WeatherSound.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherSound.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -208,6 +214,9 @@
 				8332A3011F40B0EE001DDBFF /* WSPlayItem.swift */,
 				83951AB61F3868C200EEB5BC /* DY.storyboard */,
 				1DB54F3B1F4DF31A00D06B50 /* AddMusicViewController.swift */,
+				83B691C81F4F2C070094F51E /* AddSongViewController.swift */,
+				83B691CC1F4FA6220094F51E /* AddListCollectionViewCell.swift */,
+				83B691CE1F4FA6460094F51E /* MyMusicListCollectionViewCell.swift */,
 				1DB54F3C1F4DF31A00D06B50 /* AddMusicViewController.xib */,
 			);
 			name = MusicPlayer;
@@ -449,9 +458,12 @@
 				83951A6F1F38679900EEB5BC /* ContainerViewController.swift in Sources */,
 				1D013DAA1F43107D0033BAC4 /* EditMyListViewController.swift in Sources */,
 				48178CC31F2B127A00559932 /* LoginViewController.swift in Sources */,
+				83B691CF1F4FA6460094F51E /* MyMusicListCollectionViewCell.swift in Sources */,
+				83B691CD1F4FA6220094F51E /* AddListCollectionViewCell.swift in Sources */,
 				48178CF71F36EA5C00559932 /* CommonLibraries.swift in Sources */,
 				83951A6E1F38679900EEB5BC /* MiniPlayerView.swift in Sources */,
 				48178CD81F3085C000559932 /* SignupViewController.swift in Sources */,
+				83B691C91F4F2C070094F51E /* AddSongViewController.swift in Sources */,
 				1D013DB21F4446840033BAC4 /* AddListViewController.swift in Sources */,
 				1DF185741F385E0C009F6819 /* MyPageViewController.swift in Sources */,
 				48178CF01F35774D00559932 /* DataCenter.swift in Sources */,
