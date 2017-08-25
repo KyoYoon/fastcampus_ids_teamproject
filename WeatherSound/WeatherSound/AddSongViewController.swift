@@ -35,6 +35,13 @@ class AddSongViewController: UIViewController, UIGestureRecognizerDelegate {
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: insetX, bottom: insetY, right: insetX)
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         affineAction()
@@ -99,13 +106,15 @@ class AddSongViewController: UIViewController, UIGestureRecognizerDelegate {
             if indexPath.item == 0
             {
                 let addListVC: AddListViewController = AddListViewController(completion: {
-                    self.collectionView.reloadData()
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
                 })
                 addListVC.modalPresentationStyle = .overCurrentContext
                 present(addListVC, animated: false, completion: nil)
             } else
             {
-                let selectedListName = DataCenter.shared.myPlayLists[indexPath.item].name
+                let selectedListName = DataCenter.shared.myPlayLists[indexPath.item - 1].name
                 
                 if let musicPk = self.currentMusicPk
                 {
@@ -114,7 +123,7 @@ class AddSongViewController: UIViewController, UIGestureRecognizerDelegate {
                     })
                 }
                 
-                print("hello you touch indexPath.item: ", indexPath.item)
+                print("hello you touch indexPath.item: ", indexPath.item - 1)
                 //            let cell = self.collectionView?.cellForItem(at: indexPath)
                 
                 //            print("you can do something with the cell or index path here")
@@ -132,7 +141,7 @@ extension AddSongViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("내리스트 카운트: ",DataCenter.shared.myPlayLists.count)
-        return DataCenter.shared.myPlayLists.count
+        return DataCenter.shared.myPlayLists.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

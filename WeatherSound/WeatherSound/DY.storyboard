@@ -126,7 +126,7 @@
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b1u-Tn-aYb">
                                         <rect key="frame" x="0.0" y="26" width="375" height="377"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.25698309075342468" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="20" id="Wmk-1u-k8F">
                                             <size key="itemSize" width="150" height="220"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -168,17 +168,17 @@
                                                                 <constraint firstAttribute="width" secondItem="dNl-GP-4cb" secondAttribute="height" multiplier="1:1" id="7Rs-CV-qVc"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5mi-yY-ump">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5mi-yY-ump">
                                                             <rect key="frame" x="0.0" y="150" width="150" height="70"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PO2-5A-0GR">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="32.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D24-fz-7lS">
-                                                                    <rect key="frame" x="0.0" y="35" width="150" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="37.5" width="150" height="32.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -247,7 +247,6 @@
                 <tapGestureRecognizer id="B41-0U-z8z" userLabel="collectionViewTap Gesture Recognizer">
                     <connections>
                         <action selector="collectionViewTapGesture:" destination="a5L-pV-Cv9" id="J1G-cg-4eA"/>
-                        <outlet property="delegate" destination="a5L-pV-Cv9" id="Zi7-ac-aFv"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

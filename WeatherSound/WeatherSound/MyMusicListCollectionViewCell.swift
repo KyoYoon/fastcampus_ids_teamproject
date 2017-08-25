@@ -39,9 +39,9 @@ class MyMusicListCollectionViewCell: UICollectionViewCell {
     
     func set(listName: String, count: Int){
         
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(listName)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\(listName)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor.white])
         
-        let attributedSubString: NSMutableAttributedString = NSMutableAttributedString(string: "\(count)곡", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
+        let attributedSubString: NSMutableAttributedString = NSMutableAttributedString(string: "\(count)곡", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14, weight: UIFontWeightThin), NSForegroundColorAttributeName: UIColor.white])
         
         self.infoLB.attributedText = attributedString
         self.infoSubLB.attributedText = attributedSubString

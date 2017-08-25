@@ -390,7 +390,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     {
         if let duration = musicPlayer?.currentItem?.meta.duration
         {
-            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+//            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration), shouldPlay: true)
         }
     }
     
@@ -405,8 +406,11 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         
         musicProgressSlider.setValue(Float(newValue), animated: true)
         
-        if let duration = musicPlayer?.currentItem?.meta.duration {
-            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+        if let duration = musicPlayer?.currentItem?.meta.duration
+        {
+//            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration), shouldPlay: true)
+
         }
     }
     
