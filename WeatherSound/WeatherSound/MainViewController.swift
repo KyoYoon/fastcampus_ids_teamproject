@@ -12,6 +12,7 @@ import CoreLocation
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate{
     
     //IBOutlet
+    @IBOutlet weak var weatherBackground: UIImageView!
     @IBOutlet weak var mainTableView: UITableView!
     @IBOutlet weak var weatherImageView: UIImageView!
     
@@ -66,7 +67,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //scroll refresh
         let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSMutableAttributedString(string: "pull to refresh", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.00)])
         refreshControl.addTarget(self, action: #selector(refreshHandler(sender: )), for: .valueChanged)
         self.mainTableView.refreshControl = refreshControl
         
@@ -157,8 +157,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //날씨 정보 있는 label 업데이트
     func setWeatherInfo(){
         
-//        self.weatherImageView.image = #imageLiteral(resourceName: "ClearDayIcon")
-        self.weatherImageView.image = #imageLiteral(resourceName: "rainy")
+        self.weatherImageView.image = #imageLiteral(resourceName: "weather_sunny")
+        self.weatherBackground.image = #imageLiteral(resourceName: "weather_sunny")
         
         if let info = DataCenter.shared.weatherInfo
         {
@@ -182,7 +182,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //view layout
     func prepareView(){
-        
         let rightBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightBtn.addTarget(self, action: #selector(pushToMypage), for: .touchUpInside)
         let attributedRightString: NSMutableAttributedString = NSMutableAttributedString(string: "MY", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])

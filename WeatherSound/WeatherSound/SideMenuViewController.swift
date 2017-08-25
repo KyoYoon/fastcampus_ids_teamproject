@@ -94,8 +94,7 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
         
         // Story ID: ContainerView
         let viewController:UIViewController = UIStoryboard(name: "DY", bundle: nil).instantiateViewController(withIdentifier: "ContainerView") as UIViewController
-        
-        
+ 
         self.present(viewController, animated: false, completion: nil)
         
     }
@@ -168,8 +167,8 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
     {
         let alertController = UIAlertController(title: title, message: messageToDisplay, preferredStyle: .alert)
         
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            
+//        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+        
             // Code in this block will trigger when OK button tapped.
             print("OK button tapped");
             
@@ -212,11 +211,11 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
             
             //self.navigationController?.popToRootViewController(animated: true)
             
-        }
+//        }
         
-        alertController.addAction(OKAction)
+//        alertController.addAction(OKAction)
         
-        vc.present(alertController, animated: true, completion:nil)
+//        vc.present(alertController, animated: true, completion:nil)
         
     }
     
@@ -225,8 +224,8 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
     {
         let alertController = UIAlertController(title: title, message: messageToDisplay, preferredStyle: .alert)
         
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-            
+//        let OKAction = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
+        
             // Code in this block will trigger when OK button tapped.
             print("OK button tapped");
             
@@ -269,11 +268,11 @@ class SideMenuViewController: UIViewController, UIViewControllerTransitioningDel
             })
 
             
-        }
+//        }
         
-        alertController.addAction(OKAction)
+//        alertController.addAction(OKAction)
         
-        vc.present(alertController, animated: true, completion:nil)
+//        vc.present(alertController, animated: true, completion:nil)
     }
 
     

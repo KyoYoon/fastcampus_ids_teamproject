@@ -279,7 +279,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     
     func loadFirstSongOfList(_ notification:Notification)
     {
-        if let userInfo = notification.userInfo as? [String:WSPlayItem], let musicMeta = userInfo["FirstSongOfList"]?.meta
+        if let userInfo = notification.userInfo as? [String:WSPlayItem],
+            let musicMeta = userInfo["FirstSongOfList"]?.meta
         {
             updateCurrentPlay(metaData: musicMeta)
         }
@@ -333,6 +334,19 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     func addToMyListButtonHandler()
     {
         print("addToMyListButtonHandler touched")
+        
+        //hyunjung
+        
+//        let addMusicVC: AddMusicViewController = AddMusicViewController(nibName: "AddMusicViewController", bundle: nil)
+        
+        let addMusicVC = self.storyboard?.instantiateViewController(withIdentifier: "AddSongViewController") as! AddSongViewController
+        
+        
+        addMusicVC.modalPresentationStyle = .overCurrentContext
+        addMusicVC.currentMusicPk = self.musicPlayer?.currentItem?.meta.pk
+        
+        self.present(addMusicVC, animated: true, completion: nil)
+        
     }
     
     func previousSongButtonHandler()
@@ -360,7 +374,7 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
             switch state//musicPlayer?.state
             {
             case .ready :
-                musicPlayer?.play(atIndex: 0)
+                musicPlayer?.play()//(atIndex: 0)
             case .playing :
                 musicPlayer?.pause()
             case .paused :
@@ -376,7 +390,8 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
     {
         if let duration = musicPlayer?.currentItem?.meta.duration
         {
-            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+//            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration), shouldPlay: true)
         }
     }
     
@@ -391,8 +406,11 @@ class MusicPlayerViewController: UIViewController, WSPlayerDelegate, DataCenterD
         
         musicProgressSlider.setValue(Float(newValue), animated: true)
         
-        if let duration = musicPlayer?.currentItem?.meta.duration {
-            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+        if let duration = musicPlayer?.currentItem?.meta.duration
+        {
+//            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration))
+            musicPlayer?.seek(toSecond: Int(Double(musicProgressSlider.value) * duration), shouldPlay: true)
+
         }
     }
     

@@ -48,9 +48,9 @@ class DataCenter {
             
         }
     }
-
     
-//    var musicList: [Music] = []
+    
+    //    var musicList: [Music] = []
     
     func requestIsLogin() -> Bool {
         
@@ -80,7 +80,7 @@ class DataCenter {
     func getRecommendList(lat: Double, lon: Double ,completion:  (() -> Void)?){
         
         self.playItems = []
-//        self.musicList = []
+        //        self.musicList = []
         
         let url = "https://weather-sound.com/api/music/"
         let param = ["longitude" : lon, "latitude" : lat]
@@ -108,19 +108,19 @@ class DataCenter {
                 self.weatherInfo = Weather(dic: weatherDic)
                 
                 //music list
-
-                    for musicItem in musicList{
-                        if let pk = musicItem["pk"].int,
-                            let title = musicItem["name_music"].string,
-                            let artist = musicItem["name_artist"].string,
-                            let albumImg = musicItem["img_music"].string,
-                            let musicUrl = musicItem["source_music"].string {
-                            
-                            let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
-                            let newMusicItem = Music(dic: dic)
-                            let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
-                            self.playItems.append(playItem)
-                        }
+                
+                for musicItem in musicList{
+                    if let pk = musicItem["pk"].int,
+                        let title = musicItem["name_music"].string,
+                        let artist = musicItem["name_artist"].string,
+                        let albumImg = musicItem["img_music"].string,
+                        let musicUrl = musicItem["source_music"].string {
+                        
+                        let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                        let newMusicItem = Music(dic: dic)
+                        let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: newMusicItem)
+                        self.playItems.append(playItem)
+                    }
                 }
                 completion?()
                 break
@@ -146,7 +146,7 @@ class DataCenter {
         
         self.myPlayLists = []
         
-//        var myWSPlayItems: [WSPlayItem] = []
+        //        var myWSPlayItems: [WSPlayItem] = []
         
         let url = "https://weather-sound.com/api/member/\(UserDefaults.standard.integer(forKey: Authentication.pk))/playlists/"
         let header = ["Authorization":"Token "+token]
@@ -160,15 +160,17 @@ class DataCenter {
                     return
                 }
                 
-                for playList in myPlayLists {
+                for playList in myPlayLists
+                {
                     var myMusics: [Music] = []
-
+                    
                     if let pk = playList["pk"].int,
                         let namePlaylist = playList["name_playlist"].string,
                         let weather = playList["weather"].string,
-//                        let isShared = playList["is_shared_list"].bool,
+                        //                        let isShared = playList["is_shared_list"].bool,
                         let playlistId = playList["playlist_id"].int,
-                        let playlistMusics = playList["playlist_musics"].array{
+                        let playlistMusics = playList["playlist_musics"].array
+                    {
                         
                         for musicItem in playlistMusics{
                             if let pk = musicItem["pk"].int,
@@ -180,8 +182,8 @@ class DataCenter {
                                 let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
                                 
                                 myMusics.append(Music(dic: dic))
-//                                let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: Music(dic: dic))
-//                                myWSPlayItems.append(playItem)
+                                //                                let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: Music(dic: dic))
+                                //                                myWSPlayItems.append(playItem)
                             }
                         }
                         let listdic: [String : Any] = ["pk":pk, "namePlaylist":namePlaylist, "weather":weather, "playlistId":playlistId, "playlistMusics":myMusics]
@@ -198,58 +200,76 @@ class DataCenter {
         }
     }
     
-    //리스트 추가
-    func addMyListRequest(_ newList:String, completion: (()->Void)?){
+    //리스트, 노래 추가
+    //(리스트 이름, 노래pk, completion) : 해당 리스트에 노래 추가
+    //(리스트 이름, nil, completion) : 리스트만 추가
+    func addMyListRequest(list newList:String, music newMusic:String?, completion: (()->Void)?){
         
         guard let _ = LoginDataCenter.shared.myLoginInfo,
             let token = UserDefaults.standard.string(forKey: Authentication.token) else{
                 return
         }
         
-        var myListMusic: [WSPlayItem] = []
-        
         let url = "https://weather-sound.com/api/member/\(UserDefaults.standard.integer(forKey: Authentication.pk))/playlists/"
         let header = ["Authorization":"Token "+token]
-        let param: [String:String] = ["create_playlist":newList]
+        
+        var param: [String:String] = [:]
+        
+        if newMusic != nil{
+            print("22")
+            if let newMusicItem = newMusic{
+                param = ["create_playlist":newList, "music": newMusicItem+","]
+            }
+        }else{
+             print("11")
+            param = ["create_playlist":newList]
+        }
         
         Alamofire.request(url, method: .post, parameters: param,  headers: header).responseJSON { (response) in
             switch response.result{
             case .success(let value):
                 let json = JSON(value)
                 
-                guard let newPlayList = json["lists"].dictionaryObject else {
-                    return
+                var myMusics: [Music] = []
+                
+                guard let listPk = json["lists"]["pk"].int,
+                    let namePlaylist = json["lists"]["name_playlist"].string,
+                    let weather = json["lists"]["weather"].string,
+                    let playlistId = json["lists"]["playlist_id"].int,
+                    //  let isShared = newPlayList["is_shared_list"] as! bool,
+                    let PlayListMusics = json["lists"]["playlist_musics"].array else{
+                        return
                 }
                 
-                let pk = newPlayList["pk"] as! Int
-                let namePlaylist = newPlayList["name_playlist"] as! String
-                let weather = newPlayList["weather"] as! String
-                let playlistId = newPlayList["playlist_id"] as! Int
-                //                let isShared = newPlayList["is_shared_list"] as! Bool
-                let PlayListMusics = newPlayList["playlist_musics"] as! [JSON]
-                
-                //WSMusicItem
-                for musicItem in PlayListMusics{
-                    if let title = musicItem["name_music"].string,
-                        let artist = musicItem["name_artist"].string,
-                        let albumImg = musicItem["img_music"].string,
-                        let musicUrl = musicItem["source_music"].string {
-                        
-                        let dic = ["title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
-                        
-                        let playItem = WSPlayItem(URL: URL(string: musicUrl)!, musicItem: Music(dic: dic))
-                        myListMusic.append(playItem)
+                if PlayListMusics.isEmpty{
+                    //리스트만 추가
+                    let dic:[String:Any] = ["pk":listPk, "namePlaylist":namePlaylist, "weather":weather, "playlistId":playlistId, "playlistMusics":myMusics]
+                    
+                    self.myPlayLists.append(UserPlayList(dic: dic))
+                    
+                }else{
+                    //리스트에 노래 추가
+                    for musicItem in PlayListMusics{
+                        if let musicPk = musicItem["pk"].int,
+                            let title = musicItem["name_music"].string,
+                            let artist = musicItem["name_artist"].string,
+                            let albumImg = musicItem["img_music"].string,
+                            let musicUrl = musicItem["source_music"].string {
+                            
+                            let dic: [String:Any] = ["pk":musicPk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                            myMusics.append(Music(dic: dic))
+                        }
+                    }
+
+                    for(idx, item) in self.myPlayLists.enumerated(){
+                        if item.name == newList{
+                            self.myPlayLists[idx].musicList = myMusics
+                        }
                     }
                 }
                 
-                let dic = ["pk":pk, "namePlaylist":namePlaylist, "weather":weather, "playlistId":playlistId, "playlistMusics":myListMusic] as [String : Any]
                 
-                let newListItem = UserPlayList(dic: dic)
-                self.myPlayLists.append(newListItem)
-                
-                
-                
-                print("get userList success - self.myPlayLists : ",self.myPlayLists)
+                print("DataCenter after add-----", self.myPlayLists.count)
                 completion?()
                 break
             case .failure(let error):
@@ -305,6 +325,7 @@ class DataCenter {
     }
     
     //노래 삭제
+    //노래 삭제한 리스트가 응답값
     func deleteRequestMyMusic(list lPk: Int, of selectedPk: [Int], completion: (()->Void)?){
         
         guard let _ = LoginDataCenter.shared.myLoginInfo,
@@ -342,7 +363,7 @@ class DataCenter {
                             myMusics.append(Music(dic: dic))
                         }
                     }
-                  
+                    
                     for (idx, list) in self.myPlayLists.enumerated(){
                         if list.pk == lPk{
                             self.myPlayLists[idx].musicList = myMusics
@@ -358,6 +379,58 @@ class DataCenter {
         }
     }
     
+    //노래 추가
+    func addMyMusicRequest(list lPk: Int, of selectedPk: [Int], completion: (()->Void)?){
+        
+        guard let _ = LoginDataCenter.shared.myLoginInfo,
+            let token = UserDefaults.standard.string(forKey: Authentication.token) else{
+                return
+        }
+        
+        let pkStr:String = (selectedPk.map{String($0)}).joined(separator: ",")+","
+        
+        let url = "https://weather-sound.com/api/member/\(UserDefaults.standard.integer(forKey: Authentication.pk))/playlists/"
+        let header = ["Authorization":"Token "+token]
+        let param = ["music": pkStr]
+        
+        Alamofire.request(url, method: .post, parameters: param, headers: header).responseJSON { (response) in
+            switch response.result{
+            case .success(let value):
+                let json = JSON(value)
+                
+                if let detail = json["detail"].string,
+                    let remainList = json["playlist"]["playlist_musics"].array{
+                    print(detail)
+                    
+                    var myMusics: [Music] = []
+                    
+                    for musicItem in remainList{
+                        
+                        if let pk = musicItem["pk"].int,
+                            let title = musicItem["name_music"].string,
+                            let artist = musicItem["name_artist"].string,
+                            let albumImg = musicItem["img_music"].string,
+                            let musicUrl = musicItem["source_music"].string {
+                            
+                            let dic: [String:Any] = ["pk":pk, "title":title, "artist":artist, "albumImg":albumImg, "musicUrl":musicUrl]
+                            myMusics.append(Music(dic: dic))
+                        }
+                    }
+                    
+                    for (idx, list) in self.myPlayLists.enumerated(){
+                        if list.pk == lPk{
+                            self.myPlayLists[idx].musicList = myMusics
+                        }
+                    }
+                }
+                completion?()
+                break
+            case .failure(let error):
+                print("success",error)
+                break
+            }
+        }
+    }
     
 }
 struct MyUser {

@@ -74,14 +74,13 @@ class AddListViewController: UIViewController {
         
         self.showIndicator()
         
+        
         guard let newListName = self.insertTitleTF.text else {
             return
         }
         
-        DataCenter.shared.addMyListRequest(newListName) {
+        DataCenter.shared.addMyListRequest(list: newListName, music: nil) {
             self.addCallback?()
-            
-            self.indicatorContainer.removeFromSuperview()
             self.dismiss(animated: false, completion: nil)
         }
     }

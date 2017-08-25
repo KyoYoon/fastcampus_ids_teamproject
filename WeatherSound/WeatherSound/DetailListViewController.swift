@@ -20,7 +20,10 @@ class DetailListViewController: UIViewController,UITableViewDelegate, UITableVie
     
     var detailIndex: Int?{
         didSet{
-            self.detailList = DataCenter.shared.myPlayLists[self.detailIndex!]
+            if let idx = self.detailIndex{
+                self.detailList = DataCenter.shared.myPlayLists[idx]
+            }
+            
         }
     }
     var detailList: UserPlayList? = nil
@@ -46,8 +49,9 @@ class DetailListViewController: UIViewController,UITableViewDelegate, UITableVie
     
     
     func prepareView(){
-        
-        self.playListNameLabel.text = self.detailList?.name
+        if let detail = self.detailList{
+            self.playListNameLabel.text = detail.name
+        }
         
         let attributedLeftString: NSMutableAttributedString = NSMutableAttributedString(string: "< 뒤로", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 15, weight: UIFontWeightBold), NSForegroundColorAttributeName: UIColor(red:0.29, green:0.26, blue:0.28, alpha:1.00)])
         leftBtn.setAttributedTitle(attributedLeftString, for: .normal)

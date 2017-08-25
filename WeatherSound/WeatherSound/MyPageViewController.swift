@@ -9,7 +9,8 @@
 import UIKit
 import SDWebImage
 
-class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var myPageTableView: UITableView!
     
@@ -27,11 +28,10 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var loginVC: LoginViewController?
     
     //    var userPlayLists: [UserPlayList] = []
-    
+
     //MARK:- view life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.myPageTableView.register(UINib.init(nibName: "EditMyListTableViewCell", bundle: nil), forCellReuseIdentifier: EditMyListTableViewCell.reuseId)
         
         self.myPageTableView.delegate = self
@@ -65,13 +65,11 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("mypage vc will appear")
-
 //        print("isLoginSucceed: ",UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed))
 //        print("LoginDataCenter.shared.myLoginInfo: ",LoginDataCenter.shared.myLoginInfo ?? "no data in LoginDataCenter.shared.myLoginInfo")
         
         if UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed) == false && LoginDataCenter.shared.myLoginInfo == nil { // 로그아웃 상태
-            
+            print("logout----mypage vc will appear")
             let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
             self.loginVC = storyboard.instantiateViewController(withIdentifier: "Login") as? LoginViewController
             
@@ -83,44 +81,29 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myPageTableView.reloadData()
                     self.indicatorContainer.removeFromSuperview()
                     
-                    self.loginVC?.dismiss(animated: true, completion: nil)
+                    self.loginVC?.dismiss(animated: false, completion: nil)
                 }
             }
             
             self.loginVC?.modalPresentationStyle = .overFullScreen
-            self.present(loginVC!, animated: true, completion: nil)
+            self.present(loginVC!, animated: false, completion: nil)
        
         }else{
+            print("login----mypage vc will appear")
             self.myPageTableView.reloadData()
             self.indicatorContainer.removeFromSuperview()
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-//        if UserDefaults.standard.bool(forKey: Authentication.isLoginSucceed) == false && LoginDataCenter.shared.myLoginInfo == nil { // 로그아웃 상태
-//            
-//            let storyboard = UIStoryboard.init(name: "LoginAndSignup", bundle: nil)
-//            self.loginVC = storyboard.instantiateViewController(withIdentifier: "Login") as? LoginViewController
-//            
-//            self.loginVC?.delegate = self
-//            
-//            self.loginVC?.modalPresentationStyle = .overFullScreen
-//            self.present(loginVC!, animated: true, completion: nil)
-//            
-//        }else{
-//            
-//            self.myPageTableView.reloadData()
-//            
-//        }
-        
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("viewwilldisappear")
+        self.myPageTableView.reloadData()
     }
     
     func didLoginReloadData() {
@@ -187,7 +170,6 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func setProfie(){
         
-
         if let userInfo = LoginDataCenter.shared.myLoginInfo?.img_profile,
             let url = URL(string: userInfo){
             self.profileImgView.sd_setImage(with: url)
@@ -195,13 +177,11 @@ class MyPageViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         if let nickname = LoginDataCenter.shared.myLoginInfo?.nickname{
             let attributedProfileString: NSMutableAttributedString = NSMutableAttributedString(string: nickname, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white])
-            attributedProfileString.append(NSAttributedString(string: "\nseoul", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17, weight: UIFontWeightUltraLight), NSForegroundColorAttributeName: UIColor.white]))
+
             self.profileLable.attributedText = attributedProfileString
         }
 
-
         self.profileLable.numberOfLines = 0
-
     }
     
     func showIndicator(){

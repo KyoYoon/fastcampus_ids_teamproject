@@ -243,12 +243,16 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
         if shouldPlay
         {
             player.play()
+            
             if state != .playing
             {
                 state = .playing
             }
         }
         delegate?.wsPlayerPlaybackProgressDidChange(self)
+//        DispatchQueue.main.async {
+//            self.updateInfoCenter()
+//        }
     }
     
     /**
@@ -547,6 +551,7 @@ open class WSPlayer : NSObject, WSPlayItemDelegate
         currentItem?.update()
         guard currentItem?.currentTime != nil else {return}
         delegate?.wsPlayerPlaybackProgressDidChange(self)
+        self.updateInfoCenter()
     }
     
     fileprivate func registerForPlayToEndNotification(withItem item: AVPlayerItem)
